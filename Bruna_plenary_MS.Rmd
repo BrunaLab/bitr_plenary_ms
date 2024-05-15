@@ -33,8 +33,6 @@ abstract:    "The ecosystems of The Tropics comprise the majority of the planet‚
 
 keywords: "bibliometrics, collaboration, colonialism, Global South, scholarly societies, scientometrics, temperate, text-mining"
 
-
-# wordcount         : "X"
 bibliography      : "ATBC_2022_Plenary.bib"
 
 nocite: |
@@ -176,16 +174,6 @@ The narratives of naturalists such as von Humboldt, Darwin, and Wallace were bot
 `r tufte::quote_footer('P. W. Richards (1963)')`
 <!-- \bigskip -->
 ```{r biblio, include = FALSE,echo = FALSE,message=FALSE,warning=FALSE}
-# load data ---------------------------------------------------------------
-# 
-# kw<-read_csv(here("bibliometrics","data_clean","keywords.csv")) %>% 
-#   inner_join(titles_ms) %>% 
-#   relocate(title,.after=SO) %>% 
-#   mutate(title=as.factor(title)) %>% 
-#   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-#   mutate(system = as.factor(system)) %>% 
-#   filter(PY>=start_yr) %>% 
-#   filter(PY<=end_yr)
 
 
 # N of keywords
@@ -243,26 +231,6 @@ avg_perc_trop<-mean(perc_trop$perc_trop)
 var_perc_trop<-sd(perc_trop$perc_trop)
 
 
-# What % of articles have the top N words? 
-
-# inner_join(kw,in_both_kw,by="final") %>% summarize(n_distinct(refID))
-# ~26000 of 36963 articles
-# 70% of articles!
-
-# TITLE WORDS
-# 
-# tw_all<-read_csv(here("bibliometrics","data_clean","tw_clean.csv")) %>% 
-#   inner_join(titles_ms) %>% 
-#   relocate(title,.after=SO) %>% 
-#   mutate(title=as.factor(title)) %>% 
-#   mutate(pub_cat=as.factor(pub_cat_2)) %>% 
-#   mutate(jrnl_cat=as.factor(jrnl_cat)) %>% 
-#   mutate(index = row_number()) %>% 
-#   mutate(pub_cat_2=as.factor(pub_cat_2)) %>% 
-#    mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-#   mutate(system = as.factor(system)) %>% 
-#   filter(PY>=start_yr) %>% 
-#   filter(PY<=end_yr)
 
 n_tw<-tw %>% summarize(n=n_distinct(final))
 
@@ -289,10 +257,6 @@ top_kw<- kw %>%
   mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) %>%
   arrange(desc(pub_cat_2),rank_perc) %>% 
   filter(rank_perc<=cutoff)  
-# %>% 
-#    mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-#   mutate(system = as.factor(system)) 
-
 
 top_kw_system<-kw %>% 
   select(final,system) %>% 
@@ -318,166 +282,7 @@ nontrop_system<-top_kw %>%
   ungroup() %>% 
   select(perc_system)
 
-# BIGRAMS
 
-# 
-# # NGRAMS
-# 
-# extract_ngram_data <- function(tw) {
-#   ngram_data<-tw_all %>% 
-#     select(refID,PY,SO,pub_cat_2,jrnl_cat,final) %>%  
-#     arrange(refID,PY,SO) %>% 
-#     group_by(refID,PY,SO) %>% mutate(word=row_number()) %>% 
-#     relocate(word,.before=final) %>% 
-#     mutate(place="place") %>% 
-#     relocate(place,.before=word) 
-#   # %>% 
-#   #   replace_na(list(final="-"))
-#   ngram_data<-ngram_data %>% replace_na(list(final= "deleteme")) %>% 
-#     pivot_wider(names_from = c(place,word),
-#                 values_from = final,
-#                 values_fn = list, values_fill = list("deleteme")
-#     ) %>%
-#     ungroup()
-#   
-#   last_col<-ngram_data %>% select(last_col())
-#   last_col<-last(names(ngram_data))
-#   ngram_data<- ngram_data %>% 
-#     unite("tw", place_1:last_col, na.rm = FALSE, remove = TRUE, sep= " ") %>% 
-#     ungroup()
-#   return(ngram_data)
-# }
-# 
-# ngram_data<-extract_ngram_data(tw_all)
-# ngram_data
-
-# ngram_data_trop<-ngram_data %>% filter(jrnl_cat=="tropical")
-# ngram_data_gen_gen<-ngram_data %>% filter(jrnl_cat=="general" & pub_cat_2=="general")
-# ngram_data_gen_trop<-ngram_data %>% filter(jrnl_cat=="general" & pub_cat_2=="tropical")
-
-# ngram_data_gen<-ngram_data %>% filter(pub_cat_2=="general")
-# ngram_data_trop<-ngram_data %>% filter(pub_cat_2=="tropical")
-
-
-# ngrams -----------------------------------------------------------------
-
-
-# to do by cat filter first
-
-# generate_bigrams <- function(ngram_data) {
-#   tw_bigrams <- ngram_data %>% 
-#     select(tw) %>% 
-#     # slice(1:100) %>% 
-#     unnest_tokens(bigram, tw, token = "ngrams", n = 2) %>% 
-#     count(bigram, sort = TRUE) 
-#   bigrams_separated <- tw_bigrams %>% 
-#     separate(bigram, c("word1", "word2"), sep = " ")
-#   bigrams_filtered <- bigrams_separated  %>%
-#     filter(!word1 %in% stop_words$word) %>%
-#     filter(!word2 %in% stop_words$word) %>% 
-#     arrange(desc(n)) %>% 
-#     filter(str_detect("deleteme",word1,negate=TRUE)) %>% 
-#     filter(str_detect("deleteme",word2,negate=TRUE)) 
-#     # slice(1:1000)
-#     
-#     
-#   bigrams_filtered<-bigrams_filtered %>% 
-#     # filter(nchar(word1)<4) %>%
-#     mutate(word1_first=substring(word1, 1, 1)) %>% 
-#     mutate(word2_first=substring(word2, 1, 1)) %>% 
-#     mutate(number=case_when(
-#       (str_detect(word1_first,".*[0-9].*")) == TRUE ~ "number",
-#       (str_detect(word2_first,".*[0-9].*")) == TRUE ~ "number",
-#       TRUE ~ "keep")) %>% 
-#     filter(number=="keep") %>% 
-#     select(-number,-word1_first,-word2_first) %>% 
-#     mutate(perc=n/sum(n)*100)
-#   return(bigrams_filtered)
-# }
-# 
-#   
-#   # bigrams as % of titles
-# 
-# generate_bigrams <- function(ngram_data) {
-#   
-#   n_titles<-ngram_data %>% summarize(n=n_distinct(refID))
-#   
-#   tw_bigrams <- ngram_data %>% 
-#     select(tw,refID) %>% 
-#     # slice(1:100) %>% 
-#     unnest_tokens(bigram, tw, token = "ngrams", n = 2) %>% 
-#     distinct(refID,bigram)
-#   
-#   # %>% 
-#   #   count(refID,bigram, sort = TRUE)
-#   bigrams_separated <- tw_bigrams %>% 
-#     separate(bigram, c("word1", "word2"), sep = " ")
-#   bigrams_filtered <- bigrams_separated  %>%
-#     filter(!word1 %in% stop_words$word) %>%
-#     filter(!word2 %in% stop_words$word) %>% 
-#     # arrange(desc(n)) %>% 
-#     filter(str_detect("deleteme",word1,negate=TRUE)) %>% 
-#     filter(str_detect("deleteme",word2,negate=TRUE)) 
-#   # slice(1:1000)
-#   
-#   
-#   bigrams_filtered<-bigrams_filtered %>% 
-#     # filter(nchar(word1)<4) %>%
-#     mutate(word1_first=substring(word1, 1, 1)) %>% 
-#     mutate(word2_first=substring(word2, 1, 1)) %>% 
-#     mutate(number=case_when(
-#       (str_detect(word1_first,".*[0-9].*")) == TRUE ~ "number",
-#       (str_detect(word2_first,".*[0-9].*")) == TRUE ~ "number",
-#       TRUE ~ "keep")) %>% 
-#     filter(number=="keep") %>% 
-#     select(-number,-word1_first,-word2_first)  %>% 
-#     group_by(word1,word2) %>% 
-#     summarize(n=n()) %>% 
-#     arrange(desc(n)) %>% 
-#     mutate(perc=n/n_titles$n*100)
-#   return(bigrams_filtered)
-# }
-# 
-# 
-# 
-# bigrams<-generate_bigrams(ngram_data)  
-# 
-# bigrams_count<- bigrams %>% 
-#   unite("bigram",word1:word2, sep = " ") %>% 
-#   tally()%>% 
-#   as.numeric()
-# 
-# 
-# 
-# NonTrop_bigrams<-generate_bigrams(ngram_data_gen) %>% 
-#   mutate(cat="non-tropical") 
-# 
-# Trop_bigrams<-generate_bigrams(ngram_data_trop) %>% 
-#   mutate(cat="tropical") 
-# 
-# 
-# NonTrop_bigrams<-NonTrop_bigrams %>%  
-#   mutate(bigram=paste(word1,word2,sep=" ")) %>% 
-#   ungroup() %>% 
-#   mutate(rank_perc = rank(desc(perc), ties.method = "random")) 
-# # %>%
-# #   mutate(bigram = paste(bigram, " (", rank_perc, ")", sep = "")) 
-# 
-# Trop_bigrams<-Trop_bigrams %>% 
-#   mutate(bigram=paste(word1,word2,sep=" ")) %>% 
-#   ungroup() %>% 
-#   mutate(rank_perc = rank(desc(perc), ties.method = "random")) 
-# 
-# 
-# 
-# rankings_pub<-bind_rows(Trop_bigrams,NonTrop_bigrams)
-# 
-# rankings_pub <- rankings_pub %>%
-#   mutate(system = if_else((bigram %in% system_list$system == TRUE), "Y", "N")) %>%
-#   mutate(system = as.factor(system)) %>% 
-#   group_by(cat) %>% 
-#   mutate(rank_perc = rank(desc(perc), ties.method = "random")) %>% 
-#   filter(rank_perc<=cutoff) 
 
 bigrams<-read_csv(here("data","data_ms","all_bigrams.csv")) 
 
@@ -531,12 +336,6 @@ group_by(cat) %>%
 
 <!-- \bigskip -->
 
-<!-- > _"It would be presumptious for any one group of biologists, and still more for any individual, to attempt to write a programme for tropical biology"_ -->
-
-<!-- `r tufte::quote_footer('P. W. Richards (1964)')`  -->
-
-<!-- \bigskip -->
-
 \noindent In 1945 the President of the Ecological Society of America (ESA), Orlando Park, encouraged its members to establish a "full scale program in tropical ecology", including "a new journal...dealing with tropical biology in its broadest aspects" [@parkObservationsConcerningFuture1945]. How would the field be different if the ESA had done so? What if the scientific community had paid heed to @richardsNeedDevelopmentTropical1946 and properly centered the tropics when drawing biological generalizations? Or if UNESCO's International Hylean Amazon Institute, the ambitious international consortium proposed in 1946 by Brazilian biochemist and diplomat Paulo Carneiro  [@unescoSixtyYearsScience2006; @vandresserFutureAmazon1948], had come to fruition? Perhaps universities in Europe and North America would offer elective courses in _Temperate_ Biology. The instructors of these courses might present their research at the annual meeting of the _Association for Temperate Biology & Conservation_ (Figure \@ref(fig:fig-temp)) and publish papers in specialized journals, with article titles that --- in contrast to the more broadly relevant research from the tropics --- emphasize the temperate systems or locations the work was done (Figure \@ref(fig:fig-pubs)).  
 
 I prefer instead to consider what the ambiguity of my conclusions implies for how we should move forward. I suggest that the future of lies in neither dropping the adjective that motivates so many of us, nor keeping it and accepting status as as specialization. Instead, I call on ATBC members to continue taking pride in and elevating what makes biology in the tropics distinct and important --- the places and context in which we work --- while working to recenter tropical ecosystems as the biological foundation and conceptual focus of Ecology and Evolutionary Biology. Below are six actions with which I propose anyone can help us _reclaim and reshape the Tropical Narrative_.  
@@ -551,11 +350,6 @@ I prefer instead to consider what the ambiguity of my conclusions implies for ho
 **_Get in the Game._** Help make the process of publishing more fair by serving as a review or subject editor for _Biotropica_. Contribute to capacity building efforts by reviewing student seed grants proposals or serving as a judge for student presentations at the ATBC's Annual Meeting. Join a committee or chapter and organize a webinar, workshop, hackathon, or reading group. What should the ATBC be doing differently? Communicate your ideas to the leadership or stand for election and push for change as a Councilor. 
 
 **_Support and celebrate one another._** Finally, remember that the work done by tropical biologists addresses the "neglected problems that afflict most of the world's people" [@annanChallengeWorldScientists2003]. Conducting research --- regardless of the subject --- advances the socioeconomic condition of the country in which it's conducted. It is difficult, frustrating, and not without risk. Take a moment to thank, congratulate, and support each other [@nordsethFieldworkWellnessFramework2023; @rudzkiGuideDevelopingField2022] for your contributions and the effort and resilience that they required. There is no more important a time to be a _Tropical_ Biologist.
-
-<!--- really proud of ourselves. One, thanks a lot, especially with the university. They just wonderful partners. And, you know, I will tell you that Harvard, although it was officially founded in 1636, they were only incorporated in 1658. So your head of Harvard. -->
-
-
-<!-- The fantastic diversity of resources and cultures in the tropics is singularly lacking in indigenous scholarly expoisiton on the ecology of the tropics. Janzen 1972 -->
 
 \newpage
 
@@ -871,7 +665,7 @@ ggdraw() + draw_image("./figures/slide3.png")
 ## ACKNOWLDGEMENTS  
 I am grateful to the organizers of the 2022 Meeting of the ATBC for encouraging the Presidential Plenary on which this essay is based, to J. Powers for her outstanding editorial work, and to P. Delam√¥nica for her unending support and insights. I am also grateful to M. Raby and N. Stepan, whose outstanding books shaped many of the ideas expressed here. This essay is dedicated to the memory of Emilio Bruna Jr.
 
-<!-- NEED TO ADD NSFR ACKNOWELDGEMENT -->
+<!-- NEED TO ADD NSF ACKNOWELDGEMENT -->
 
 ## DATA AVAILABILITY STATEMENT  
 The data used in this publication are available at Dryad <_DOI added upon acceptance_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added upon acceptance_>.  
@@ -902,10 +696,14 @@ E.M.B conceived the study and is responsible for the methodology, data collectio
 
    <!-- "Tropical Biology is a place-based science that has historically been practiced by people from outside that place". [@raby2017american]  -->
 
-<!-- \noindent _"In attempting to study vegetation and to arrive at generalizations...it would be more logical to begin with the floristically rich vegetation of the tropics than, as we now do, with the impoverished vegetation of northern Europe and North America."_ -->
+<!-- \noindent _"In attempting to study vegetation and to arrive at generalizations...it would be more logical to begin with the floristically rich vegetation of the tropics than, as we now do, with the impoverished vegetation of northern Europe and North America."_  ('P. W. Richards (1946)')
 
-<!-- `r tufte::quote_footer('P. W. Richards (1946)')` -->
-<!-- \bigskip -->
+<!--- Harvard, although it was officially founded in 1636, they were only incorporated in 1658. So Universidad del Rosario is older than Harvard. -->
+
+<!-- > _"It would be presumptious for any one group of biologists, and still more for any individual, to attempt to write a programme for tropical biology"_ ('P. W. Richards (1964)'
+
+<!-- The fantastic diversity of resources and cultures in the tropics is singularly lacking in indigenous scholarly expoisiton on the ecology of the tropics. Janzen 1972 -->
+
 
 <!-- > _"It is also evident that much of our current teaching in ecology, as well as in other branches of biology, would be set in a truer perspective if more consideration were given to tropical vegetation and the conditions...in the tropics."_ -->
 <!-- `r tufte::quote_footer('P. W. Richards (1946)')` -->
