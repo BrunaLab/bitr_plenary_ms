@@ -198,7 +198,7 @@ library(cowplot)
   #        perc=perc_pubs_wth_kw) 
   # 
   
-system_list<-read_csv(here("bibliometrics","code_analysis","system.csv"), col_names = TRUE) %>% 
+system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE) %>% 
   filter(geo==TRUE)
 
 system_bigram<-system_list %>% 
@@ -206,7 +206,7 @@ system_bigram<-system_list %>%
 
 
 
-rankings_pub<-read_csv(here("manuscript","data_ms","ranked_bigrams.csv"))
+rankings_pub<-read_csv(here("data","data_ms","ranked_bigrams.csv"))
 # 
 # plot_term <- full_join(Trop_bigrams, NonTrop_bigrams) %>% 
 #   left_join(system_bigram) %>% 
@@ -385,7 +385,7 @@ terms_fig
 
 # for KW
 ggsave("bigram_fig.jpeg", 
-       path = "./manuscript/figures", 
+       path = "./figures", 
        dpi=700,
        width = 10,
        height = 7,

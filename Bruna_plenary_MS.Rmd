@@ -48,7 +48,7 @@ figurelist        : no
 tablelist         : no
 footnotelist      : no
 classoption       : "man, donotrepeattitle" # suppresses title on 1st page of MSoutput            "
-appendix: "./manuscript/bruna_supplement.Rmd"
+appendix: "./bruna_supplement.Rmd"
 output:
   papaja::apa6_pdf:
   # papaja::apa6_doc:
@@ -106,8 +106,6 @@ library(cowplot)
 library(here)
 library(magick)
 library(xfun)
-# library(citr)
-# r_refs("biotropica.csl")
 library(stopwords)
 library(tidytext)
 library(janitor)
@@ -125,14 +123,13 @@ end_yr<-2022
 
 ## EXCLUDE JOURNALS FROM ANALYSIS HERE
 
-titles_ms<-read_csv(here("manuscript","data_ms","titles_ms.csv"), col_names = TRUE)
+titles_ms<-read_csv(here("data","data_ms","journal_titles.csv"), col_names = TRUE)
 
-tw <-read_csv(here("manuscript","data_ms","tw_ms.csv"), col_names = TRUE) %>% 
+tw <-read_csv(here("data","data_ms","tw_ms.csv"), col_names = TRUE) %>% 
   filter(PY>=start_yr) %>% 
   filter(PY<=end_yr) 
 
-
-kw <-read_csv(here("manuscript","data_ms","kw_ms.csv"), col_names = TRUE) %>% 
+kw <-read_csv(here("data","data_ms","kw_ms.csv"), col_names = TRUE) %>% 
   filter(PY>=start_yr) %>% 
   filter(PY<=end_yr) 
 
@@ -144,12 +141,12 @@ kw <-read_csv(here("manuscript","data_ms","kw_ms.csv"), col_names = TRUE) %>%
 
 ## 1. INTRODUCTION
 
-\noindent _"This is an interesting and useful study, but I feel the manuscript is better suited to a specialized journal focusing on tropical ecosystems."_  
+<!-- \noindent  -->
+> _"This is an interesting and useful study, but I feel the manuscript is better suited to a specialized journal focusing on tropical ecosystems."_  
 
 `r tufte::quote_footer('Subject Editor _(name and journal redacted)_')`
 
-
-\bigskip
+<!-- \bigskip -->
 
 \noindent This decision regarding my submission to one of our field's well-known journals is likely familiar to many members of the Association for Tropical Biology & Conservation (ATBC). All three reviews were positive, with none of the referees identifying significant shortcomings or requesting major changes. So why had the manuscript been rejected? My only clue was in the Editor's conclusion, from which I gathered they felt studies done _in_ the tropics were of limited relevance to researchers working _outside_ the tropics. That's for whom a specialized journal is published, after all -- a smaller community of subject-matter experts -- and the journal to which we had submitted our study sought to publish "broad conceptual advances".  In short, the Subject Editor was drawing a distinction between Biology and _Tropical_ Biology, with the latter a specialized subdiscipline of the former.  
 This provincial view of research done in the tropics is not new. In 1963, P. W. Richards felt it necessary to use his Presidential Address to the British Ecological Society to explain "what the Tropics can contribute to ecology", advocate for financial investment in tropical research and field stations, and encourage students to visit and dedicate study "the most [biologically] exciting part of the world" [@richardsWhatTropicsCan1963]. His justification for this topic was self-deprecating but pointed --- he was concerned that a talk summarizing recent advances in tropical ecology "would probably bore the large part of my audience who have never been to the tropics and never intend to do so" [@richardsWhatTropicsCan1963]. That he felt this advocacy was necessary despite decades of effort [@richardsNeedDevelopmentTropical1946; @richardsProgrammeTropicalBiology1964] must have been extremely frustrating.   
@@ -158,21 +155,26 @@ Sixty years on many of us find ourselves similarly frustrated. Field stations in
 
 ## 1. Why the answer is *'No'.*
 
-\noindent _"...in the case of biology, a major part of the accumulated biological knowledge is concerned with a rather minor part of the world's fauna and flora, because of the chance development of biology in the temperate zones."_
+<!-- \noindent  -->
+> _"...in the case of biology, a major part of the accumulated biological knowledge is concerned with a rather minor part of the world's fauna and flora, because of the chance development of biology in the temperate zones."_
 
 `r tufte::quote_footer('S. D. Ripley (1967)')`
-\bigskip
+<!-- \bigskip -->
 
 \noindent One means of assessing if _Tropical_ Biology is a distinct academic discipline is by considering the communities into which scientists self-organize. Scholarly societies are one such community; their establishment requires both an intellectual pursuit with which individuals identify and a critical mass of like-minded individuals in search of community. Some of these communities coalesce around broad conceptual domains (e.g., _Evolutionary_ Biology, _Conservation_ Biology, _Integrative_ Biology; Figure \@ref(fig:fig-org)A). Still others bring together individuals from different conceptual domains that share an interest in a particular system (e.g., _Avian_ Biology, _Island_ Biology; Figure \@ref(fig:fig-org)B). Finally, some scholarly societies comprise individuals grounded in a common methodological framework, though they may do so with disparate study systems or to address questions in distinct conceptual domains (e.g., _Molecular_ Biology, _Mathematical_ Biology, _Systematic_ Biology; Figure \@ref(fig:fig-org)C).   
     _Tropical_ Biology fails to align with any of these constructs. Its practitioners investigate fundamental questions across conceptual domains with a broad range of methodological approaches and study systems. Put another way, "The work that tropical biologists do is nearly as diverse as the ecosystems they study" (@raby2017american; p. 5). Moreover, the "geographic pigeonhole" [@raby2017american] that would seem to unite this community of scientists --- the adjective 'tropical' --- is itself difficult to operationalize. Formally, _The Tropics_ are the band of the Earth's surface receiving at least one day of direct overhead sunlight per year; this region is delineated by the Tropics of Capricorn and Cancer (23°26'10.4" S and N, respectively). However, the ranges of many 'tropical' species and ecosystems extend far beyond these boundaries^[Perhaps the most extreme examples are migratory birds such as the northern wheatear (_Oenanthe oenanthe_), which fly over 14,000 km from sub-Saharan Africa to their breeding grounds in the Arctic [@bairleinCrosshemisphereMigration252012]], however, which is in part why feeleyWhereEarthAre2018 identified no less than eight distinct criteria by which authors to define 'tropical' systems. How then is it that _Tropical_ Biology came to be seen as a distinct subdicipline, despite the lack the sharp boundaries around which scientific groups typically coalesce?  
     
-These contemporary perceptions of 'The Tropics' as distant and different are the result of centuries of historical and cultural reinforcement [@driverConstructingTropicsIntroduction2000; @arnold1996problem; @miller2011visions; @stepan2001picturing; @miller2011visions]. The first Europeans to visit the tropics returned with vivid, captivating, and frequently pejorative descriptions of the places and people they encountered [@inbook]. Their stories and images established a series of persistent, often contradictory tropes about tropical regions and people that were repeated and reinterpreted by subsequent visitors and inculcated by colonial expansion [@stepan2001picturing; @smithEuropeanVisionSouth1950]. The historian David Arnold has argued that these narratives of _Tropicality_ [_sensu_ @alma9913280634202441], or even referring to this part of the globe as _The Tropics_, allowed Europeans simultaneously define the region as environmentally and culturally distinct while also superimposing a common identity on very distinct parts of the tropical world [@arnold1996problem].   
+These contemporary perceptions of 'The Tropics' as distant and different are the result of centuries of historical and cultural reinforcement [@driverConstructingTropicsIntroduction2000; @arnold1996problem; @miller2011visions; @stepan2001picturing; @miller2011visions]. The first Europeans to visit the tropics returned with vivid, captivating, and frequently pejorative descriptions of the places and people they encountered [@inbook]. Their stories and images established a series of persistent, often contradictory tropes about tropical regions and people that were repeated and reinterpreted by subsequent visitors and inculcated by colonial expansion [@stepan2001picturing; @smithEuropeanVisionSouth1950]. The historian David @arnold1996problem has argued that these narratives of _Tropicality_ [_sensu_ @alma9913280634202441], or even using the collective term _The Tropics_, allowed Europeans simultaneously define the region as environmentally and culturally distinct while also superimposing a common identity on culturally distinct parts of the tropical world.   
    
 The narratives of naturalists such as von Humboldt, Darwin, and Wallace were both informed by and reinforced these conceptions of the tropics as 'distant' and 'other' [@raby2017american]; their writing inspired many of the scientists central to the coalescing sciences of ecology and evolutionary biology. Another historian, Megan Raby, has elegantly demonstrated how the resulting scientific narratives, including the unique status of _Tropical_ Biology, were not simply distillations of prevailing cultural tropes. Instead they emerged from the complex interplay of the European colonialism, the expansion of US hegemony in Latin America and the Caribbean at the turn of the twentieth century, and the establishment of new field stations as tropical outposts for North American scientists that accompanied this political and economic expansion [@raby2017american]. The role of this scientific colonialism at such a pivotal moment of scientific consolidation cannot be overstated. As @richardsWhatTropicsCan1963 explains, "the science of ecology developed first in central Europe, Scandinavia and Britain and very slightly later in the United States. The ideas and concepts with which it started were therefore inevitably based on the conditions in a temperate climate" [see also @webbBiologyTropics1960; @buechnerContributionWorldProgram1967; @ripleyPerspectivesTropicalBiology1967] The same would be true of subsequent studies testing and refining these fundamental concepts, further reinforcing the "temperate bias" [_sensu_ @zukTemperateAssumptionsHow2016] in the leading journals of the day. While engagement with the burgeoning community of field biologists in tropical countries [@rabyColonialOriginsTropical2017] could have expanded the prevailing theories to make them more general, these scientists were rarely to work at the new US-run field stations [@raby2017american]. Their exclusion from the scientific discourse and literature, coupled with the temperate-centered focus of the early theory, suggests that the distinction between Biology and _Tropical_ Biology is a historical legacy and largely artificial.    
 
 
 ## 2. Why the answer is *'Maybe'.*
+<!-- \noindent  -->
+> _"...to this day ecology is biased by concepts and ideas appropriate mainly to the study of vegetation in temperate climate and areas where a very large proportion of the land has long been modified by agriculture and other more or less intensive forms of land usage."_
 
+`r tufte::quote_footer('P. W. Richards (1963)')`
+<!-- \bigskip -->
 ```{r biblio, include = FALSE,echo = FALSE,message=FALSE,warning=FALSE}
 # load data ---------------------------------------------------------------
 # 
@@ -477,7 +479,7 @@ nontrop_system<-top_kw %>%
 #   mutate(rank_perc = rank(desc(perc), ties.method = "random")) %>% 
 #   filter(rank_perc<=cutoff) 
 
-bigrams<-read_csv(here("manuscript","data_ms","all_bigrams.csv")) 
+bigrams<-read_csv(here("data","data_ms","all_bigrams.csv")) 
 
 bigrams_count<- bigrams %>% 
   unite("bigram",word1:word2, sep = " ") %>% 
@@ -485,7 +487,7 @@ bigrams_count<- bigrams %>%
 
 
 
-rankings_pub<-read_csv(here("manuscript","data_ms","ranked_bigrams.csv")) 
+rankings_pub<-read_csv(here("data","data_ms","ranked_bigrams.csv")) 
 in_both <- rankings_pub %>%
   group_by(bigram) %>%
   summarise(n2 = n()) %>%
@@ -504,13 +506,6 @@ group_by(cat) %>%
 
 ```
 
-
-\noindent _"...to this day ecology is biased by concepts and ideas appropriate mainly to the study of vegetation in temperate climate and areas where a very large proportion of the land has long been modified by agriculture and other more or less intensive forms of land usage."_
-
-`r tufte::quote_footer('P. W. Richards (1963)')`
-\bigskip
-
-
 \noindent Even if _The Tropics_ are a historical construct, _Tropical_ Biology could still be conceptually distinct field of study if, over time, the scientific community converged on a suite of topics either unique to or best studied in tropical systems. To assess this possibility, I used text-mining tools to compare the content of `r scales::comma(as.numeric(n_pubs_trop))` articles reporting research from the tropics with `r scales::comma(as.numeric(n_pubs_gen))` studies conducted in other parts of the world. These studies were published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in N = `r n_jrnls` journals (_`r titles_string`_).
     A complete description of the methods used to gather and process these data are in the _Supporting Information_. Briefly, I began by extracting all keywords, title words (e.g., _seed_, _species_), and title bigrams (i.e., pairs of sequential words, e.g., _seed predation_, _species diversity_) from the entire collection of articles; this resulted in N = `r scales::comma(as.numeric(n_kw))` keywords, N= `r scales::comma(as.numeric(n_tw))` title words, and N = `r scales::comma(as.numeric(bigrams_count))` bigrams. I then calculated the percentage of articles in each category using each of those terms. The results below are based on the top N = `r cutoff` terms in each article category. 
     Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used keywords from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazonia_, _BCI_). In contrast, the overwhelming majority of keywords from non-tropical articles (`r scales::comma(as.numeric(100-nontrop_system))`%) were conceptual (e.g., _competiton_, _ecosystem function_, _sexual selection_; Table \@ref(tab:kwtable)). The second is that after removing the system- and location-specific keywords, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:kwtableNosystem)) that is consistent with broader trends in ecological research [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:kwtableNosystem)). Similar patterns emerge when comparing individual title words and title word bi-grams (Figure \@ref(fig:titlewords), Figure \@ref(fig:bigrams)).  
@@ -518,21 +513,23 @@ group_by(cat) %>%
 
 ## 3. Why the answer is *'Yes'.*
 
-\noindent _"No education is complete without a trip to the Tropics."_ 
+<!-- \noindent  -->
+> _"No education is complete without a trip to the Tropics."_ 
 
 `r tufte::quote_footer('J. E. Webb (1960)')`
 
-\bigskip
+<!-- \bigskip -->
 
 \noindent Finally, I believe an argument can be made for treating _Tropical Biology_ as a unique discipline, but not one based on the reasons typically put forward by others. What sets _Tropical_ Biology apart is not the biology _per se_ [_sensu_ @robinson1978tropical]. Rather, what Tropical Biologists have in common is the broader context in which their scholarship is embedded and carried out. Research anywhere is challenging, but for tropical biologists the precarious infrastructure, economic volatility, limited resources, and political instability can make the challenges feel insurmountable. These struggles can be compounded by having to communicate one's results in a foreign language [@amanoLanguagesAreStill2016] to the potentially biased reviewers and readers [@smithPeerReviewPerpetuates2023] of journals that are increasingly charging publications fees equivalent to several months salary [@smithAssessingEffectArticle2021]. When added to the physical and emotional toll of disease, crime, working in isolation, habitat loss, and the potential for professional retribution or physical violence [@clancySurveyAcademicField2014; @ellwangerDiversityLossClimate2020; @palinkasGlobalClimateChange2020], tropical biology and conservation can be uniquely dangerous --- even deadly. Lamentably, this is also true for the heroic conservationists, indigenous leaders, and journalists with whom we work [@cavalcantiPoliticalViolenceMobilisation2023].
 
 ## 4. The Future of (Tropical) Biology
 
-_"There are few things more presumptuous than a US scientist holding forth on the future of tropical ecology"_  
+<!-- \noindent  -->
+> _"There are few things more presumptuous than a US scientist holding forth on the future of tropical ecology"_  
 
 `r tufte::quote_footer('D. H. Janzen (1972)')` 
 
-\bigskip
+<!-- \bigskip -->
 
 <!-- > _"It would be presumptious for any one group of biologists, and still more for any individual, to attempt to write a programme for tropical biology"_ -->
 
@@ -577,7 +574,6 @@ rankings_pub <- kw %>%
   tally() %>%
   arrange(pub_cat_2, desc(n)) %>%
   group_by(pub_cat_2) %>%
-  # slice_head(n=100) %>%
   arrange(pub_cat_2, desc(n)) %>%
   left_join(pubs_per_pub_cat) %>%
   group_by(pub_cat_2) %>%
@@ -586,8 +582,6 @@ rankings_pub <- kw %>%
   arrange(pub_cat_2, desc(n)) %>%
   mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) %>%
   arrange(desc(pub_cat_2),rank_perc) %>% 
-  # mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-  # mutate(system = as.factor(system)) %>% 
   filter(rank_perc<=cutoff*100)
 
 
@@ -640,7 +634,6 @@ not<-nontrop_kw %>% filter(rank_perc<=cutoff) %>% anti_join(in_both,by="original
 both<-inner_join(trop_kw,in_both,by="original") %>% 
   inner_join(nontrop_kw,in_both,by="original") %>% 
   mutate(final.x=paste(original," (", rank_perc.x,", ",rank_perc.y,")",sep="")) %>% 
-  # mutate(final.x=paste(final.x, " (",rank_perc.y,")",sep="")) %>% 
   rename(rank_perc_trop=rank_perc.x,
          rank_perc_non=rank_perc.y,
          system=system.x
@@ -663,7 +656,6 @@ df_table1<-bind_rows(trop,not,both) %>%
   mutate(general = cell_spec(general, bold=ifelse(system_general == "Y", TRUE, FALSE))) %>%
   mutate(both = cell_spec(both, bold=ifelse(((is.na(system_both)==FALSE) & (system_both == "Y")), TRUE, FALSE))) %>%
   mutate(both=gsub("NA", " ", both)) %>%
-  # mutate(both=ifelse(is.na(system_both)==TRUE, NA, both)) %>%
   ungroup() %>% 
   select(-index,-system_both,-system_tropical,-system_general) 
 
@@ -711,14 +703,11 @@ pubs_per_pub_cat <- kw %>%
 
 # Top Keywords by pub cat
 rankings_pub <- kw %>%
-  # mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-  # mutate(system = as.factor(system)) %>% 
   filter(system=="N") %>% 
   group_by(pub_cat_2, final) %>%
   tally() %>%
   arrange(pub_cat_2, desc(n)) %>%
   group_by(pub_cat_2) %>%
-  # slice_head(n=100) %>%
   arrange(pub_cat_2, desc(n)) %>%
   left_join(pubs_per_pub_cat) %>%
   group_by(pub_cat_2) %>%
@@ -726,8 +715,6 @@ rankings_pub <- kw %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
   mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) %>%
-  # mutate(rank_perc = min_rank(desc(n))) %>%
-  # arrange(rank_perc,jrnl_cat,desc(pub_cat_2))
   arrange(desc(pub_cat_2),rank_perc) %>% 
   filter(rank_perc<=cutoff*100)
 
@@ -777,8 +764,6 @@ not<-nontrop_kw %>%
 left_join(top_kw_system) %>% 
   rename(system_general = system) 
 
-# %>%
-#   mutate(system_general = if_else((final %in% system_list$system == TRUE), "Y", "N")) 
 
 both<- inner_join(trop_kw,in_both,by="final") %>% 
   inner_join(nontrop_kw,in_both,by="final") %>% 
@@ -793,8 +778,6 @@ both<- inner_join(trop_kw,in_both,by="final") %>%
   left_join(top_kw_system) %>% 
   rename(system_both = system) 
   
-# mutate(system_both = if_else((final %in% system_list$system == TRUE), "Y", "N")) 
-
 
 df_table2<-bind_rows(tropical,not,both) %>% 
   left_join(top_kw_system) %>% 
@@ -856,20 +839,20 @@ df_table2 %>%
 ```
 
 ```{r fig-org, fig.align="center", out.height = "90%",out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
-ggdraw() + draw_image('./manuscript/figures/slide1.png')
+ggdraw() + draw_image('./figures/slide1.png')
 ```
 
 
 \newpage
 
 ```{r fig-temp, fig.align="center", out.height = "80%",out.width = "100%", fig.cap='The logo for a proposed new scholarly society for researchers specializing on temperate ecosystems and species.'}
-ggdraw() + draw_image("./manuscript/figures/slide2.png")
+ggdraw() + draw_image("./figures/slide2.png")
 ```
 
 \newpage
 
 ```{r fig-pubs, fig.align="center", out.height = "100%",out.width = "100%", fig.cap='The (a) original and (b) reimagined titles of four high-profile research articles. Comparing these emphasizes how the original titles reflect and reinforce the idea that \'reference\' or \'default\ ecosystems are found in the Temperate Zone.'}
-ggdraw() + draw_image("./manuscript/figures/slide3.png")
+ggdraw() + draw_image("./figures/slide3.png")
 ```
 \newpage
 
@@ -891,7 +874,8 @@ I am grateful to the organizers of the 2022 Meeting of the ATBC for encouraging 
 <!-- NEED TO ADD NSFR ACKNOWELDGEMENT -->
 
 ## DATA AVAILABILITY STATEMENT  
-The complete data set used in this article is available in Dryad at <_DOI added upon acceptance_>. The version of the code used to review, correct, and prepare the data archive (v1.0.0) is available at Zenodo at <_DOI added upon acceptance_>. The code used to prepare this publication, including statistical summaries reported in the text, tables, and figures, is available at Zenodo at <_DOI added upon acceptance_>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on the project's Github Repository (https://github.com/BrunaLab/atbc2022_plenary_talk) or referred to E. M. Bruna. Summaries of any post-publication updates will be posted to the NEWS.md file of this Github Repository.  
+The data used in this publication are available at Dryad <_DOI added upon acceptance_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added upon acceptance_>.  
+  The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics. That data set, and the code used to harvest, clean, and organize it, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna. That respository also includes a NEWS.md file summarizing any post-publication updates.  
 
 ## DISCLOSURE STATEMENT  
 The author confirms that there have been no involvements that might raise the question of bias in the work reported or in the conclusions, implications, or opinions stated.
@@ -911,7 +895,7 @@ E.M.B conceived the study and is responsible for the methodology, data collectio
 \newpage
 
 
-```{r child = "./manuscript/bruna_supplement.Rmd"}
+```{r child = "./bruna_supplement.Rmd"}
 ```
 
 

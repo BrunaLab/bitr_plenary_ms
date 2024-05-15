@@ -60,7 +60,7 @@ library(ggpattern)
 
 \nolinenumbers
 
-# SUPPORTING INFORMATION 
+## SUPPORTING INFORMATION 
 
 \bigskip
 \bigskip
@@ -353,7 +353,8 @@ tw_articles_plot<-ggplot(tw_articles,
 
 ## 2. Data and Code
 
-\noindent The version of the code used to review, correct, and prepare the data set (version 1.0.0) is available at Zenodo at <_DOI added upon acceptance_>, and the data set used in this publication is available in Dryad at <_DOI added upon acceptance_>. The code used to prepare this publication, including statistical summaries reported in the text, tables, and figures, is also available at Zenodo at <_DOI added upon acceptance_>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on the project's Github Repository (https://github.com/BrunaLab/atbc2022_plenary_talk) or referred to E. M. Bruna. Summaries of any post-publication updates will be posted to the NEWS.md file of this Github Repository.  
+\noindent The data used in this publication are available at Dryad <_DOI added upon acceptance_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added upon acceptance_>.  
+  The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics. That data set, and the code used to harvest, clean, and organize it, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna. That respository also includes a NEWS.md file summarizing any post-publication updates.   
 
 ## REFERENCES
 
@@ -376,30 +377,30 @@ tw_articles_plot<-ggplot(tw_articles,
 
 ```{r keywords, fig.align="center", out.height = "90%",out.width = "90%",fig.cap='The N = `r cutoff` most common keywords from articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of articles in each category that included them. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.'} 
 # knitr::include_graphics(here("manuscript","figures","plot1.jpeg"))
-# knitr::include_graphics("./manuscript/figures/plot1.jpeg")
-source(here("manuscript","code","plot_kw_bar.R"))
+# knitr::include_graphics("./figures/plot1.jpeg")
+source(here("code","plot_kw_bar.R"))
 breaks_vec<-seq(0, 6, by = .5)
 min_x<- -1.7
 max_x<-6
 kw_fig<-barplot_words(kw,cutoff,min_x,max_x,breaks_vec)
 
 ggsave("kw_fig.jpeg", 
-       path = "./manuscript/figures", 
+       path = "./figures", 
        dpi=700,
        width = 10,
        height = 7,
        units = c("in")
 )
 
-ggdraw() + draw_image("./manuscript/figures/kw_fig.jpeg", scale = 1)
+ggdraw() + draw_image("./figures/kw_fig.jpeg", scale = 1)
 ```
 
 \newpage 
 
 ```{r titlewords, fig.align="center", out.height = "90%",out.width = "90%",fig.cap='The N = `r cutoff` most common words in the titles of articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of article titles in each category that included those words. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.'}
 # knitr::include_graphics(here("manuscript","figures","plot1.jpeg"))
-# knitr::include_graphics("./manuscript/figures/plot1.jpeg")
-source(here("manuscript","plot_kw_bar.R"))
+# knitr::include_graphics("./figures/plot1.jpeg")
+source(here("code","plot_kw_bar.R"))
 # for TW
 breaks_vec<-seq(0, 25, by = 2.5)
 min_x<- -3.5
@@ -407,24 +408,24 @@ max_x<-30
 tw_fig<-barplot_words(tw,cutoff,min_x,max_x,breaks_vec)
 
 ggsave("tw_fig.jpeg", 
-       path = "./manuscript/figures", 
+       path = "./figures", 
        dpi=700,
        width = 10,
        height = 7,
        units = c("in")
 )
 
-ggdraw() + draw_image("./manuscript/figures/tw_fig.jpeg", scale = 1)
+ggdraw() + draw_image("./figures/tw_fig.jpeg", scale = 1)
 ```
 
 \newpage
 
 ```{r bigrams, fig.align="center", out.height = "90%",out.width = "90%",fig.cap='The N = `r cutoff` most common bigrams in titles of articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of article titles in each category that included those words. Bigrams reflecting geography (e.g., \\textit{tropics, Peru, Atlantic Forest}) are indicated in bold and with filled bars.', echo = FALSE,message=FALSE,warning=FALSE}
 # knitr::include_graphics(here("manuscript","figures","plot1.jpeg"))
-# knitr::include_graphics("./manuscript/figures/plot1.jpeg")
-source(here("manuscript","code","plot_bigrams_bar.R"))
+# knitr::include_graphics("./figures/plot1.jpeg")
+source(here("code","plot_bigrams_bar.R"))
 bigram_plot<-barplot_words()
-ggdraw() + draw_image("./manuscript/figures/bigram_fig.jpeg", scale = 1)
+ggdraw() + draw_image("./figures/bigram_fig.jpeg", scale = 1)
 ```
 
 ```{=tex}

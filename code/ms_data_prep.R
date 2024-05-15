@@ -1,58 +1,99 @@
 # # Prep the file of ALL keywords and titlewords for use in BITR MS.
 # 
+
+
+# load libraries ----------------------------------------------------------
+
+library(tidyverse)
+library(here)
+library(tidytext)
 # 
 # 
-# if (!dir.exists("./data_ms")) {
-#   dir.create("./data_ms")
-# } else {
-#   print(" ") # placeholder
-# }
-# 
-# urlfile_plants<-("https://raw.githubusercontent.com/BrunaLab/HeliconiaSurveys/master/data/survey_archive/HDP_survey.csv")
-# ha_plants<-read_csv(url(urlfile_plants))
-# write_csv(ha_plants, here("manuscript_files", "MetadataS1", "data_downloaded","ha_plants.csv"))
-# 
-# urlfile_plots<-"https://raw.githubusercontent.com/BrunaLab/HeliconiaSurveys/master/data/survey_archive/HDP_plots.csv"
-# ha_plots<-read_csv(url(urlfile_plots))
-# write_csv(ha_plots,here("manuscript_files", "MetadataS1", "data_downloaded","ha_plots.csv"))
-# 
-# # This is to save the info on the version of the data sets used in the paper 
-# urlfile_v_plots<-"https://raw.githubusercontent.com/BrunaLab/HeliconiaSurveys/master/data/survey_archive/HDP_plots_version_info.txt"
-# version_plots<-read_lines(url(urlfile_v_plots))
-# 
-# urlfile_v_survey<-"https://raw.githubusercontent.com/BrunaLab/HeliconiaSurveys/master/data/survey_archive/HDP_survey_version_info.txt"
-# version_survey<-read_lines(url(urlfile_v_survey))
-# 
-# version_survey$file<-"survey"
-# names(version_survey)<-c("version", "date", "file")
-# version_plots$file<-"plots"
-# names(version_plots)<-c("version", "date", "file")
-# versions_for_ms<-bind_rows(as_tibble(version_survey),
-#                            as_tibble(version_plots)) %>% 
-#   relocate(file,.before=1)
-# write_csv(versions_for_ms,here("manuscript_files", "MetadataS1", "data_downloaded","versions_for_ms.csv"))
-# 
-
-# system info -------------------------------------------------------------
+if (!dir.exists("./data/data_ms")) {
+  dir.create("./data/data_ms")
+} else {
+  print("lucky you...the folder already exists!") # placeholder
+}
+#
+if (!dir.exists("./data/data_original")) {
+  dir.create("./data/data_original")
+} else {
+  print("lucky you...the folder already exists!") # placeholder
+}
 
 
-system_list<-read_csv(here("bibliometrics","code_analysis","system.csv"), col_names = TRUE) %>% 
-  filter(geo==TRUE)
+# title words
+urlfile_titlewords<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/tw_clean.csv")
+titlewords<-read_csv(url(urlfile_titlewords))
+write_csv(titlewords, here("data","data_original","tw_clean.csv"))
 
 
-# titles analyzed ---------------------------------------------------------
-
-titles_ms<-
-  read_csv(here("bibliometrics","code_analysis","titles.csv"), col_names = TRUE) %>% 
-  filter(SO!="rbt") 
-
-write_csv(titles_ms,here("manuscript","data_ms","titles_ms.csv")) 
-
-# title words -------------------------------------------------------------
+# journal titles 
+urlfile_jrnls<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/jrnls.csv")
+jrnls<-read_csv(url(urlfile_jrnls))
+write_csv(jrnls, here("data","data_original","jrnls.csv"))
 
 
-tw_ms<-read_csv(here("bibliometrics","data_clean","tw_clean.csv")) %>% 
-  inner_join(titles_ms) %>% 
+# system-related terms
+urlfile_system<-"https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/system.csv"
+system<-read_csv(url(urlfile_system))
+write_csv(system, here("data","data_original","system.csv")) 
+
+# keywords
+urlfile_keywords<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/keywords.csv")
+keywords<-read_csv(url(urlfile_keywords))
+write_csv(keywords, here("data","data_original","keywords.csv"))
+
+# versions of the datasets
+# v jrnls
+urlfile_v_jrnls<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/version_jrnls.txt")
+v_jrnls<-read_csv(url(urlfile_v_jrnls),col_names = FALSE)
+write_delim(v_jrnls, here("data","data_original","version_jrnls.txt"))
+
+
+# v keywords
+urlfile_v_keywords<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/version_keywords.txt")
+v_keywords<-read_csv(url(urlfile_v_keywords),col_names = FALSE)
+write_delim(v_keywords, here("data","data_original","version_keywords.txt"))
+
+# v system terms
+urlfile_v_system<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/version_system.txt")
+v_system<-read_csv(url(urlfile_v_system),col_names = FALSE)
+write_delim(v_system, here("data","data_original","version_system.txt"))
+
+# v tw_clean
+urlfile_v_tw_clean<-("https://raw.githubusercontent.com/BrunaLab/tropical_bibliometrics/main/data/data_archive/version_tw_clean.txt")
+v_tw_clean<-read_csv(url(urlfile_v_tw_clean),col_names = FALSE)
+write_delim(v_tw_clean, here("data","data_original","version_tw_clean.txt"))
+
+v_system
+v_tw_clean
+v_keywords
+v_jrnls
+# data file version
+versions_for_ms<-bind_rows(v_system,
+                           v_tw_clean,
+                           v_keywords,
+                           v_jrnls) 
+
+names(versions_for_ms)<-c("version", "date", "file")
+
+write_csv(versions_for_ms,here("data","data_ms","versions_for_ms.csv"))
+
+# process data for use in MS  ---------------------------------------------
+
+# system terms for MS 
+system_list <- read_csv(here("data","data_original","system.csv")) %>% 
+  filter(geo==TRUE) %>% 
+  write_csv(here("data","data_ms","system_list.csv")) 
+
+# title words for MS 
+journal_titles <- read_csv(here("data","data_original","jrnls.csv")) %>% 
+  write_csv(here("data","data_ms","journal_titles.csv")) 
+
+tw_ms <- read_csv(here("data","data_original","tw_clean.csv")) %>% 
+  filter(SO!="rbt") %>% 
+  inner_join(journal_titles) %>% 
   relocate(title,.after=SO) %>% 
   mutate(title=as.factor(title)) %>% 
   mutate(pub_cat=as.factor(pub_cat_2)) %>% 
@@ -62,31 +103,24 @@ tw_ms<-read_csv(here("bibliometrics","data_clean","tw_clean.csv")) %>%
   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
   mutate(system = as.factor(system)) %>% 
   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-  mutate(system = as.factor(system)) 
+  mutate(system = as.factor(system)) %>% 
+  write_csv(here("data","data_ms","tw_ms.csv")) 
 
-write_csv(tw_ms,here("manuscript","data_ms","tw_ms.csv")) 
-
-# keywords ----------------------------------------------------------------
-
-
-kw_ms<-read_csv(here("bibliometrics","data_clean","keywords.csv")) %>% 
-  inner_join(titles_ms) %>%
+# keywords for MS
+kw_ms<-read_csv(here("data","data_original","keywords.csv")) %>% 
+  inner_join(journal_titles) %>%
   relocate(title,.after=SO) %>%
   mutate(title=as.factor(title)) %>%
   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
   mutate(system = as.factor(system)) %>% 
-  # filter(PY>=start_yr) %>% 
-  # filter(PY<=end_yr) %>% 
   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
-  mutate(system = as.factor(system)) 
-
-write_csv(kw_ms,here("manuscript","data_ms","kw_ms.csv")) 
-
+  mutate(system = as.factor(system)) %>% 
+  write_csv(here("data","data_ms","kw_ms.csv")) 
 
 
-# ngram prep --------------------------------------------------------------
+# n-grams for use in MS
 
-
+# prep titles for n-gram extraction
 extract_ngram_data <- function(tw) {
   ngram_data<-tw_ms %>% 
     select(refID,PY,SO,pub_cat_2,jrnl_cat,final) %>%  
@@ -95,8 +129,7 @@ extract_ngram_data <- function(tw) {
     relocate(word,.before=final) %>% 
     mutate(place="place") %>% 
     relocate(place,.before=word) 
-  # %>% 
-  #   replace_na(list(final="-"))
+  
   ngram_data<-ngram_data %>% replace_na(list(final= "deleteme")) %>% 
     pivot_wider(names_from = c(place,word),
                 values_from = final,
@@ -112,18 +145,17 @@ extract_ngram_data <- function(tw) {
   return(ngram_data)
 }
 
+
+# data used to generate bigrams
 ngram_data<-extract_ngram_data(tw_ms)
-
-
 ngram_data_gen<-ngram_data %>% filter(pub_cat_2=="general")
 ngram_data_trop<-ngram_data %>% filter(pub_cat_2=="tropical")
 
 
-
+# generate bigrams
 generate_bigrams <- function(ngram_data) {
   tw_bigrams <- ngram_data %>% 
     select(tw) %>% 
-    # slice(1:100) %>% 
     unnest_tokens(bigram, tw, token = "ngrams", n = 2) %>% 
     count(bigram, sort = TRUE) 
   bigrams_separated <- tw_bigrams %>% 
@@ -134,11 +166,9 @@ generate_bigrams <- function(ngram_data) {
     arrange(desc(n)) %>% 
     filter(str_detect("deleteme",word1,negate=TRUE)) %>% 
     filter(str_detect("deleteme",word2,negate=TRUE)) 
-  # slice(1:1000)
   
   
   bigrams_filtered<-bigrams_filtered %>% 
-    # filter(nchar(word1)<4) %>%
     mutate(word1_first=substring(word1, 1, 1)) %>% 
     mutate(word2_first=substring(word2, 1, 1)) %>% 
     mutate(number=case_when(
@@ -151,33 +181,24 @@ generate_bigrams <- function(ngram_data) {
   return(bigrams_filtered)
 }
 
-
-
 generate_bigrams <- function(ngram_data) {
   
   n_titles<-ngram_data %>% summarize(n=n_distinct(refID))
   
   tw_bigrams <- ngram_data %>% 
     select(tw,refID) %>% 
-    # slice(1:100) %>% 
     unnest_tokens(bigram, tw, token = "ngrams", n = 2) %>% 
     distinct(refID,bigram)
   
-  # %>% 
-  #   count(refID,bigram, sort = TRUE)
   bigrams_separated <- tw_bigrams %>% 
     separate(bigram, c("word1", "word2"), sep = " ")
   bigrams_filtered <- bigrams_separated  %>%
     filter(!word1 %in% stop_words$word) %>%
     filter(!word2 %in% stop_words$word) %>% 
-    # arrange(desc(n)) %>% 
     filter(str_detect("deleteme",word1,negate=TRUE)) %>% 
     filter(str_detect("deleteme",word2,negate=TRUE)) 
-  # slice(1:1000)
-  
-  
-  bigrams_filtered<-bigrams_filtered %>% 
-    # filter(nchar(word1)<4) %>%
+
+bigrams_filtered<-bigrams_filtered %>% 
     mutate(word1_first=substring(word1, 1, 1)) %>% 
     mutate(word2_first=substring(word2, 1, 1)) %>% 
     mutate(number=case_when(
@@ -195,17 +216,15 @@ generate_bigrams <- function(ngram_data) {
 
 
 # bigrams - all pubs
-
 bigrams<-generate_bigrams(ngram_data)  
-bigrams
+write_csv(bigrams,here("data","data_ms","all_bigrams.csv")) 
 
-write_csv(bigrams,here("manuscript","data_ms","all_bigrams.csv")) 
 
+
+# bigrams ranked withing geographic category (tropical and nontropical)
 bigrams_count<- bigrams %>% 
   unite("bigram",word1:word2, sep = " ") %>% 
   tally()
-
-
 
 # bigrams: NON-tropical
 NonTrop_bigrams<-generate_bigrams(ngram_data_gen) %>% 
@@ -213,7 +232,6 @@ NonTrop_bigrams<-generate_bigrams(ngram_data_gen) %>%
   mutate(bigram=paste(word1,word2,sep=" ")) %>% 
   ungroup() %>% 
   mutate(rank_perc = rank(desc(perc), ties.method = "random")) 
-
 
 # bigrams: tropical
 Trop_bigrams<-generate_bigrams(ngram_data_trop) %>% 
@@ -223,15 +241,10 @@ Trop_bigrams<-generate_bigrams(ngram_data_trop) %>%
   mutate(rank_perc = rank(desc(perc), ties.method = "random")) 
 
 ## all bigrams together
-rankings_pub<-bind_rows(Trop_bigrams,NonTrop_bigrams)
-
-
-rankings_pub <- rankings_pub %>%
+rankings_pub<-bind_rows(Trop_bigrams,NonTrop_bigrams) %>% 
   mutate(system = if_else((bigram %in% system_list$system == TRUE), "Y", "N")) %>%
   mutate(system = as.factor(system)) %>% 
   group_by(cat) %>% 
-  mutate(rank_perc = rank(desc(perc), ties.method = "random")) 
-
-
-write_csv(rankings_pub,here("manuscript","data_ms","ranked_bigrams.csv")) 
+  mutate(rank_perc = rank(desc(perc), ties.method = "random")) %>% 
+  write_csv(here("data","data_ms","ranked_bigrams.csv")) 
 

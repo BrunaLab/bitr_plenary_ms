@@ -1,7 +1,7 @@
 barplot_words <- function(dataset, cutoff,min_x,max_x,breaks_vec) {
   
   
-  system_list<-read_csv(here("bibliometrics","code_analysis","system.csv"), col_names = TRUE) %>% 
+  system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE) %>% 
     filter(geo==TRUE)
   
   
