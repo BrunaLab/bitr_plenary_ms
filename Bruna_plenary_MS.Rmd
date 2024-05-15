@@ -86,8 +86,10 @@ header-includes:
 # options(knitr.duplicate.label = 'allow')
 knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
 options(knitr.table.format = "latex")
-options(knitr.duplicate.label = 'allow',
-        knitr.kable.NA = '')
+options(
+  knitr.duplicate.label = "allow",
+  knitr.kable.NA = ""
+)
 knitr::opts_knit$set(eval.after = "fig.cap")
 # knitr::opts_chunk$set(fig.pos = 'h')
 ```
@@ -95,7 +97,7 @@ knitr::opts_knit$set(eval.after = "fig.cap")
 
 ```{r setup, include = FALSE}
 library("papaja")
-knitr::opts_chunk$set(echo = FALSE,message=FALSE,warning=FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(gridExtra)
 library(kableExtra)
@@ -107,30 +109,27 @@ library(xfun)
 library(stopwords)
 library(tidytext)
 library(janitor)
-
 ```
 
 
 
 
 ```{r tableVars, cache=TRUE, echo = FALSE,message=FALSE,warning=FALSE}
-
-cutoff<-50
-start_yr<-1990
-end_yr<-2022
+cutoff <- 50
+start_yr <- 1990
+end_yr <- 2022
 
 ## EXCLUDE JOURNALS FROM ANALYSIS HERE
 
-titles_ms<-read_csv(here("data","data_ms","journal_titles.csv"), col_names = TRUE)
+titles_ms <- read_csv(here("data", "data_ms", "journal_titles.csv"), col_names = TRUE)
 
-tw <-read_csv(here("data","data_ms","tw_ms.csv"), col_names = TRUE) %>% 
-  filter(PY>=start_yr) %>% 
-  filter(PY<=end_yr) 
+tw <- read_csv(here("data", "data_ms", "tw_ms.csv"), col_names = TRUE) %>%
+  filter(PY >= start_yr) %>%
+  filter(PY <= end_yr)
 
-kw <-read_csv(here("data","data_ms","kw_ms.csv"), col_names = TRUE) %>% 
-  filter(PY>=start_yr) %>% 
-  filter(PY<=end_yr) 
-
+kw <- read_csv(here("data", "data_ms", "kw_ms.csv"), col_names = TRUE) %>%
+  filter(PY >= start_yr) %>%
+  filter(PY <= end_yr)
 ```
 
 \onehalfspacing
@@ -174,43 +173,51 @@ The narratives of naturalists such as von Humboldt, Darwin, and Wallace were bot
 `r tufte::quote_footer('P. W. Richards (1963)')`
 <!-- \bigskip -->
 ```{r biblio, include = FALSE,echo = FALSE,message=FALSE,warning=FALSE}
-
-
 # N of keywords
-n_kw<-kw %>% summarize(n=n_distinct(final))
+n_kw <- kw %>% summarize(n = n_distinct(final))
 
 # N of publications
-n_pubs<-kw %>% summarize(n=n_distinct(refID)) 
-n_pubs_trop<-kw %>% filter(pub_cat_2=="tropical") %>% summarize(n=n_distinct(refID)) 
-n_pubs_gen<-kw %>% filter(pub_cat_2=="general") %>% summarize(n=n_distinct(refID)) 
+n_pubs <- kw %>% summarize(n = n_distinct(refID))
+n_pubs_trop <- kw %>%
+  filter(pub_cat_2 == "tropical") %>%
+  summarize(n = n_distinct(refID))
+n_pubs_gen <- kw %>%
+  filter(pub_cat_2 == "general") %>%
+  summarize(n = n_distinct(refID))
 
 # N of journals
-n_jrnls<-kw %>% 
-  select(SO) %>% 
-  summarize(n=n_distinct(SO)) 
+n_jrnls <- kw %>%
+  select(SO) %>%
+  summarize(n = n_distinct(SO))
 
-n_jrnls_trop<-kw %>% 
-  filter(jrnl_cat=="tropical") %>% 
-  summarize(n=n_distinct(SO)) %>% 
-  mutate(n=numbers_to_words(n))
+n_jrnls_trop <- kw %>%
+  filter(jrnl_cat == "tropical") %>%
+  summarize(n = n_distinct(SO)) %>%
+  mutate(n = numbers_to_words(n))
 
-n_jrnls_gen<-kw %>% filter(jrnl_cat=="general") %>% 
-  summarize(n=n_distinct(SO)) %>% mutate(n=numbers_to_words(n))
+n_jrnls_gen <- kw %>%
+  filter(jrnl_cat == "general") %>%
+  summarize(n = n_distinct(SO)) %>%
+  mutate(n = numbers_to_words(n))
 
-# time frame: 
-yr_last<-kw %>% select(PY) %>% max() 
-yr_first<-kw %>% select(PY) %>% min() 
+# time frame:
+yr_last <- kw %>%
+  select(PY) %>%
+  max()
+yr_first <- kw %>%
+  select(PY) %>%
+  min()
 
-titles_string<-titles_ms %>% 
-  select(-jrnl_cat) %>% 
-  pivot_wider(names_from = SO, values_from = title) %>% 
-  unite(titles_string,1:nrow(titles_ms),sep=", ")
+titles_string <- titles_ms %>%
+  select(-jrnl_cat) %>%
+  pivot_wider(names_from = SO, values_from = title) %>%
+  unite(titles_string, 1:nrow(titles_ms), sep = ", ")
 
-trop_titles_string<-titles_ms %>% 
-  filter(jrnl_cat=="tropical") %>% 
-  select(-jrnl_cat) %>% 
-  pivot_wider(names_from = SO, values_from = title) %>% 
-  unite(titles_trop,1:nrow(titles_ms %>% filter(jrnl_cat=="tropical")),sep=", ")
+trop_titles_string <- titles_ms %>%
+  filter(jrnl_cat == "tropical") %>%
+  select(-jrnl_cat) %>%
+  pivot_wider(names_from = SO, values_from = title) %>%
+  unite(titles_trop, 1:nrow(titles_ms %>% filter(jrnl_cat == "tropical")), sep = ", ")
 
 # What % of articles in GENERAL Journals are tropical
 
@@ -218,21 +225,22 @@ perc_trop <- kw %>%
   group_by(jrnl_cat, pub_cat_2, SO) %>%
   summarise(n_pubs = n_distinct(refID)) %>%
   ungroup() %>%
-  arrange(jrnl_cat, SO, pub_cat_2, desc(n_pubs)) %>% 
-  filter(jrnl_cat=="general") %>% 
+  arrange(jrnl_cat, SO, pub_cat_2, desc(n_pubs)) %>%
+  filter(jrnl_cat == "general") %>%
   pivot_wider(
     names_from = pub_cat_2,
-    values_from = n_pubs) %>% 
-  mutate(perc_trop=tropical/(general+tropical)*100)
+    values_from = n_pubs
+  ) %>%
+  mutate(perc_trop = tropical / (general + tropical) * 100)
 
 
-overall_perc_trop<-((sum(perc_trop$tropical))/sum(perc_trop$general))*100
-avg_perc_trop<-mean(perc_trop$perc_trop)
-var_perc_trop<-sd(perc_trop$perc_trop)
+overall_perc_trop <- ((sum(perc_trop$tropical)) / sum(perc_trop$general)) * 100
+avg_perc_trop <- mean(perc_trop$perc_trop)
+var_perc_trop <- sd(perc_trop$perc_trop)
 
 
 
-n_tw<-tw %>% summarize(n=n_distinct(final))
+n_tw <- tw %>% summarize(n = n_distinct(final))
 
 # Keywords that are "system"
 
@@ -243,7 +251,7 @@ pubs_per_pub_cat <- kw %>%
   arrange(pub_cat_2, desc(n_pubs))
 
 
-top_kw<- kw %>% 
+top_kw <- kw %>%
   group_by(pub_cat_2, final) %>%
   tally() %>%
   arrange(pub_cat_2, desc(n)) %>%
@@ -254,61 +262,59 @@ top_kw<- kw %>%
   mutate(perc_pubs_wth_kw = (n / n_pubs * 100)) %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
-  mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) %>%
-  arrange(desc(pub_cat_2),rank_perc) %>% 
-  filter(rank_perc<=cutoff)  
+  mutate(rank_perc = rank(desc(n), ties.method = c("random"))) %>%
+  arrange(desc(pub_cat_2), rank_perc) %>%
+  filter(rank_perc <= cutoff)
 
-top_kw_system<-kw %>% 
-  select(final,system) %>% 
+top_kw_system <- kw %>%
+  select(final, system) %>%
   unique()
-top_kw<-left_join(top_kw,top_kw_system)
-  
-trop_system<-top_kw %>% 
-  group_by(pub_cat_2,system) %>% 
-  tally() %>% 
-  mutate(perc_system=n/cutoff*100) %>% 
-  filter(system=="Y") %>% 
-  filter(pub_cat_2=="tropical") %>% 
-  ungroup() %>% 
+top_kw <- left_join(top_kw, top_kw_system)
+
+trop_system <- top_kw %>%
+  group_by(pub_cat_2, system) %>%
+  tally() %>%
+  mutate(perc_system = n / cutoff * 100) %>%
+  filter(system == "Y") %>%
+  filter(pub_cat_2 == "tropical") %>%
+  ungroup() %>%
   select(perc_system)
 
 
-nontrop_system<-top_kw %>% 
-  group_by(pub_cat_2,system) %>% 
-  tally() %>% 
-  mutate(perc_system=n/cutoff*100) %>% 
-  filter(system=="Y") %>% 
-  filter(pub_cat_2=="general") %>% 
-  ungroup() %>% 
+nontrop_system <- top_kw %>%
+  group_by(pub_cat_2, system) %>%
+  tally() %>%
+  mutate(perc_system = n / cutoff * 100) %>%
+  filter(system == "Y") %>%
+  filter(pub_cat_2 == "general") %>%
+  ungroup() %>%
   select(perc_system)
 
 
 
-bigrams<-read_csv(here("data","data_ms","all_bigrams.csv")) 
+bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
 
-bigrams_count<- bigrams %>% 
-  unite("bigram",word1:word2, sep = " ") %>% 
+bigrams_count <- bigrams %>%
+  unite("bigram", word1:word2, sep = " ") %>%
   tally()
 
 
 
-rankings_pub<-read_csv(here("data","data_ms","ranked_bigrams.csv")) 
+rankings_pub <- read_csv(here("data", "data_ms", "ranked_bigrams.csv"))
 in_both <- rankings_pub %>%
   group_by(bigram) %>%
   summarise(n2 = n()) %>%
   filter(n2 > 1) %>%
   mutate(both = TRUE)
 
-plot_tw <- full_join(rankings_pub, in_both, by = "bigram") %>% 
-  select(-n2) %>% 
+plot_tw <- full_join(rankings_pub, in_both, by = "bigram") %>%
+  select(-n2) %>%
   replace_na(list(
     "both" = FALSE
-  )) %>% 
-group_by(cat) %>%
+  )) %>%
+  group_by(cat) %>%
   arrange(cat, desc(n)) %>%
-  mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) 
-  
-
+  mutate(rank_perc = rank(desc(n), ties.method = c("random")))
 ```
 
 \noindent Even if _The Tropics_ are a historical construct, _Tropical_ Biology could still be conceptually distinct field of study if, over time, the scientific community converged on a suite of topics either unique to or best studied in tropical systems. To assess this possibility, I used text-mining tools to compare the content of `r scales::comma(as.numeric(n_pubs_trop))` articles reporting research from the tropics with `r scales::comma(as.numeric(n_pubs_gen))` studies conducted in other parts of the world. These studies were published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in N = `r n_jrnls` journals (_`r titles_string`_).
@@ -354,7 +360,6 @@ I prefer instead to consider what the ambiguity of my conclusions implies for ho
 \newpage
 
 ```{r kwtable, echo = FALSE,message=FALSE,warning=FALSE}
-
 pubs_per_pub_cat <- kw %>%
   group_by(pub_cat_2) %>%
   summarise(n_pubs = n_distinct(refID)) %>%
@@ -374,110 +379,123 @@ rankings_pub <- kw %>%
   mutate(perc_pubs_wth_kw = (n / n_pubs * 100)) %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
-  mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) %>%
-  arrange(desc(pub_cat_2),rank_perc) %>% 
-  filter(rank_perc<=cutoff*100)
+  mutate(rank_perc = rank(desc(n), ties.method = c("random"))) %>%
+  arrange(desc(pub_cat_2), rank_perc) %>%
+  filter(rank_perc <= cutoff * 100)
 
 
-top_kw_system<-kw %>% 
-  select(final,system) %>% 
+top_kw_system <- kw %>%
+  select(final, system) %>%
   unique()
-rankings_pub<-left_join(rankings_pub,top_kw_system)
+rankings_pub <- left_join(rankings_pub, top_kw_system)
 
 
 in_both <- rankings_pub %>%
-  filter(rank_perc<=cutoff) %>% 
+  filter(rank_perc <= cutoff) %>%
   group_by(final) %>%
   summarise(n2 = n()) %>%
   filter(n2 > 1) %>%
-  mutate(both = TRUE) %>% 
-  mutate(original=final)
+  mutate(both = TRUE) %>%
+  mutate(original = final)
 
 
 
-plot_kw <- full_join(rankings_pub, in_both, by = "final") %>% 
-  select(-n2) %>% 
+plot_kw <- full_join(rankings_pub, in_both, by = "final") %>%
+  select(-n2) %>%
   replace_na(list(
     "both" = FALSE
-    )) %>% 
-  rename(cat=pub_cat_2) 
-  
+  )) %>%
+  rename(cat = pub_cat_2)
+
 
 trop_kw <- plot_kw %>%
   filter(cat == "tropical") %>%
   select(final, cat, rank_perc, system) %>%
-  mutate(original=final) %>% 
-  mutate(final = paste(final," (", rank_perc, ")",  sep = ""))
+  mutate(original = final) %>%
+  mutate(final = paste(final, " (", rank_perc, ")", sep = ""))
 
 nontrop_kw <- plot_kw %>%
   filter(cat == "general") %>%
   select(final, cat, rank_perc, system) %>%
-  mutate(original=final) %>% 
-  mutate(final = paste(final," (", rank_perc, ")",  sep = ""))
-  
+  mutate(original = final) %>%
+  mutate(final = paste(final, " (", rank_perc, ")", sep = ""))
+
 
 nontrop_kw_2 <- plot_kw %>%
   filter(cat == "general") %>%
   select(final, cat, rank_perc, system) %>%
   mutate(final = paste("(", rank_perc, ") ", final, sep = ""))
 
-trop<-trop_kw %>% filter(rank_perc<=cutoff) %>% anti_join(in_both,by="original") %>% select(cat,final,system_tropical=system)
+trop <- trop_kw %>%
+  filter(rank_perc <= cutoff) %>%
+  anti_join(in_both, by = "original") %>%
+  select(cat, final, system_tropical = system)
 
-not<-nontrop_kw %>% filter(rank_perc<=cutoff) %>% anti_join(in_both,by="original")%>% select(cat,final,system_general=system) 
+not <- nontrop_kw %>%
+  filter(rank_perc <= cutoff) %>%
+  anti_join(in_both, by = "original") %>%
+  select(cat, final, system_general = system)
 
-both<-inner_join(trop_kw,in_both,by="original") %>% 
-  inner_join(nontrop_kw,in_both,by="original") %>% 
-  mutate(final.x=paste(original," (", rank_perc.x,", ",rank_perc.y,")",sep="")) %>% 
-  rename(rank_perc_trop=rank_perc.x,
-         rank_perc_non=rank_perc.y,
-         system=system.x
-         ) %>% 
-  select(-system.y,-final.y) %>% 
-  filter(is.na(original)==FALSE) %>% 
-  filter(rank_perc_trop<=cutoff) %>% 
-  filter(rank_perc_non<=cutoff) %>% 
-  select(final=final.x,system_both=system) %>% mutate(cat="both")
-
-df_table1<-bind_rows(trop,not,both) %>% 
-  mutate(index=row_number()) %>%  
-  pivot_wider(values_from = "final",names_from = "cat") %>%
-  group_by(index) %>%  # this and the next two lines are to move numbers up in the place of the empty NA
-  mutate_all(funs(.[order(is.na(.))])) %>% 
-  filter_at(vars(tropical:general), any_vars(!is.na(.))) %>% 
-  # select(-index) %>% 
+both <- inner_join(trop_kw, in_both, by = "original") %>%
+  inner_join(nontrop_kw, in_both, by = "original") %>%
+  mutate(final.x = paste(original, " (", rank_perc.x, ", ", rank_perc.y, ")", sep = "")) %>%
+  rename(
+    rank_perc_trop = rank_perc.x,
+    rank_perc_non = rank_perc.y,
+    system = system.x
+  ) %>%
+  select(-system.y, -final.y) %>%
+  filter(is.na(original) == FALSE) %>%
+  filter(rank_perc_trop <= cutoff) %>%
+  filter(rank_perc_non <= cutoff) %>%
+  select(final = final.x, system_both = system) %>%
+  mutate(cat = "both")
+df_table1 <- bind_rows(trop, not, both) %>%
+  mutate(index = row_number()) %>%
+  pivot_wider(values_from = "final", names_from = "cat") %>%
+  group_by(index) %>% # this and the next two lines are to move numbers up in the place of the empty NA
+  mutate_all(funs(.[order(is.na(.))])) %>%
+  filter_at(vars(tropical:general), any_vars(!is.na(.))) %>%
+  # select(-index) %>%
   remove_empty("rows") %>%
-    mutate(tropical = cell_spec(tropical, bold=ifelse(system_tropical == "Y", TRUE, FALSE))) %>%
-  mutate(general = cell_spec(general, bold=ifelse(system_general == "Y", TRUE, FALSE))) %>%
-  mutate(both = cell_spec(both, bold=ifelse(((is.na(system_both)==FALSE) & (system_both == "Y")), TRUE, FALSE))) %>%
-  mutate(both=gsub("NA", " ", both)) %>%
-  ungroup() %>% 
-  select(-index,-system_both,-system_tropical,-system_general) 
+  mutate(tropical = cell_spec(tropical, bold = ifelse(system_tropical == "Y", TRUE, FALSE))) %>%
+  mutate(general = cell_spec(general, bold = ifelse(system_general == "Y", TRUE, FALSE))) %>%
+  mutate(both = cell_spec(both, bold = ifelse(((is.na(system_both) == FALSE) & (system_both == "Y")), TRUE, FALSE))) %>%
+  mutate(both = gsub("NA", " ", both)) %>%
+  ungroup() %>%
+  select(-index, -system_both, -system_tropical, -system_general)
 
 
-df_table1 %>% 
+df_table1 %>%
   kbl(
     caption = "Top keywords in tropical articles, non-tropical articles, and keywords that the categories havein common. Keywords in bold refer to species, geographic locations, or systems.",
-      col.names = c("(rank)",
-                   "(rank)",
-                   "(rank in Tropical, Non-Tropical)"
-                   ),
-      escape = FALSE,
-      align = "ccc", 
-     # "latex", 
-       booktabs = T, 
-     linesep = "", # removes the blank line after every 5 lines 
-     row.names = FALSE) %>%  
- kable_styling( 
-   bootstrap_options = c("hover"), 
-   full_width = F, 
-   latex_options="scale_down", 
-   font_size = 10, 
-   position = "center" 
- ) %>%
-    add_header_above(c("Tropical: Unique Top Keywords" = 1, 
-                     "Non-Tropical: Unique Top Keywords" = 1,
-                     "Shared Top Keywords" = 1), 
-                   line=FALSE)  
+    col.names = c(
+      "(rank)",
+      "(rank)",
+      "(rank in Tropical, Non-Tropical)"
+    ),
+    escape = FALSE,
+    align = "ccc",
+    # "latex",
+    booktabs = T,
+    linesep = "", # removes the blank line after every 5 lines
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("hover"),
+    full_width = F,
+    latex_options = "scale_down",
+    font_size = 10,
+    position = "center"
+  ) %>%
+  add_header_above(
+    c(
+      "Tropical: Unique Top Keywords" = 1,
+      "Non-Tropical: Unique Top Keywords" = 1,
+      "Shared Top Keywords" = 1
+    ),
+    line = FALSE
+  )
 ```
 
 \newpage
@@ -497,7 +515,7 @@ pubs_per_pub_cat <- kw %>%
 
 # Top Keywords by pub cat
 rankings_pub <- kw %>%
-  filter(system=="N") %>% 
+  filter(system == "N") %>%
   group_by(pub_cat_2, final) %>%
   tally() %>%
   arrange(pub_cat_2, desc(n)) %>%
@@ -508,132 +526,142 @@ rankings_pub <- kw %>%
   mutate(perc_pubs_wth_kw = (n / n_pubs * 100)) %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
-  mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) %>%
-  arrange(desc(pub_cat_2),rank_perc) %>% 
-  filter(rank_perc<=cutoff*100)
+  mutate(rank_perc = rank(desc(n), ties.method = c("random"))) %>%
+  arrange(desc(pub_cat_2), rank_perc) %>%
+  filter(rank_perc <= cutoff * 100)
 
 
 
 in_both <- rankings_pub %>%
-  filter(rank_perc<=cutoff) %>% 
+  filter(rank_perc <= cutoff) %>%
   group_by(final) %>%
   summarise(n2 = n()) %>%
   filter(n2 > 1) %>%
-  mutate(both = TRUE) %>% 
-  mutate(original=final)
+  mutate(both = TRUE) %>%
+  mutate(original = final)
 
-plot_kw <- full_join(rankings_pub, in_both, by = "final") %>% 
-  select(-n2) %>% 
+plot_kw <- full_join(rankings_pub, in_both, by = "final") %>%
+  select(-n2) %>%
   replace_na(list(
     "both" = FALSE
-    )) %>% 
-  rename(cat=pub_cat_2) 
+  )) %>%
+  rename(cat = pub_cat_2)
 
-top_kw_system<-kw %>% 
-  select(final,system) %>% 
+top_kw_system <- kw %>%
+  select(final, system) %>%
   unique()
-plot_kw<-left_join(plot_kw,top_kw_system)
+plot_kw <- left_join(plot_kw, top_kw_system)
 
 
 trop_kw <- plot_kw %>%
   filter(cat == "tropical") %>%
-  select(final, cat, rank_perc) 
+  select(final, cat, rank_perc)
 
 nontrop_kw <- plot_kw %>%
   filter(cat == "general") %>%
-  select(final, cat, rank_perc) 
+  select(final, cat, rank_perc)
 
 
-tropical<-trop_kw %>%
-  filter(rank_perc<=cutoff) %>%
-  anti_join(in_both,by="final") %>%
-  rename(rank_trop=rank_perc) %>%
-  left_join(top_kw_system) %>% 
-  rename(system_tropical = system) 
+tropical <- trop_kw %>%
+  filter(rank_perc <= cutoff) %>%
+  anti_join(in_both, by = "final") %>%
+  rename(rank_trop = rank_perc) %>%
+  left_join(top_kw_system) %>%
+  rename(system_tropical = system)
 
-not<-nontrop_kw %>% 
-  filter(rank_perc<=cutoff) %>% 
-  anti_join(in_both,by="final") %>% 
-  rename(rank_not=rank_perc) %>% 
-left_join(top_kw_system) %>% 
-  rename(system_general = system) 
+not <- nontrop_kw %>%
+  filter(rank_perc <= cutoff) %>%
+  anti_join(in_both, by = "final") %>%
+  rename(rank_not = rank_perc) %>%
+  left_join(top_kw_system) %>%
+  rename(system_general = system)
 
 
-both<- inner_join(trop_kw,in_both,by="final") %>% 
-  inner_join(nontrop_kw,in_both,by="final") %>% 
-  rename(rank_perc_trop=rank_perc.x,
-         rank_perc_non=rank_perc.y
-         ) %>% 
-  select(-cat.y,-n2,-both,-original,-cat.y,-cat.x) %>% 
-  filter(is.na(final)==FALSE) %>% 
-  filter(rank_perc_trop<=cutoff) %>% 
-  filter(rank_perc_non<=cutoff) %>% 
-  mutate(cat="both") %>% 
-  left_join(top_kw_system) %>% 
-  rename(system_both = system) 
-  
+both <- inner_join(trop_kw, in_both, by = "final") %>%
+  inner_join(nontrop_kw, in_both, by = "final") %>%
+  rename(
+    rank_perc_trop = rank_perc.x,
+    rank_perc_non = rank_perc.y
+  ) %>%
+  select(-cat.y, -n2, -both, -original, -cat.y, -cat.x) %>%
+  filter(is.na(final) == FALSE) %>%
+  filter(rank_perc_trop <= cutoff) %>%
+  filter(rank_perc_non <= cutoff) %>%
+  mutate(cat = "both") %>%
+  left_join(top_kw_system) %>%
+  rename(system_both = system)
 
-df_table2<-bind_rows(tropical,not,both) %>% 
-  left_join(top_kw_system) %>% 
-  mutate(index=row_number()) %>%  
-  pivot_wider(values_from = "final",names_from = "cat") %>%
-  group_by(index) %>%  # this and the next two lines are to move numbers up in the place of the empty NA
-  mutate_all(funs(.[order(is.na(.))])) %>% 
-  filter_at(vars(tropical:general), any_vars(!is.na(.))) %>% 
-  select(-index) %>% 
+
+df_table2 <- bind_rows(tropical, not, both) %>%
+  left_join(top_kw_system) %>%
+  mutate(index = row_number()) %>%
+  pivot_wider(values_from = "final", names_from = "cat") %>%
+  group_by(index) %>% # this and the next two lines are to move numbers up in the place of the empty NA
+  mutate_all(funs(.[order(is.na(.))])) %>%
+  filter_at(vars(tropical:general), any_vars(!is.na(.))) %>%
+  select(-index) %>%
   remove_empty("rows") %>%
-  mutate(across(c(tropical,general,both),  
-               ~ case_when(is.na(.)==TRUE~ "",  
-                           is.na(.)==FALSE ~.))) %>% 
-  relocate(rank_trop,.before=tropical) %>% 
-  relocate(rank_not,.before =general) %>% 
-  relocate(rank_perc_trop,.before=both) %>% 
-  relocate(rank_perc_non,.before=both) %>% 
-  ungroup() %>% 
-  select(-index) %>% 
-  mutate(tropical=paste(tropical, " (",rank_trop,")", sep="")) %>% 
-  mutate(both=paste(both, " (",rank_perc_trop,",",rank_perc_non,")", sep="")) %>%
-  mutate(general=paste(general, " (",rank_trop,")", sep="")) %>% 
- mutate(both=gsub("\\(NA,NA\\)","",both)) %>% 
-    mutate(tropical = cell_spec(tropical, bold=ifelse(system_tropical == "Y", TRUE, FALSE))) %>%
-  mutate(general = cell_spec(general, bold=ifelse(system_general == "Y", TRUE, FALSE))) %>%
-  mutate(both = cell_spec(both, bold=ifelse(((is.na(system_both)==FALSE) & (system_both == "Y")), TRUE, FALSE))) %>%
-  mutate(both=gsub("NA", " ", both)) %>%
-  mutate(tropical=gsub("NA", " ", tropical)) %>%
-  mutate(general=gsub("NA", " ", general)) %>%
+  mutate(across(
+    c(tropical, general, both),
+    ~ case_when(
+      is.na(.) == TRUE ~ "",
+      is.na(.) == FALSE ~ .
+    )
+  )) %>%
+  relocate(rank_trop, .before = tropical) %>%
+  relocate(rank_not, .before = general) %>%
+  relocate(rank_perc_trop, .before = both) %>%
+  relocate(rank_perc_non, .before = both) %>%
+  ungroup() %>%
+  select(-index) %>%
+  mutate(tropical = paste(tropical, " (", rank_trop, ")", sep = "")) %>%
+  mutate(both = paste(both, " (", rank_perc_trop, ",", rank_perc_non, ")", sep = "")) %>%
+  mutate(general = paste(general, " (", rank_trop, ")", sep = "")) %>%
+  mutate(both = gsub("\\(NA,NA\\)", "", both)) %>%
+  mutate(tropical = cell_spec(tropical, bold = ifelse(system_tropical == "Y", TRUE, FALSE))) %>%
+  mutate(general = cell_spec(general, bold = ifelse(system_general == "Y", TRUE, FALSE))) %>%
+  mutate(both = cell_spec(both, bold = ifelse(((is.na(system_both) == FALSE) & (system_both == "Y")), TRUE, FALSE))) %>%
+  mutate(both = gsub("NA", " ", both)) %>%
+  mutate(tropical = gsub("NA", " ", tropical)) %>%
+  mutate(general = gsub("NA", " ", general)) %>%
   # mutate(both=ifelse(is.na(system_both)==TRUE, NA, both)) %>%
-  ungroup() %>% 
-  select(tropical,general,both) 
+  ungroup() %>%
+  select(tropical, general, both)
 
-df_table2 %>% 
+df_table2 %>%
   kbl(
     caption = "Top keywords from tropical and non-tropical articles that are unique to each category once system-specific keywords have been excluded, followed by the top keywords from each category that they have in common. Keywords in bold refer to species, geographic locations, or systems.",
-      col.names = c("(rank)",
-                   "(rank)",
-                   "(rank in Tropical, Non-Tropical)"
-                   ),
-      escape = TRUE,
-      align = "ccc", 
-     # "latex", 
-       booktabs = T, 
-     linesep = "", # removes the blank line after every 5 lines 
-     row.names = FALSE) %>%  
- kable_styling( 
-   bootstrap_options = c("hover"), 
-   full_width = F, 
-   latex_options="scale_down", 
-   font_size = 10, 
-   position = "center" 
- ) %>%
-    add_header_above(c("Tropical: Unique Top Keywords" = 1,
-                     "Non-Tropical: Unique Top Keywords" = 1,
-                     "Shared Top Keywords" = 1), 
-                   line=FALSE) 
-
+    col.names = c(
+      "(rank)",
+      "(rank)",
+      "(rank in Tropical, Non-Tropical)"
+    ),
+    escape = TRUE,
+    align = "ccc",
+    # "latex",
+    booktabs = T,
+    linesep = "", # removes the blank line after every 5 lines
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("hover"),
+    full_width = F,
+    latex_options = "scale_down",
+    font_size = 10,
+    position = "center"
+  ) %>%
+  add_header_above(
+    c(
+      "Tropical: Unique Top Keywords" = 1,
+      "Non-Tropical: Unique Top Keywords" = 1,
+      "Shared Top Keywords" = 1
+    ),
+    line = FALSE
+  )
 ```
 
 ```{r fig-org, fig.align="center", out.height = "90%",out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
-ggdraw() + draw_image('./figures/slide1.png')
+ggdraw() + draw_image("./figures/slide1.png")
 ```
 
 
