@@ -1,15 +1,70 @@
-```{r setup, include = FALSE}
-
+```{r GlobalOptions, include = FALSE}
+# options(knitr.duplicate.label = 'allow')
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+options(knitr.table.format = "latex")
+options(
+  knitr.duplicate.label = "allow",
+  knitr.kable.NA = ""
+)
+knitr::opts_knit$set(eval.after = "fig.cap")
+# knitr::opts_chunk$set(fig.pos = 'h')
+# library("papaja")
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(gridExtra)
 library(kableExtra)
-library(here)
-library(egg)
-library(cowplot)
-library(ggpattern)
 library(knitr)
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
-knitr::opts_knit$set(eval.after = "fig.cap")
+library(cowplot)
+library(here)
+library(magick)
+library(xfun)
+library(stopwords)
+library(tidytext)
+library(janitor)
+
+# 
+# cutoff <- 50
+# start_yr <- 1990
+# end_yr <- 2022
+# 
+# titles_ms <- read_csv(here("data", "data_ms", "journal_titles.csv"), col_names = TRUE)
+# 
+# tw <- read_csv(here("data", "data_ms", "tw_ms.csv"), col_names = TRUE) %>%
+#   filter(PY >= start_yr) %>%
+#   filter(PY <= end_yr)
+# 
+# kw <- read_csv(here("data", "data_ms", "kw_ms.csv"), col_names = TRUE) %>%
+#   filter(PY >= start_yr) %>%
+#   filter(PY <= end_yr)
+# 
+# terms <- read_csv(here("data", "data_ms", "terms.csv"), col_names = TRUE) %>%
+#   filter(PY >= start_yr) %>%
+#   filter(PY <= end_yr)
+# 
+# system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE) %>%
+#   filter(geo==TRUE)
+# 
+# 
+# titles_string <- titles_ms %>%
+#   select(-jrnl_cat) %>%
+#   pivot_wider(names_from = SO, values_from = title) %>%
+#   unite(titles_string, 1:nrow(titles_ms), sep = ", ")
+
+n_jrnls <- kw %>%
+  select(SO) %>%
+  summarize(n = n_distinct(SO))
+
+
+# N of publications
+n_pubs <- kw %>% summarize(n = n_distinct(refID))
+n_pubs_trop <- kw %>%
+  filter(pub_cat_2 == "tropical") %>%
+  summarize(n = n_distinct(refID))
+n_pubs_gen <- kw %>%
+  filter(pub_cat_2 == "general") %>%
+  summarize(n = n_distinct(refID))
+
+
 ```
 
 \renewcommand{\appendixname}{Supporting Information}
@@ -54,6 +109,21 @@ knitr::opts_knit$set(eval.after = "fig.cap")
 
 
 ```{r biblio_stats, include = FALSE,echo = FALSE,message=FALSE,warning=FALSE}
+
+# N of publications
+
+n_pubs_terms <- terms %>% select(refID) %>% n_distinct()
+n_pubs_terms <- as.numeric(n_pubs_terms)
+
+n_pubs_trop <- kw %>%
+  filter(pub_cat_2 == "tropical") %>%
+  summarize(n = n_distinct(refID))
+n_pubs_gen <- kw %>%
+  filter(pub_cat_2 == "general") %>%
+  summarize(n = n_distinct(refID))
+# # N of keywords
+n_kw <- kw %>% summarize(n = n_distinct(final))
+
 # How many articles in each journal used in KW analysis
 kw_articles <- kw %>%
   select(refID, title, jrnl_cat, pub_cat_2) %>%
@@ -107,6 +177,15 @@ kw_articles_plot <- ggplot(
     axis.title.x = element_blank()
   )
 
+
+# TITLES / BIGRAMS
+
+bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
+
+bigrams_count <- bigrams %>%
+  unite("bigram", word1:word2, sep = " ") %>%
+  tally()
+
 # How many articles in each journal used in TW analysis
 
 tw_articles <- tw %>%
@@ -158,13 +237,18 @@ tw_articles_plot <- ggplot(
     axis.title.x = element_blank()
   )
 
+
+
+# Both 
+
 ```
 
 ## 1. Collection, processing, and visualization of bibliometric data 
 
-\noindent To identify the conceptual domains studied by researchers working in 'Tropical' and "non-Tropical' locations, I used information extracted from the bibliographic records of articles published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in N = `r n_jrnls` journals (_`r titles_string`_). Specifically, I analyzed two complementary structural elements with which authors describe the content of their articles -- the title and keywords. Below I describe how the article records were identified, downloaded, processed, and assigned to the 'Tropical' and "non-Tropical' categories using code written in the `R` programming language [@rcoreteamLanguageEnvironmentStatistical2023].  
-    On 8 February 2023, I downloaded all bibliographic data available in SCOPUS and the Web of Science 'Core Collection' for all articles published in the focal journals; both SCOPUS and the Web of Science were queried because they differ in the years indexed for each journal. I then used the `refsplitr` package [@fournierRefsplitrAuthorName2020] to process the records and remove any duplicates. After removing all stopwords [@benoitStopwordsMultilingualStopword2021] from article titles and keywords, I spell-checked, stemmed, and lemmatized all of the keywords and title words and extracted the bigrams (i.e., pairs of sequential words, e.g., _seed predation_, _species diversity_) from titles with the `tidytext` library [@silgeTidytextTextMining2016]. Finally, I identified each article as either 'Tropical' or 'non-Tropical'; all articles published in (_`r titles_string`_) were assigned to the 'Tropical' category, while articles published in the other journals were assigned to one of these categories based on a search of the titles, keywords, or abstracts for a list of domain-specific terms (e.g., tropical: _amazon_, _andes_, _congo_, _bci_, _chamela_; non-tropical: _finland_, _boreal_, _eastern decid_, _arctic_, _polar_). These procedures resulted in N = `r scales::comma(as.numeric(n_pubs))` total articles published, of which N = `r scales::comma(as.numeric(n_pubs_trop))` reported research conducted in the tropics and N = `r scales::comma(as.numeric(n_pubs_gen))` were based on work conducted in other locations. Collectively, these articles used N = `r scales::comma(as.numeric(n_kw))` and N = `r scales::comma(as.numeric(bigrams_count))` title bigrams.  
-    The number of articles varies widely between journals, as does the number of keywords per article. Comparing counts of keyword frequency in tropical and non-tropical articles could therefore bias results towards the content published a small number of journals. To correct for this, I calculated the percentage of articles in each geographic category that using each keyword or title bigram. I then selected the N = `r cutoff` most frequently used terms in each geographic category, and identified (a) any terms that 'tropical' and 'non-tropical' articles had in common, and (b) any terms that were unique to each article category.  
+\noindent To identify the conceptual domains studied by researchers working in 'Tropical' and "non-Tropical' locations, I used information extracted from the bibliographic records of articles published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in N = `r n_jrnls` journals (_`r titles_string`_). Specifically, I extracted and summarized the information from two structural components used by authors to describe the subject of their articles: the title and keywords. These provide distinct but complementary information, and so they are often analyzed both independently and in unison. Below I describe how the article records were identified, downloaded, processed, and assigned to the 'Tropical' and "non-Tropical' categories using code written in the `R` programming language [@rcoreteamLanguageEnvironmentStatistical2023].  
+    On 8 February 2023, I downloaded all bibliographic data available in SCOPUS and the Web of Science 'Core Collection' for all articles published in the focal journals; both SCOPUS and the Web of Science were queried because they differ in the years indexed for each journal. I then used the `refsplitr` package [@fournierRefsplitrAuthorName2020] to process the records and remove any duplicates. After removing all stopwords [@benoitStopwordsMultilingualStopword2021] from article titles and keywords, I spell-checked, stemmed, and lemmatized all of the keywords and title words and extracted the bigrams (i.e., pairs of sequential words, e.g., _seed predation_, _species diversity_) from titles with the `tidytext` library [@silgeTidytextTextMining2016]. Finally, I identified each article as either 'Tropical' or 'non-Tropical'; all articles published in (_`r titles_string`_) were assigned to the 'Tropical' category, while articles published in the other journals were assigned to one of these categories based on a search of the titles, keywords, or abstracts for a list of domain-specific terms (e.g., tropical: _amazon_, _andes_, _congo_, _bci_, _chamela_; non-tropical: _finland_, _boreal_, _eastern decid_, _arctic_, _polar_). These procedures resulted in N = `r scales::comma(as.numeric(n_pubs))` total articles published, of which N = `r scales::comma(as.numeric(n_pubs_trop))` reported research conducted in the tropics and N = `r scales::comma(as.numeric(n_pubs_gen))` were based on work conducted in other locations. 
+    Collectively, the N = `r scales::comma(as.numeric(sum(tw_articles$n)))` contained a total of N = `r scales::comma(as.numeric(bigrams_count))` bigrams. Not all of the articles included keywords, however; from the the N = `r scales::comma(as.numeric(sum(kw_articles$n)))` that did I was able to extract a total of N = `r scales::comma(as.numeric(n_kw))`. There were N = `r scales::comma(as.numeric(n_pubs_terms))` articles from which I was able to extract both title bigrams and keywords. I used these sets of articles to conduct three geographic comparisons: (1) title bigrams, (2) keywords, and (3) title bigrams + keywords (hereafter, 'terms').
+    The number of articles varies widely between journals, as does the number of keywords per article or title length. Comparing counts of keyword, bigram, or term frequency in tropical and non-tropical articles could therefore bias results towards the content published a journals allowing more keywords or journals publishing more articles. To correct for this, I calculated the percentage of articles in each geographic category that used each keyword, title bigram, or term. I then selected the N = `r cutoff` most frequently used in each geographic category, and identified (a) any keywords, bigrams, or terms that 'tropical' and 'non-tropical' articles had in common, and (b) any keywords, bigrams, or terms that were unique to each article category.  
 
 ## 2. Data and Code
 
@@ -189,6 +273,25 @@ tw_articles_plot <- ggplot(
 \newpage
 ```
 
+```{r allterms, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common terms (keywords + title bigrams) from articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of articles in each category that included them. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.')} 
+
+source(here("code","plot_kw_bar.R"))
+breaks_vec<-seq(0, 10, by = .5)
+min_x<- -1.7
+max_x<-10
+kw_fig<-barplot_words(terms,cutoff,min_x,max_x,breaks_vec)
+
+ggsave("allterms_fig.jpeg", 
+       path = "./figures", 
+       dpi=700,
+       width = 10,
+       height = 7,
+       units = c("in")
+)
+
+ggdraw() + draw_image("./figures/allterms_fig.jpeg", scale = 1)
+```
+\newpage
 
 ```{r keywords, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common keywords from articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of articles in each category that included them. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.')} 
 
