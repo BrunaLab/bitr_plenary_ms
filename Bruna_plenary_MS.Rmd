@@ -29,7 +29,11 @@ note: |
   \flushleft Received:______; Revised:______; Accepted:______.  
   
 
-abstract:    "The ecosystems of The Tropics comprise the majority of the planet’s biodiversity, approximately 40% of its terrestrial surface area, and half the human population. Depsite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption, and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology."
+abstract: |
+  
+    | The ecosystems of The Tropics comprise the majority of the planet’s biodiversity, approximately 40% of its terrestrial surface area, and half the human population. Depsite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption, and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology.  
+
+    | Los ecosistemas tropicales contienen la mayor parte de la biodiversidad del planeta, aproximadamente el 40% de su superficie terrestre y la mitad de la población humana. Aún así, la biología tropical ha sido históricamente conceptualizada como una subdisciplina especializada de las ciencias biológicas. Evalué este supuesto y concluí que su validez depende del marco analítico y de la evidencia utilizada para evaluarlo. Sugiero que el camino a seguir para la disciplina no es que los biólogos tropicales abandonen el adjetivo geográfico que los une, sino más bien volver a centrar los trópicos como base fundamental de la ecología y la biología evolutiva.
 
 keywords: "bibliometrics, collaboration, colonialism, Global South, scholarly societies, scientometrics, temperate, text-mining"
 
@@ -48,10 +52,10 @@ footnotelist      : no
 classoption       : "man, donotrepeattitle" # suppresses title on 1st page of MSoutput            "
 appendix: "./bruna_supplement.Rmd"
 output:
-  papaja::apa6_pdf:
-    keep_tex: true
-  # papaja::apa6_doc:
+  # papaja::apa6_pdf:
   #   keep_tex: true
+  papaja::apa6_doc:
+    keep_tex: true
 mainfont: Times New Roman
 fontsize: 12pt
 csl: "biotropica.csl"
@@ -122,14 +126,17 @@ titles_ms <- read_csv(here("data", "data_ms", "journal_titles.csv"), col_names =
 
 tw <- read_csv(here("data", "data_ms", "tw_ms.csv"), col_names = TRUE) %>%
   filter(PY >= start_yr) %>%
-  filter(PY <= end_yr)
+  filter(PY <= end_yr) 
 
 kw <- read_csv(here("data", "data_ms", "kw_ms.csv"), col_names = TRUE) %>%
   filter(PY >= start_yr) %>%
-  filter(PY <= end_yr)
+  filter(PY <= end_yr) 
 
 system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE) %>% 
   filter(geo==TRUE)
+
+
+
 ```
 
 \onehalfspacing
@@ -159,9 +166,9 @@ Sixty years on many of us find ourselves similarly frustrated. Tropical field st
 <!-- \bigskip -->
 
 \noindent One means of assessing if _Tropical_ Biology is a distinct academic discipline is by considering the communities into which scientists self-organize. Scholarly societies are one such community; their establishment requires both an intellectual pursuit with which individuals identify and a critical mass of like-minded individuals in search of community. Some of these communities coalesce around broad conceptual domains (e.g., _Evolutionary_ Biology, _Conservation_ Biology, _Integrative_ Biology; Figure \@ref(fig:fig-org)A). Still others bring together individuals from different conceptual domains that share an interest in a particular system (e.g., _Avian_ Biology, _Island_ Biology; Figure \@ref(fig:fig-org)B). Finally, some scholarly societies comprise individuals using a common methodological framework to study disparate systems or address questions from distinct conceptual domains (e.g., _Molecular_ Biology, _Mathematical_ Biology, _Experimental_ Biology; Figure \@ref(fig:fig-org)C).   
-    _Tropical_ Biology fails to align with any of these constructs. Its practitioners investigate fundamental questions across conceptual domains with a broad range of methodological approaches and study systems. This intellectual diversity was cogently summarized by the historian Megan Raby: "The work that tropical biologists do is nearly as diverse as the ecosystems they study" [@raby2017american p. 5]. Moreover, the "geographic pigeonhole" [_sensu_ @raby2017american] that presumably unites this community of scientists --- the adjective 'tropical' --- is itself challenging to operationalize. Formally, _The Tropics_ are the band of the Earth's surface receiving at least one day of direct overhead sunlight per year; this region is delineated by the Tropics of Capricorn and Cancer (23°26'10.4" S and N, respectively). However, the ranges of many 'tropical' species and ecosystems extend far beyond these boundaries^[Perhaps the most extreme examples are migratory birds such as the northern wheatear (_Oenanthe oenanthe_), which fly over 14,000 km from sub-Saharan Africa to their breeding grounds in the Arctic [@bairleinCrosshemisphereMigration252012]], which is in part why @feeleyWhereEarthAre2018 identified no less than eight distinct criteria by which authors to define 'tropical' systems. How then is it that _Tropical_ Biology - whose practitioners conduct research in habitats ranging from rain forests to savannas - can came to be seen as a specialized subdicipline despite the lack the sharp boundaries around which scientific groups typically coalesce?  
+    _Tropical_ Biology fails to align with any of these constructs. Its practitioners investigate fundamental questions across conceptual domains with a broad range of methodological approaches and study systems. This intellectual diversity was cogently summarized by the historian Megan Raby: "The work that tropical biologists do is nearly as diverse as the ecosystems they study" [@raby2017american p. 5]. Moreover, the "geographic pigeonhole" [_sensu_ @raby2017american] that presumably unites this community of scientists --- the adjective 'tropical' --- is itself challenging to operationalize. Formally, _The Tropics_ are the band of the Earth's surface receiving at least one day of direct overhead sunlight per year; this region is delineated by the Tropics of Capricorn and Cancer (23°26'10.4" S and N, respectively). However, the ranges of many 'tropical' species and ecosystems extend far beyond these boundaries^[Perhaps the most extreme examples are migratory birds such as the northern wheatear (_Oenanthe oenanthe_), which fly over 14,000 km from sub-Saharan Africa to their breeding grounds in the Arctic [@bairleinCrosshemisphereMigration252012]], which is in part why @feeleyWhereEarthAre2018 identified no less than eight distinct criteria by which authors to define 'tropical' systems. How then is it that _Tropical_ Biology - whose practitioners conduct research in habitats ranging from rain forests to savannas - came to be seen as a specialized subdicipline despite the lack the sharp boundaries around which scientific groups typically coalesce?  
     
-This contemporary perception of 'The Tropics' as distant and special is the result of centuries of historical and cultural reinforcement [@driverConstructingTropicsIntroduction2000; @arnold1996problem; @miller2011visions; @stepan2001picturing; @miller2011visions]. The first Europeans to visit the tropics returned with vivid, captivating, and frequently pejorative descriptions of the places and people they encountered [@inbook]. Their stories and images established and inculcated a number of persistent and often contradictory tropes about tropical regions and people that were then repeated and reinterpreted by subsequent visitors [@stepan2001picturing; @smithEuropeanVisionSouth1950]. The historian David @arnold1996problem has argued that these narratives of _Tropicality_ [_sensu_ @alma9913280634202441] allowed Europeans to justify colonial expansion by defining the region as environmentally and culturally distinct while simultaneously superimposing on its remarkable diversity a generic and simplified identity -- _The Tropics_.
+This contemporary perception of 'The Tropics' as distant and special is the result of centuries of historical and cultural reinforcement [@driverConstructingTropicsIntroduction2000; @arnold1996problem; @miller2011visions; @stepan2001picturing; @miller2011visions]. The first Europeans to visit the tropics returned with vivid, captivating, and frequently pejorative descriptions of the places and people they encountered [@inbook]. Their stories and images established and inculcated a number of persistent and often contradictory tropes about tropical regions and people that were then repeated and reinterpreted by subsequent visitors [@stepan2001picturing; @smithEuropeanVisionSouth1950]. The historian David @arnold1996problem has argued that these narratives of "Tropicality" [_sensu_ @alma9913280634202441] allowed Europeans to justify colonial expansion by defining the region as environmentally and culturally distinct while simultaneously superimposing on its remarkable diversity a generic and simplified identity: _The Tropics_.
    
 The narratives of naturalists such as von Humboldt, Darwin, and Wallace were both informed by and reinforced these conceptions of the tropics as 'distant' and 'other' [@raby2017american]. Their writing and ideas then inspired many of the scientists central to the coalescing sciences of ecology and evolutionary biology, who were themselves immersed in a cultural milieu that viewed _The Tropics_ as 'distant' and 'exotic'. However, as @raby2017american elegantly demonstrates, the scientific frameworks these disciplinary pioneers put forward, including the unique status of _Tropical_ Biology, were not simply distillations of prevailing cultural and environmental tropes. Instead they emerged from the complex interplay of European colonialism, the expansion of US hegemony in Latin America and the Caribbean at the turn of the twentieth century, and the construction of tropical field stations for use by North American scientists that accompanied this expansion. The role of this scientific colonialism at such a pivotal moment of scientific consolidation cannot be overstated. As @richardsWhatTropicsCan1963 explains, "the science of ecology developed first in central Europe, Scandinavia and Britain and very slightly later in the United States. The ideas and concepts with which it started were therefore inevitably based on the conditions in a temperate climate" [see also @webbBiologyTropics1960; @buechnerContributionWorldProgram1967; @ripleyPerspectivesTropicalBiology1967]. The same would be true of subsequent studies testing and refining these fundamental concepts, further reinforcing the "temperate bias" [_sensu_ @zukTemperateAssumptionsHow2016] in the leading journals of the day. While engagement with the burgeoning community of field biologists in tropical countries could have expanded the prevailing theories to make them more general, these scientists were rarely to work at the new US-run field stations [@raby2017american]. Their exclusion from the scientific discourse and literature, coupled with the temperate-centered focus of the early theory, suggests that the distinction between Biology and _Tropical_ Biology is a historical legacy and largely artificial.    
 
@@ -174,480 +181,7 @@ The narratives of naturalists such as von Humboldt, Darwin, and Wallace were bot
 <!-- \bigskip -->
 
 
-```{r biblio1, include = FALSE,echo = FALSE,message=FALSE,warning=FALSE}
-# 
-# 
-# 
-# n_kw <- kw %>% summarize(n = n_distinct(final))
-# 
-# # N of publications
-# n_pubs <- kw %>% summarize(n = n_distinct(refID))
-# n_pubs_trop <- kw %>%
-#   filter(pub_cat_2 == "tropical") %>%
-#   summarize(n = n_distinct(refID))
-# n_pubs_gen <- kw %>%
-#   filter(pub_cat_2 == "general") %>%
-#   summarize(n = n_distinct(refID))
-# 
-# # N of journals
-# n_jrnls <- kw %>%
-#   select(SO) %>%
-#   summarize(n = n_distinct(SO))
-# 
-# n_jrnls_trop <- kw %>%
-#   filter(jrnl_cat == "tropical") %>%
-#   summarize(n = n_distinct(SO)) %>%
-#   mutate(n = numbers_to_words(n))
-# 
-# n_jrnls_gen <- kw %>%
-#   filter(jrnl_cat == "general") %>%
-#   summarize(n = n_distinct(SO)) %>%
-#   mutate(n = numbers_to_words(n))
-# 
-# # time frame:
-# yr_last <- kw %>%
-#   select(PY) %>%
-#   max()
-# yr_first <- kw %>%
-#   select(PY) %>%
-#   min()
-# 
-# titles_string <- titles_ms %>%
-#   select(-jrnl_cat) %>%
-#   pivot_wider(names_from = SO, values_from = title) %>%
-#   unite(titles_string, 1:nrow(titles_ms), sep = ", ")
-# 
-# trop_titles_string <- titles_ms %>%
-#   filter(jrnl_cat == "tropical") %>%
-#   select(-jrnl_cat) %>%
-#   pivot_wider(names_from = SO, values_from = title) %>%
-#   unite(titles_trop, 1:nrow(titles_ms %>% filter(jrnl_cat == "tropical")), sep = ", ")
-# 
-# 
-# # keywords ----------------------------------------------------------------
-# 
-# 
-# terms<-kw %>% 
-#   select(refID,
-#          term=final,
-#          pub_cat=pub_cat_2,
-#          jrnl_cat,
-#          SO,
-#          title,
-#          PY) %>% 
-#   mutate(term_cat="kw")
-# 
-# 
-# 
-# # bigrams -----------------------------------------------------------------
-# 
-# # 
-# #   
-# #   tw_bigrams <- ngram_data %>% 
-# #     select(tw,refID) %>% 
-# #     # slice(1:100) %>% 
-# #     unnest_tokens(bigram, tw, token = "ngrams", n = 2) %>% 
-# #     distinct(refID,bigram)
-# #   
-# #   # %>% 
-# #   #   count(refID,bigram, sort = TRUE)
-# #   bigrams_separated <- tw_bigrams %>% 
-# #     separate(bigram, c("word1", "word2"), sep = " ")
-# #   bigrams_filtered <- bigrams_separated  %>%
-# #     filter(!word1 %in% stop_words$word) %>%
-# #     filter(!word2 %in% stop_words$word) %>% 
-# #     # arrange(desc(n)) %>% 
-# #     filter(str_detect("deleteme",word1,negate=TRUE)) %>% 
-# #     filter(str_detect("deleteme",word2,negate=TRUE)) 
-# #   # slice(1:1000)
-# #   
-# #   
-# #   bigrams_filtered<-bigrams_filtered %>% 
-# #     # filter(nchar(word1)<4) %>%
-# #     mutate(word1_first=substring(word1, 1, 1)) %>% 
-# #     mutate(word2_first=substring(word2, 1, 1)) %>% 
-# #     mutate(number=case_when(
-# #       (str_detect(word1_first,".*[0-9].*")) == TRUE ~ "number",
-# #       (str_detect(word2_first,".*[0-9].*")) == TRUE ~ "number",
-# #       TRUE ~ "keep")) %>% 
-# #     filter(number=="keep") %>% 
-# #     select(-number,-word1_first,-word2_first) %>% 
-# #     unite("bigram",word1:word2, sep = " ")
-#   
-# 
-# 
-# 
-#   
-#   # bind keywords and bigrams -----------------------------------------------
-#   # 
-#   # tw_info<-tw %>% 
-#   #   select(refID,
-#   #   PY,
-#   #   SO,
-#   #   title,
-#   #   pub_cat_2,
-#   #   jrnl_cat,
-#   #   pub_cat) %>% 
-#   #   distinct()
-#   # 
-#   # 
-#   # bigrams<-bigrams_filtered  %>% 
-#   #   rename(original=bigram) %>% 
-#   #   left_join(tw_info,by="refID") %>% 
-#   #   mutate(term_cat="bigram") %>% 
-#   #   select(-pub_cat_2) 
-#   # 
-#   # 
-#   # bigrams<- keyword_editor(bigrams)
-#   # summary(bigrams$original==bigrams$edited)
-#   # bigrams<-keyword_depluralizer(bigrams)
-#   # summary(bigrams$edited==bigrams$singular)
-#   # 
-#   # 
-#   # write_csv(bigrams,here("data","data_ms","clean_bigrams.csv"))
-# 
-#   clean_bigrams<-read_csv(here("data","data_ms","clean_bigrams.csv"))
-#   clean_bigrams<-clean_bigrams %>% 
-#     select(-original,-edited) %>% 
-#     rename(term=singular) %>% 
-#     mutate(PY=as.numeric(PY))
-#   
-#   terms<-bind_rows(terms,clean_bigrams) 
-#   
-#   terms<-terms %>% 
-#     mutate(term=case_when(
-#       term == "lifehistory" ~ "life history",
-#       .default = as.character(term)
-#     ))
-#   terms<-terms %>% 
-#   mutate(system = if_else((term %in% system_list$system == TRUE), "Y", "N")) %>%
-#     mutate(system = as.factor(system)) 
-#   
-#   
-#   
-#   distinct_terms<-terms %>% select(term) %>% distinct()
-#   
-#   
-#   
-# 
-#   terms<-terms %>% filter(SO!="rbt")
-#   
-#   # rankings_pub<-bind_rows(Trop_bigrams,NonTrop_bigrams)
-#   pubs_kw<-terms %>% 
-#     filter(term_cat=="kw") %>% 
-#     select(refID,term_cat,PY,SO,pub_cat) %>% 
-#     distinct() 
-#     
-#   pubs_bigrams<-terms %>% 
-#     filter(term_cat=="bigram") %>% 
-#     select(refID,term_cat,PY,SO,pub_cat) %>% 
-#     distinct() 
-#   
-#   all_pubs<-full_join(pubs_kw,pubs_bigrams,by="refID")
-#   complete_allpubs<-drop_na(all_pubs)
-#   complete_allpubs %>% group_by(pub_cat.x) %>% tally()
-#   
-#   
-# 
-#   top_terms<-terms %>%
-#     drop_na(term) %>%
-#     group_by(term) %>%
-#     tally() %>%
-#     arrange(desc(n))
-# 
-#   
-#   
-#   top_terms_complete<-terms %>%
-#     filter(refID %in% complete_allpubs$refID) %>%
-#     drop_na(term) %>%
-#     group_by(term) %>%
-#     tally() %>%
-#     arrange(desc(n))
-#   
-#   n_complete_trop_pubs<-terms %>% 
-#     filter(pub_cat=="tropical") %>%
-#     select(refID) %>% 
-#     distinct() %>% 
-#     tally()
-#   
-#   n_complete_gen_pubs<-terms %>% 
-#     filter(pub_cat=="general") %>%
-#     select(refID) %>% 
-#     distinct() %>% 
-#     tally()
-#   
-#   
-#   
-#   top_tw_trop<-terms %>%
-#     filter(refID %in% complete_allpubs$refID) %>%
-#     filter(pub_cat=="tropical") %>%
-#     group_by(term) %>%
-#     tally() %>%
-#     arrange(desc(n)) %>%
-#     mutate(perc=n/n_complete_trop_pubs$n*100) %>% 
-#     mutate(rank_perc = rank(desc(perc), ties.method = "random")) %>% 
-#     filter(rank_perc<=50) %>% 
-#     mutate(system = if_else((term %in% system_list$system == TRUE), "Y", "N")) %>% 
-#     mutate(cat = "tropical")
-#   
-#   top_tw_trop
-#   
-#   
-#   
-#   top_tw_gen<-terms %>%
-#     filter(refID %in% complete_allpubs$refID) %>%
-#     filter(pub_cat=="general") %>%
-#     group_by(term) %>%
-#     tally() %>%
-#     arrange(desc(n)) %>%
-#     mutate(perc=n/n_complete_gen_pubs$n*100) %>% 
-#     mutate(rank_perc = rank(desc(perc), ties.method = "random")) %>% 
-#     filter(rank_perc<=50) %>% 
-#     mutate(system = if_else((term %in% system_list$system == TRUE), "Y", "N")) %>% 
-#     mutate(cat = "general")
-#   
-#   top_tw_gen
-#   
-#   
-#   rankings_pub<-bind_rows(top_tw_trop,top_tw_gen)
-#   
-#   
-#   
-# in_both <- rankings_pub %>%
-#   group_by(term) %>%
-#   summarise(n2 = n()) %>%
-#   filter(n2 > 1) %>%
-#   mutate(both = TRUE)
-# 
-# plot_tw <- full_join(rankings_pub, in_both, by = "term") %>% 
-#   select(-n2) %>% 
-#   replace_na(list(
-#     "both" = FALSE
-#   )) %>% 
-#   group_by(cat) %>%
-#   arrange(cat, desc(n)) %>%
-#   mutate(rank_perc = rank(desc(n),  ties.method = c("random"))) 
-# 
-# 
-# 
-# 
-# Trop_bigrams2<-plot_tw %>% 
-#   filter(cat=="tropical") %>% 
-#   mutate(term = paste(term, " (", rank_perc, ")", sep = ""))  %>% 
-#   mutate(term = fct_reorder(term, perc)) 
-# 
-# NonTrop_bigrams2<-plot_tw %>%  
-#   filter(cat=="general") %>% 
-#   mutate(term = paste(term, " (", rank_perc, ")", sep = ""))  %>% 
-#   mutate(term = fct_reorder(term, perc)) 
-# 
-# 
-# 
-# update_geom_defaults("text", list(size = 2))
-# 
-# 
-# tw_trop_bar <- Trop_bigrams2 %>%   # This trick update the factor levels
-#   ggplot(aes(x=term, y=perc,fill = factor(both))) +
-#   # ggplot(aes(x=final, y=perc_pubs_wth_kw))+
-#   geom_bar(stat="identity", color="black") +
-#   scale_fill_manual(values = c("darkgray","lightgray"))+
-#   scale_y_continuous(limits = c(-1.5, 9.5), breaks = seq(0, 9.5, by = .5))+
-#   ylab("Articles with Term in Title or Keywords (%)")+
-#   # ggtitle("Tropics")+
-#   # ylim(0, 4)+
-#   # scale_fill_manual(values = c("white","navy"))+
-#   coord_flip() +
-#   geom_text(
-#     data = Trop_bigrams2, aes(
-#       x = term, y = -.1, 
-#       label = term, 
-#       color = factor(system),
-#       # size= 6,
-#       # fontface = "bold"),
-#       fontface = ifelse(system == "Y", "bold", "plain"),
-#     ),
-#     hjust = "right", vjust = 0, nudge_x = 0, nudge_y = 0.08
-#   ) +
-#   scale_color_manual(values = c("black","navy"))+
-#   # scale_y_discrete(expand = c(0, 2),limits = c(0, 4)) +
-#   theme_classic() + theme(
-#     panel.border = element_blank(), panel.grid.major = element_blank(),
-#     axis.line.y = element_line(color = "black", size = 0.0, lineend = "square"),
-#     axis.line.x = element_line(color = "black", size = 0.5, lineend = "square"),
-#     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), # sets colors of axes
-#     # plot.title = element_text(hjust = 0.8, vjust =-103.5, face = "bold", size = 22, color="navy"), # Sets title size, style, location
-#     axis.title.x = element_text(colour = "black", size = 10, vjust=-3,hjust = 0.6), # sets x axis title size, style, distance from axis #add , face = "bold" if you want bold
-#     axis.title.y = element_blank(),
-#     # axis.title.y = element_text(colour = "black", size = 10, angle = 0, vjust = 0.5), # sets y axis title size, style, distance from axis #add , face = "bold" if you want bold
-#     legend.position = "none",
-#     axis.ticks.y = element_blank(),
-#     axis.text.x = element_text(colour = "black", size = 8),
-#     axis.text.y = element_blank(),
-#     # axis.text.y = element_text(colour = "black", size = 10), # sets size and style of labels on axes
-#     plot.margin = unit(c(1, 1, 1, 1), "cm")
-#   )
-# 
-# tw_trop_bar
-# 
-# # nontrop
-# tw_nontrop_bar <- NonTrop_bigrams2 %>%   # This trick update the factor levels
-#   ggplot(aes(x=term, y=perc,fill = factor(both))) +
-#   # ggplot(aes(x=final, y=perc_pubs_wth_kw))+
-#   geom_bar(stat="identity", color="black") +
-#   scale_fill_manual(values = c("darkgray","lightgray"))+
-#   scale_y_continuous(limits = c(-1.5, 9.5), breaks = seq(0, 9.5, by = .5))+
-#   ylab("Articles with Term in Title or Keywords (%)")+
-#   # ggtitle("Non-Tropical")+
-#   # ylim(0, 4)+
-#   # scale_fill_manual(values = c("white","navy"))+
-#   coord_flip() +
-#   geom_text(
-#     data = NonTrop_bigrams2, aes(
-#       x = term, y = -.1, 
-#       label = term, 
-#       color = factor(system),
-#       # size= 6,
-#       # fontface = "bold"),
-#       fontface = ifelse(system == "Y", "bold", "plain"),
-#     ),
-#     hjust = "right", vjust = 0, nudge_x = 0, nudge_y = 0.08
-#   ) +
-#   scale_color_manual(values = c("black","navy"))+
-#   # scale_y_discrete(expand = c(0, 2),limits = c(0, 4)) +
-#   theme_classic() + theme(
-#     panel.border = element_blank(), panel.grid.major = element_blank(),
-#     axis.line.y = element_line(color = "black", size = 0.0, lineend = "square"),
-#     axis.line.x = element_line(color = "black", size = 0.5, lineend = "square"),
-#     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), # sets colors of axes
-#     # plot.title = element_text(hjust = 0.8, vjust =-103.5, face = "bold", size = 22, color="navy"), # Sets title size, style, location
-#     axis.title.x = element_text(colour = "black", size = 10, vjust=-3,hjust = 0.6), # sets x axis title size, style, distance from axis #add , face = "bold" if you want bold
-#     axis.title.y = element_blank(),
-#     # axis.title.y = element_text(colour = "black", size = 10, angle = 0, vjust = 0.5), # sets y axis title size, style, distance from axis #add , face = "bold" if you want bold
-#     legend.position = "none",
-#     axis.ticks.y = element_blank(),
-#     axis.text.x = element_text(colour = "black", size = 8),
-#     axis.text.y = element_blank(),
-#     # axis.text.y = element_text(colour = "black", size = 10), # sets size and style of labels on axes
-#     plot.margin = unit(c(1, 1, 1, 1), "cm")
-#   )
-# 
-# tw_nontrop_bar
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# bigrams_fig<-plot_grid(tw_trop_bar, tw_nontrop_bar,
-#                        nrow = 1,
-#                        labels=(c("A) Tropics", "B) Non-Tropical")),
-#                        # labels = "AUTO",
-#                        label_size = 12,
-#                        align = "v"
-# )
-# bigrams_fig
-# 
-# 
-# 
-# 
-# # Bigrams
-# 
-# 
-# 
-# bigrams_both<-rankings_pub %>% 
-#   group_by(cat) %>% 
-#   arrange(rank_perc) %>% 
-#   group_by(term,.drop=FALSE) %>% 
-#   tally() %>% 
-#   mutate(cat2=if_else(n>1,"Both",NA)) %>% 
-#   drop_na(cat2) %>% 
-#   select(-n)
-# 
-# bigrams_wide<-rankings_pub %>% 
-#   left_join(bigrams_both,by="term") %>% 
-#   mutate(cat2=if_else(is.na(cat2),cat,cat2)) %>% 
-#   pivot_wider(names_from = cat2,
-#               values_from = term) 
-# 
-# 
-# 
-# bigrams_both<-bigrams_wide %>% ungroup() %>% select(Both) %>% arrange(Both)%>% unique()
-# bigrams_tropical<-bigrams_wide %>% ungroup() %>% select(tropical) %>% arrange(tropical)%>% unique()
-# bigrams_nontropical<-bigrams_wide %>% ungroup() %>% select(`general`) %>% arrange(`general`)%>% unique()
-# 
-# 
-# counter<-max(nrow(bigrams_both),nrow(bigrams_tropical),nrow(bigrams_nontropical))
-# add_bigrams<-as.data.frame(rep(NA,(counter-nrow(bigrams_both))))
-# names(add_bigrams)<-"Both"
-# bigrams_both<-bind_rows(bigrams_both,add_bigrams)
-# 
-# table_bigrams<-bind_cols(bigrams_both,bigrams_tropical,bigrams_nontropical)
-# 
-# table_bigrams<-table_bigrams %>% 
-#   remove_empty("rows") %>% 
-#   mutate(across(c(Both,tropical,`general`), 
-#                 ~ case_when(is.na(.)==TRUE~ "", 
-#                             is.na(.)==FALSE ~.)))
-# 
-# 
-# 
-# kable(table_bigrams,
-#       digits = 2,
-#       align = "ccc",
-#       format = "latex",
-#       row.names = FALSE,
-#       escape = TRUE,
-#       booktabs = T,
-#       linesep = "", # removes the blank line after every 5 lines
-#       caption = "Text Caption"
-# ) %>%
-#   kable_styling(
-#     bootstrap_options = c("hover"),
-#     # full_width = F,
-#     # latex_options="scale_down",
-#     font_size = 12,
-#     position = "center"
-#   )
-
-```
-
-```{r biblio, include = FALSE,echo = FALSE,message=FALSE,warning=FALSE}
-# N of keywords
-n_kw <- kw %>% summarize(n = n_distinct(final))
-
-# N of publications
-n_pubs <- kw %>% summarize(n = n_distinct(refID))
-n_pubs_trop <- kw %>%
-  filter(pub_cat_2 == "tropical") %>%
-  summarize(n = n_distinct(refID))
-n_pubs_gen <- kw %>%
-  filter(pub_cat_2 == "general") %>%
-  summarize(n = n_distinct(refID))
-
-# N of journals
-n_jrnls <- kw %>%
-  select(SO) %>%
-  summarize(n = n_distinct(SO))
-
-n_jrnls_trop <- kw %>%
-  filter(jrnl_cat == "tropical") %>%
-  summarize(n = n_distinct(SO)) %>%
-  mutate(n = numbers_to_words(n))
-
-n_jrnls_gen <- kw %>%
-  filter(jrnl_cat == "general") %>%
-  summarize(n = n_distinct(SO)) %>%
-  mutate(n = numbers_to_words(n))
-
-# time frame:
-yr_last <- kw %>%
-  select(PY) %>%
-  max()
-yr_first <- kw %>%
-  select(PY) %>%
-  min()
+```{r biblio, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, include=FALSE}
 
 titles_string <- titles_ms %>%
   select(-jrnl_cat) %>%
@@ -662,37 +196,81 @@ trop_titles_string <- titles_ms %>%
 
 # What % of articles in GENERAL Journals are tropical
 
-perc_trop <- kw %>%
-  group_by(jrnl_cat, pub_cat_2, SO) %>%
-  summarise(n_pubs = n_distinct(refID)) %>%
-  ungroup() %>%
-  arrange(jrnl_cat, SO, pub_cat_2, desc(n_pubs)) %>%
-  filter(jrnl_cat == "general") %>%
-  pivot_wider(
-    names_from = pub_cat_2,
-    values_from = n_pubs
-  ) %>%
-  mutate(perc_trop = tropical / (general + tropical) * 100)
+# perc_trop <- kw %>%
+#   group_by(jrnl_cat, pub_cat_2, SO) %>%
+#   summarise(n_pubs = n_distinct(refID)) %>%
+#   ungroup() %>%
+#   arrange(jrnl_cat, SO, pub_cat_2, desc(n_pubs)) %>%
+#   filter(jrnl_cat == "general") %>%
+#   pivot_wider(
+#     names_from = pub_cat_2,
+#     values_from = n_pubs
+#   ) %>%
+#   mutate(perc_trop = tropical / (general + tropical) * 100)
+# 
+# 
+# overall_perc_trop <- ((sum(perc_trop$tropical)) / sum(perc_trop$general)) * 100
+# avg_perc_trop <- mean(perc_trop$perc_trop)
+# var_perc_trop <- sd(perc_trop$perc_trop)
 
 
-overall_perc_trop <- ((sum(perc_trop$tropical)) / sum(perc_trop$general)) * 100
-avg_perc_trop <- mean(perc_trop$perc_trop)
-var_perc_trop <- sd(perc_trop$perc_trop)
 
-
-
-n_tw <- tw %>% summarize(n = n_distinct(final))
+# n_tw <- tw %>% summarize(n = n_distinct(final))
 
 # Keywords that are "system"
+# NEW 
 
-pubs_per_pub_cat <- kw %>%
+terms<-read_csv(here("data","data_ms","terms.csv"), col_names = TRUE) 
+
+# N of terms
+n_terms <- terms %>% ungroup() %>% select(final) %>% distinct() %>% tally()
+n_terms <- as.numeric(n_terms)
+# N of publications
+n_pubs_terms <- terms %>% summarize(n = n_distinct(refID))
+n_pubs_terms <- as.numeric(n_pubs_terms)
+n_pubs_terms_trop <- terms %>%
+  filter(pub_cat_2 == "tropical") %>%
+  summarize(n = n_distinct(refID))
+n_pubs_terms_trop <- as.numeric(n_pubs_terms_trop)
+n_pubs_terms_gen <- terms %>%
+  filter(pub_cat_2 == "general") %>%
+  summarize(n = n_distinct(refID))
+n_pubs_terms_gen <- as.numeric(n_pubs_terms_gen)
+# 
+# # N of journals
+
+n_jrnls <- terms %>%
+  select(SO) %>%
+  summarize(n = n_distinct(SO))
+# 
+# n_jrnls_trop <- terms %>%
+#   filter(jrnl_cat == "tropical") %>%
+#   summarize(n = n_distinct(SO)) %>%
+#   mutate(n = numbers_to_words(n))
+# 
+# n_jrnls_gen <- terms %>%
+#   filter(jrnl_cat == "general") %>%
+#   summarize(n = n_distinct(SO)) %>%
+#   mutate(n = numbers_to_words(n))
+
+# time frame:
+# yr_last <- terms %>%
+#   select(PY) %>%
+#   max()
+# yr_first <- terms %>%
+#   select(PY) %>%
+#   min()
+
+
+# NEW END
+pubs_per_pub_cat <- terms %>%
   group_by(pub_cat_2) %>%
-  summarise(n_pubs = n_distinct(refID)) %>%
+  summarise(n_pubs_terms = n_distinct(refID)) %>%
   ungroup() %>%
-  arrange(pub_cat_2, desc(n_pubs))
+  arrange(pub_cat_2, desc(n_pubs_terms))
 
 
-top_kw <- kw %>%
+top_terms <- terms %>%
   group_by(pub_cat_2, final) %>%
   tally() %>%
   arrange(pub_cat_2, desc(n)) %>%
@@ -700,19 +278,19 @@ top_kw <- kw %>%
   arrange(pub_cat_2, desc(n)) %>%
   left_join(pubs_per_pub_cat) %>%
   group_by(pub_cat_2) %>%
-  mutate(perc_pubs_wth_kw = (n / n_pubs * 100)) %>%
+  mutate(perc_pubs_wth_terms = (n / n_pubs_terms * 100)) %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
   mutate(rank_perc = rank(desc(n), ties.method = c("random"))) %>%
   arrange(desc(pub_cat_2), rank_perc) %>%
   filter(rank_perc <= cutoff)
 
-top_kw_system <- kw %>%
+top_terms_system <- terms %>%
   select(final, system) %>%
   unique()
-top_kw <- left_join(top_kw, top_kw_system)
+top_terms <- left_join(top_terms, top_terms_system)
 
-trop_system <- top_kw %>%
+trop_system <- top_terms %>%
   group_by(pub_cat_2, system) %>%
   tally() %>%
   mutate(perc_system = n / cutoff * 100) %>%
@@ -722,7 +300,7 @@ trop_system <- top_kw %>%
   select(perc_system)
 
 
-nontrop_system <- top_kw %>%
+nontrop_system <- top_terms %>%
   group_by(pub_cat_2, system) %>%
   tally() %>%
   mutate(perc_system = n / cutoff * 100) %>%
@@ -730,40 +308,41 @@ nontrop_system <- top_kw %>%
   filter(pub_cat_2 == "general") %>%
   ungroup() %>%
   select(perc_system)
-
-
-
-bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
-
-bigrams_count <- bigrams %>%
-  unite("bigram", word1:word2, sep = " ") %>%
-  tally()
-
-
-
-rankings_pub <- read_csv(here("data", "data_ms", "ranked_bigrams.csv"))
-in_both <- rankings_pub %>%
-  group_by(bigram) %>%
-  summarise(n2 = n()) %>%
-  filter(n2 > 1) %>%
-  mutate(both = TRUE)
-
-plot_tw <- full_join(rankings_pub, in_both, by = "bigram") %>%
-  select(-n2) %>%
-  replace_na(list(
-    "both" = FALSE
-  )) %>%
-  group_by(cat) %>%
-  arrange(cat, desc(n)) %>%
-  mutate(rank_perc = rank(desc(n), ties.method = c("random")))
+# 
+# 
+# 
+# # bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
+# bigrams <- read_csv(here("data", "data_ms", "bigrams_clean.csv"))
+# # # bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
+# bigrams_count <- bigrams %>%
+#   unite("bigram", word1:word2, sep = " ") %>%
+#   tally()
+# 
+# 
+# 
+# rankings_pub <- read_csv(here("data", "data_ms", "ranked_bigrams.csv"))
+# in_both <- rankings_pub %>%
+#   group_by(bigram) %>%
+#   summarise(n2 = n()) %>%
+#   filter(n2 > 1) %>%
+#   mutate(both = TRUE)
+# 
+# plot_tw <- full_join(rankings_pub, in_both, by = "bigram") %>%
+#   select(-n2) %>%
+#   replace_na(list(
+#     "both" = FALSE
+#   )) %>%
+#   group_by(cat) %>%
+#   arrange(cat, desc(n)) %>%
+#   mutate(rank_perc = rank(desc(n), ties.method = c("random")))
 ```
 
 
-\noindent Even if _The Tropics_ are a historical construct, _Tropical_ Biology could still be conceptually distinct field of study if, over time, the scientific community identified or converged on a suite of topics either unique to or best studied in tropical systems. To assess this possibility I compared the research foci of N = `r scales::comma(as.numeric(n_pubs_trop))` studies conducted in the tropics with those of N = `r scales::comma(as.numeric(n_pubs_gen))` studies conducted in other parts of the world. Specifically, I used text-mining tools to summarize and compare the information in two complementary structural elements with which authors describe the content of their articles: the title and keywords.  
+\noindent Even if _The Tropics_ are a historical construct, _Tropical_ Biology could still be conceptually distinct field of study if the scientific community has identified or converged on a suite of topics that are either unique to or best studied in tropical systems. To assess this possibility, I used a text-mining approach to compare the research foci of N = `r scales::comma(as.numeric(n_pubs_terms_trop))` studies conducted in the tropics with those of N = `r scales::comma(as.numeric(n_pubs_terms_gen))` studies conducted in other parts of the world. Specifically, I extracted and summarized the information from two structural components used by authors to describe the subject of their articles: the title and keywords. These provide distinct but complementary information, and so they are often analyzed both independently and in unison. For simplicity I present here results based on pooling each article's title and keywords, which were qualitatively similar to those for analyzing titles and keywords independently. The results for all analyses can be found in the _Supporting Information_, where one can also find a complete description of the methods used to gather and process the data.  
 
-A complete description of the methods used to gather and process these data are in the _Supporting Information_. Briefly, I downloaded the bibliographic data for every article published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in N = `r n_jrnls` journals (_`r titles_string`_). I then extracted each article's title and keywords and assigned the article to its respective geographic category. Results were qualitatively similar for keywords and titles (see _Supporting Information_), so for simplicity I present here only the results for keywords (N = `r scales::comma(as.numeric(n_kw))` total).
-    Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used keywords from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazonia_, _Barro Colorado Island_). In contrast, the overwhelming majority of keywords from non-tropical articles (`r scales::comma(as.numeric(100-nontrop_system))`%) were conceptual (e.g., _competiton_, _ecosystem function_, _sexual selection_; Table \@ref(tab:kwtable)). The second is that after removing the system- and location-specific keywords, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:kwtableNosystem)) and that the topics studied are broadly consistent with disciplinary trends [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:kwtableNosystem)). 
-   One interpretation of these results is that _Tropical_ Biology is in fact a subdiscipline focused on problems and topics of particular relevance in tropical locations. While there are subjects for which this is undoubtedly true, the observed differences could also reflect that some topics are extensively studied in over-represented research sites [@stocksGeographicalInstitutionalDistribution2008] or the historical relegation of certain subjects to the tropics [@zukTemperateAssumptionsHow2016]. Both of these can shape the development of theory and determine what data are used to test it [@raby2017american]. A similar argument has been put forward for the social sciences by @castrotorresNorthSouthNaming2022, who argue that the far greater prevalence of geographic markers in the titles of articles by authors in the Global South both indicates and perpetuates "an unwarranted claim on universality" by scholars from North America and Europe. This parallel evidence from a different field is compelling, and suggests more (and more sophisticated) analysis is needed before affirming the intellectual independence of _Tropical_ Biology.
+Briefly, I download the bibliographic record from SCOPUS or the Web of Science 'Core Collection' for every article published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in one of N = `r n_jrnls` journals (_`r titles_string`_). I then used the `refsplitr` package [@fournierRefsplitrAuthorName2020] and code written in the `R` programming language [@rcoreteamLanguageEnvironmentStatistical2023] to process the records, extract, process, and combine the terms extracted from each article's title and keywords, and assign the article to its respective geographic category. Collectively this resulted in N = `r scales::comma(as.numeric(n_terms))` terms, of which I identified and ranked the 50 terms most frequently used in articles from each geographic category. 
+    Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used terms from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazon_, _Panama_, _tropical_). In contrast, all of the top-50 terms from non-tropical articles <!---(`r scales::comma(as.numeric(100-nontrop_system))`%)--> were conceptual (e.g., _phenotypic plasticity_, _food web_, _sexual selection_; Table \@ref(tab:termstable)). The second is that after removing the system- and location-specific terms, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:termstableNosystem)) and that the topics studied are broadly consistent with disciplinary trends [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:termstableNosystem)). 
+   One interpretation of these results is that Tropical Biology is in fact a subdiscipline focused on problems and topics of particular relevance in tropical locations. While there are subjects for which this is undoubtedly true, the observed differences could also indicate that some topics are extensively studied in over-represented research sites [@stocksGeographicalInstitutionalDistribution2008] or the historical relegation of certain subjects to the tropics [@zukTemperateAssumptionsHow2016]. While preliminary, these results are consistent with those of @castrotorresNorthSouthNaming2022, who analyzed of over half a million articles from the social sciences. They found a far greater prevalence of geographic markers in the titles of articles by authors in the Global South, which they argue both indicates and perpetuates "an unwarranted claim on universality" by scholars from North America and Europe. This parallel evidence from a different field is compelling, and biases in the types of research conducted in the tropics -- regardless of the underlying mechanism -- could shape the development of theory and determine what data are used to test it [@raby2017american]. Without more (and more sophisticated) tests of alternative hypotheses for the patterns presented here, it seems premature to conclude that Tropical Biology is a conceptually distinct field.
 
 ## 3. Why the answer is *'Yes'.*
 
@@ -803,16 +382,16 @@ I prefer instead to consider what the ambiguity of my conclusions implies for ho
 
 \newpage
 
-```{r kwtable, echo = FALSE,message=FALSE,warning=FALSE}
-pubs_per_pub_cat <- kw %>%
+```{r termstable, echo = FALSE,message=FALSE,warning=FALSE}
+pubs_per_pub_cat <- terms %>%
   group_by(pub_cat_2) %>%
-  summarise(n_pubs = n_distinct(refID)) %>%
+  summarise(n_pubs_terms = n_distinct(refID)) %>%
   ungroup() %>%
-  arrange(pub_cat_2, desc(n_pubs))
+  arrange(pub_cat_2, desc(n_pubs_terms))
 
 
 # Top Keywords by pub cat
-rankings_pub <- kw %>%
+rankings_pub <- terms %>%
   group_by(pub_cat_2, final) %>%
   tally() %>%
   arrange(pub_cat_2, desc(n)) %>%
@@ -820,7 +399,7 @@ rankings_pub <- kw %>%
   arrange(pub_cat_2, desc(n)) %>%
   left_join(pubs_per_pub_cat) %>%
   group_by(pub_cat_2) %>%
-  mutate(perc_pubs_wth_kw = (n / n_pubs * 100)) %>%
+  mutate(perc_pubs_wth_terms = (n / n_pubs_terms * 100)) %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
   mutate(rank_perc = rank(desc(n), ties.method = c("random"))) %>%
@@ -828,10 +407,10 @@ rankings_pub <- kw %>%
   filter(rank_perc <= cutoff * 100)
 
 
-top_kw_system <- kw %>%
+top_terms_system <- terms %>%
   select(final, system) %>%
   unique()
-rankings_pub <- left_join(rankings_pub, top_kw_system)
+rankings_pub <- left_join(rankings_pub, top_terms_system)
 
 # rankings_pub<-rankings_pub %>% rename(final=term)
 
@@ -845,7 +424,7 @@ in_both <- rankings_pub %>%
 
 
 
-plot_kw <- full_join(rankings_pub, in_both, by = "final") %>%
+plot_terms <- full_join(rankings_pub, in_both, by = "final") %>%
   select(-n2) %>%
   replace_na(list(
     "both" = FALSE
@@ -853,36 +432,36 @@ plot_kw <- full_join(rankings_pub, in_both, by = "final") %>%
 rename(cat = pub_cat_2)
 
 
-trop_kw <- plot_kw %>%
+trop_terms <- plot_terms %>%
   filter(cat == "tropical") %>%
   select(final, cat, rank_perc, system) %>%
   mutate(original = final) %>%
   mutate(final = paste(final, " (", rank_perc, ")", sep = ""))
 
-nontrop_kw <- plot_kw %>%
+nontrop_terms <- plot_terms %>%
   filter(cat == "general") %>%
   select(final, cat, rank_perc, system) %>%
   mutate(original = final) %>%
   mutate(final = paste(final, " (", rank_perc, ")", sep = ""))
 
 
-nontrop_kw_2 <- plot_kw %>%
+nontrop_terms_2 <- plot_terms %>%
   filter(cat == "general") %>%
   select(final, cat, rank_perc, system) %>%
   mutate(final = paste("(", rank_perc, ") ", final, sep = ""))
 
-trop <- trop_kw %>%
+trop <- trop_terms %>%
   filter(rank_perc <= cutoff) %>%
   anti_join(in_both, by = "original") %>%
   select(cat, final, system_tropical = system)
 
-not <- nontrop_kw %>%
+not <- nontrop_terms %>%
   filter(rank_perc <= cutoff) %>%
   anti_join(in_both, by = "original") %>%
   select(cat, final, system_general = system)
 
-both <- inner_join(trop_kw, in_both, by = "original") %>%
-  inner_join(nontrop_kw, in_both, by = "original") %>%
+both <- inner_join(trop_terms, in_both, by = "original") %>%
+  inner_join(nontrop_terms, in_both, by = "original") %>%
   mutate(final.x = paste(original, " (", rank_perc.x, ", ", rank_perc.y, ")", sep = "")) %>%
   rename(
     rank_perc_trop = rank_perc.x,
@@ -913,7 +492,7 @@ df_table1 <- bind_rows(trop, not, both) %>%
 
 df_table1 %>%
   kbl(
-    caption = paste("The top N = ", cutoff, " keywords in tropical articles, non-tropical articles, and keywords that the two categories have in common. The keyword's rank in a category is in parentheses. Keywords in bold refer to geographic locations."),
+    caption = paste("The top N = ", cutoff, " terms used in keywords and titles of tropical articles, non-tropical articles, and the terms that the two categories have in common. The term's rank in a category is in parentheses. Terms in bold refer to geographic locations."),
     col.names = c(
       "(rank)",
       "(rank)",
@@ -935,9 +514,9 @@ df_table1 %>%
   ) %>%
   add_header_above(
     c(
-      "Tropical: Unique Top Keywords" = 1,
-      "Non-Tropical: Unique Top Keywords" = 1,
-      "Shared Top Keywords" = 1
+      "Tropical: Unique Top Terms" = 1,
+      "Non-Tropical: Unique Top Terms" = 1,
+      "Shared Top Terms" = 1
     ),
     line = FALSE
   )
@@ -946,20 +525,20 @@ df_table1 %>%
 \newpage
 
 
-```{r kwtableNosystem, echo = FALSE,message=FALSE,warning=FALSE}
+```{r termstableNosystem, echo = FALSE,message=FALSE,warning=FALSE}
 
-pubs_per_pub_cat <- kw %>%
+pubs_per_pub_cat <- terms %>%
   group_by(pub_cat_2) %>%
-  summarise(n_pubs = n_distinct(refID)) %>%
+  summarise(n_pubs_terms = n_distinct(refID)) %>%
   ungroup() %>%
-  arrange(pub_cat_2, desc(n_pubs))
+  arrange(pub_cat_2, desc(n_pubs_terms))
 
 
 
 
 
 # Top Keywords by pub cat
-rankings_pub <- kw %>%
+rankings_pub <- terms %>%
   filter(system == "N") %>%
   group_by(pub_cat_2, final) %>%
   tally() %>%
@@ -968,7 +547,7 @@ rankings_pub <- kw %>%
   arrange(pub_cat_2, desc(n)) %>%
   left_join(pubs_per_pub_cat) %>%
   group_by(pub_cat_2) %>%
-  mutate(perc_pubs_wth_kw = (n / n_pubs * 100)) %>%
+  mutate(perc_pubs_wth_terms = (n / n_pubs_terms * 100)) %>%
   group_by(pub_cat_2) %>%
   arrange(pub_cat_2, desc(n)) %>%
   mutate(rank_perc = rank(desc(n), ties.method = c("random"))) %>%
@@ -985,45 +564,45 @@ in_both <- rankings_pub %>%
   mutate(both = TRUE) %>%
   mutate(original = final)
 
-plot_kw <- full_join(rankings_pub, in_both, by = "final") %>%
+plot_terms <- full_join(rankings_pub, in_both, by = "final") %>%
   select(-n2) %>%
   replace_na(list(
     "both" = FALSE
   )) %>%
   rename(cat = pub_cat_2)
 
-top_kw_system <- kw %>%
+top_terms_system <- terms %>%
   select(final, system) %>%
   unique()
-plot_kw <- left_join(plot_kw, top_kw_system)
+plot_terms <- left_join(plot_terms, top_terms_system)
 
 
-trop_kw <- plot_kw %>%
+trop_terms <- plot_terms %>%
   filter(cat == "tropical") %>%
   select(final, cat, rank_perc)
 
-nontrop_kw <- plot_kw %>%
+nontrop_terms <- plot_terms %>%
   filter(cat == "general") %>%
   select(final, cat, rank_perc)
 
 
-tropical <- trop_kw %>%
+tropical <- trop_terms %>%
   filter(rank_perc <= cutoff) %>%
   anti_join(in_both, by = "final") %>%
   rename(rank_trop = rank_perc) %>%
-  left_join(top_kw_system) %>%
+  left_join(top_terms_system) %>%
   rename(system_tropical = system)
 
-not <- nontrop_kw %>%
+not <- nontrop_terms %>%
   filter(rank_perc <= cutoff) %>%
   anti_join(in_both, by = "final") %>%
   rename(rank_not = rank_perc) %>%
-  left_join(top_kw_system) %>%
+  left_join(top_terms_system) %>%
   rename(system_general = system)
 
 
-both <- inner_join(trop_kw, in_both, by = "final") %>%
-  inner_join(nontrop_kw, in_both, by = "final") %>%
+both <- inner_join(trop_terms, in_both, by = "final") %>%
+  inner_join(nontrop_terms, in_both, by = "final") %>%
   rename(
     rank_perc_trop = rank_perc.x,
     rank_perc_non = rank_perc.y
@@ -1033,12 +612,12 @@ both <- inner_join(trop_kw, in_both, by = "final") %>%
   filter(rank_perc_trop <= cutoff) %>%
   filter(rank_perc_non <= cutoff) %>%
   mutate(cat = "both") %>%
-  left_join(top_kw_system) %>%
+  left_join(top_terms_system) %>%
   rename(system_both = system)
 
 
 df_table2 <- bind_rows(tropical, not, both) %>%
-  left_join(top_kw_system) %>%
+  left_join(top_terms_system) %>%
   mutate(index = row_number()) %>%
   pivot_wider(values_from = "final", names_from = "cat") %>%
   group_by(index) %>% # this and the next two lines are to move numbers up in the place of the empty NA
@@ -1075,7 +654,7 @@ df_table2 <- bind_rows(tropical, not, both) %>%
 
 df_table2 %>%
   kbl(
-    caption = paste("The top N = ", cutoff, " keywords from tropical and non-tropical articles that are unique to each category once system-specific keywords have been excluded, followed by the top keywords from each category that they have in common. The keyword's rank in a category is in parentheses. Keywords in bold refer to geographic locations."),
+    caption = paste("The top N = ", cutoff, " terms used in the keywords and titles of tropical and non-tropical articles that are unique to each of these categories once system-specific terms have been excluded. This is followed by the top terms from each category that they have in common."),
     col.names = c(
       "(rank)",
       "(rank)",
@@ -1097,9 +676,9 @@ df_table2 %>%
   ) %>%
   add_header_above(
     c(
-      "Tropical: Unique Top Keywords" = 1,
-      "Non-Tropical: Unique Top Keywords" = 1,
-      "Shared Top Keywords" = 1
+      "Tropical: Unique Top Terms" = 1,
+      "Non-Tropical: Unique Top Terms" = 1,
+      "Shared Top Terms" = 1
     ),
     line = FALSE
   )
