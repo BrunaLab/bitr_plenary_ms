@@ -22,34 +22,6 @@ library(stopwords)
 library(tidytext)
 library(janitor)
 
-# 
-# cutoff <- 50
-# start_yr <- 1990
-# end_yr <- 2022
-# 
-# titles_ms <- read_csv(here("data", "data_ms", "journal_titles.csv"), col_names = TRUE)
-# 
-# tw <- read_csv(here("data", "data_ms", "tw_ms.csv"), col_names = TRUE) %>%
-#   filter(PY >= start_yr) %>%
-#   filter(PY <= end_yr)
-# 
-# kw <- read_csv(here("data", "data_ms", "kw_ms.csv"), col_names = TRUE) %>%
-#   filter(PY >= start_yr) %>%
-#   filter(PY <= end_yr)
-# 
-# terms <- read_csv(here("data", "data_ms", "terms.csv"), col_names = TRUE) %>%
-#   filter(PY >= start_yr) %>%
-#   filter(PY <= end_yr)
-# 
-# system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE) %>%
-#   filter(geo==TRUE)
-# 
-# 
-# titles_string <- titles_ms %>%
-#   select(-jrnl_cat) %>%
-#   pivot_wider(names_from = SO, values_from = title) %>%
-#   unite(titles_string, 1:nrow(titles_ms), sep = ", ")
-
 n_jrnls <- kw %>%
   select(SO) %>%
   summarize(n = n_distinct(SO))
@@ -241,8 +213,6 @@ tw_articles_plot <- ggplot(
 
 
 
-# Both 
-
 ```
 
 ## 1. Collection, processing, and visualization of bibliometric data 
@@ -316,27 +286,6 @@ ggdraw() + draw_image("./figures/kw_fig.jpeg", scale = 1)
 
 \newpage 
 
-<!-- ```{r titlewords, fig.align="center", out.height = "90%",out.width = "90%",fig.cap='The N = `r cutoff` most common words in the titles of articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of article titles in each category that included those words. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.'} -->
-
-<!-- source(here("code","plot_kw_bar.R")) -->
-<!-- # for TW -->
-<!-- breaks_vec<-seq(0, 25, by = 2.5) -->
-<!-- min_x<- -3.5 -->
-<!-- max_x<-30 -->
-<!-- tw_fig<-barplot_words(tw,cutoff,min_x,max_x,breaks_vec) -->
-
-<!-- ggsave("tw_fig.jpeg",  -->
-<!--        path = "./figures",  -->
-<!--        dpi=700, -->
-<!--        width = 10, -->
-<!--        height = 7, -->
-<!--        units = c("in") -->
-<!-- ) -->
-
-<!-- ggdraw() + draw_image("./figures/tw_fig.jpeg", scale = 1) -->
-<!-- ``` -->
-
-<!-- \newpage -->
 
 ```{r bigrams, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common bigrams in titles of articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of article titles in each category that included those words. Bigrams reflecting geography (e.g., \\textit{tropics, Peru, Atlantic Forest}) are indicated in bold and with filled bars.'), echo = FALSE,message=FALSE,warning=FALSE}
 
@@ -359,14 +308,3 @@ kw_articles_plot
 tw_articles_plot
 ```
 
-<!-- ```{=tex} -->
-<!-- \elandscape -->
-<!-- ``` -->
-
-
-<!-- \newpage -->
-
-
-
-<!-- ::: {#refs custom-style="Bibliography"} -->
-<!-- ::: -->
