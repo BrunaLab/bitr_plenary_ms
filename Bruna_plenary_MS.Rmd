@@ -660,21 +660,26 @@ df_table2 %>%
 ```
 
 ```{r fig-org, fig.align="center", out.height = "90%",out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
-ggdraw() + draw_image("./figures/slide1.png")
-# ggsave(file="name.eps")
+fig1 <- ggdraw() + draw_image("./figures/slide1.png")
+fig1
+ggsave(fig1,file="./figures/fig1.eps",dpi=1000)
 ```
 
 
 \newpage
 
 ```{r fig-temp, fig.align="center", out.height = "80%",out.width = "100%", fig.cap='The logo for a proposed new scholarly society for researchers specializing on temperate ecosystems and species.'}
-ggdraw() + draw_image("./figures/slide2.png")
+fig2 <- ggdraw() + draw_image("./figures/slide2.png")
+fig2
+ggsave(fig2, file="./figures/fig2.eps",dpi=1000)
 ```
 
 \newpage
 
 ```{r fig-pubs, fig.align="center", out.height = "100%",out.width = "100%", fig.cap='The (a) original and (b) reimagined titles of four high-profile research articles. Comparing these emphasizes how the original titles reflect and reinforce the idea that \'reference\' or \'default\ ecosystems are found in the Temperate Zone.'}
-ggdraw() + draw_image("./figures/slide3.png")
+fig3 <- ggdraw() + draw_image("./figures/slide3.png")
+fig3
+ggsave(fig3,file="./figures/fig3.eps",dpi=1000)
 ```
 \newpage
 
