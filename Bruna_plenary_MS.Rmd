@@ -52,10 +52,10 @@ footnotelist      : no
 classoption       : "man, donotrepeattitle" # suppresses title on 1st page of MSoutput            "
 appendix: "./bruna_supplement.Rmd"
 output:
-  # papaja::apa6_pdf:
-  #   keep_tex: true
-  papaja::apa6_doc:
+  papaja::apa6_pdf:
     keep_tex: true
+  # papaja::apa6_doc:
+  #   keep_tex: true
 mainfont: Times New Roman
 fontsize: 12pt
 csl: "biotropica.csl"
@@ -310,31 +310,6 @@ nontrop_system <- top_terms %>%
   select(perc_system)
 # 
 # 
-# 
-# # bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
-# bigrams <- read_csv(here("data", "data_ms", "bigrams_clean.csv"))
-# # # bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
-# bigrams_count <- bigrams %>%
-#   unite("bigram", word1:word2, sep = " ") %>%
-#   tally()
-# 
-# 
-# 
-# rankings_pub <- read_csv(here("data", "data_ms", "ranked_bigrams.csv"))
-# in_both <- rankings_pub %>%
-#   group_by(bigram) %>%
-#   summarise(n2 = n()) %>%
-#   filter(n2 > 1) %>%
-#   mutate(both = TRUE)
-# 
-# plot_tw <- full_join(rankings_pub, in_both, by = "bigram") %>%
-#   select(-n2) %>%
-#   replace_na(list(
-#     "both" = FALSE
-#   )) %>%
-#   group_by(cat) %>%
-#   arrange(cat, desc(n)) %>%
-#   mutate(rank_perc = rank(desc(n), ties.method = c("random")))
 ```
 
 
@@ -686,6 +661,7 @@ df_table2 %>%
 
 ```{r fig-org, fig.align="center", out.height = "90%",out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
 ggdraw() + draw_image("./figures/slide1.png")
+# ggsave(file="name.eps")
 ```
 
 

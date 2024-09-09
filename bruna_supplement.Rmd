@@ -180,10 +180,12 @@ kw_articles_plot <- ggplot(
 
 # TITLES / BIGRAMS
 
-bigrams <- read_csv(here("data", "data_ms", "all_bigrams.csv"))
+bigrams <- read_csv(here("data", "data_ms", "clean_bigrams.csv"))
 
 bigrams_count <- bigrams %>%
-  unite("bigram", word1:word2, sep = " ") %>%
+  # unite("bigram", word1:word2, sep = " ") %>%
+  select(singular) %>% 
+  distinct() %>% 
   tally()
 
 # How many articles in each journal used in TW analysis

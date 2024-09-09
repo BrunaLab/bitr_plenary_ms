@@ -23,17 +23,17 @@ barplot_words <- function() {
 
   trop_term <- rankings_pub %>%
     filter(cat == "tropical") %>%
-    select(bigram, cat, rank_perc, perc, system) %>%
-    mutate(original = bigram) %>%
-    mutate(bigram = paste(bigram, " - ", rank_perc, " ", sep = "")) %>%
+    select(term, cat, rank_perc, perc, system) %>%
+    mutate(original = term) %>%
+    mutate(bigram = paste(term, " - ", rank_perc, " ", sep = "")) %>%
     mutate(bigram = fct_reorder(bigram, perc)) %>%
     filter(rank_perc <= cutoff)
 
   nontrop_term <- rankings_pub %>%
     filter(cat == "non-tropical") %>%
-    select(bigram, cat, rank_perc, perc, system) %>%
-    mutate(original = bigram) %>%
-    mutate(bigram = paste(bigram, " - ", rank_perc, " ", sep = "")) %>%
+    select(term, cat, rank_perc, perc, system) %>%
+    mutate(original = term) %>%
+    mutate(bigram = paste(term, " - ", rank_perc, " ", sep = "")) %>%
     mutate(bigram = fct_reorder(bigram, perc)) %>%
     filter(rank_perc <= cutoff)
 
