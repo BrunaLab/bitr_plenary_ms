@@ -29,11 +29,8 @@ note: |
   \flushleft Received:______; Revised:______; Accepted:______.  
   
 
-abstract: |
-  
-    | The ecosystems of The Tropics comprise the majority of the planet’s biodiversity, approximately 40% of its terrestrial surface area, and half the human population. Depsite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption, and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology.  
+abstract: "The ecosystems of The Tropics comprise the majority of the planet’s biodiversity, approximately 40% of its terrestrial surface area, and half the human population. Depsite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption, and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology."
 
-    | Los ecosistemas tropicales contienen la mayor parte de la biodiversidad del planeta, aproximadamente el 40% de su superficie terrestre y la mitad de la población humana. Aún así, la biología tropical ha sido históricamente conceptualizada como una subdisciplina especializada de las ciencias biológicas. Evalué este supuesto y concluí que su validez depende del marco analítico y de la evidencia utilizada para evaluarlo. Sugiero que el camino a seguir para la disciplina no es que los biólogos tropicales abandonen el adjetivo geográfico que los une, sino más bien volver a centrar los trópicos como base fundamental de la ecología y la biología evolutiva.
 
 keywords: "bibliometrics, collaboration, colonialism, Global South, scholarly societies, scientometrics, temperate, text-mining"
 
@@ -54,8 +51,8 @@ appendix: "./bruna_supplement.Rmd"
 output:
   papaja::apa6_pdf:
     keep_tex: true
-  # papaja::apa6_doc:
-  #   keep_tex: true
+   # papaja::apa6_doc:
+   #   keep_tex: true
 mainfont: Times New Roman
 fontsize: 12pt
 csl: "biotropica.csl"
@@ -315,8 +312,10 @@ nontrop_system <- top_terms %>%
 
 \noindent Even if _The Tropics_ are a historical construct, _Tropical_ Biology could still be conceptually distinct field of study if the scientific community has identified or converged on a suite of topics that are either unique to or best studied in tropical systems. To assess this possibility, I used a text-mining approach to compare the research foci of N = `r scales::comma(as.numeric(n_pubs_terms_trop))` studies conducted in the tropics with those of N = `r scales::comma(as.numeric(n_pubs_terms_gen))` studies conducted in other parts of the world. Specifically, I extracted and summarized the information from two structural components used by authors to describe the subject of their articles: the title and keywords. These provide distinct but complementary information, and so they are often analyzed both independently and in unison. For simplicity I present here results based on pooling each article's title and keywords, which were qualitatively similar to those for analyzing titles and keywords independently. The results for all analyses can be found in the _Supporting Information_, where one can also find a complete description of the methods used to gather and process the data.  
 
-Briefly, I download the bibliographic record from SCOPUS or the Web of Science 'Core Collection' for every article published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in one of N = `r n_jrnls` journals (_`r titles_string`_). I then used the `refsplitr` package [@fournierRefsplitrAuthorName2020] and code written in the `R` programming language [@rcoreteamLanguageEnvironmentStatistical2023] to process the records, extract, process, and combine the terms extracted from each article's title and keywords, and assign the article to its respective geographic category. Collectively this resulted in N = `r scales::comma(as.numeric(n_terms))` terms, of which I identified and ranked the 50 terms most frequently used in articles from each geographic category. 
-    Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used terms from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazon_, _Panama_, _tropical_). In contrast, all of the top-50 terms from non-tropical articles <!---(`r scales::comma(as.numeric(100-nontrop_system))`%)--> were conceptual (e.g., _phenotypic plasticity_, _food web_, _sexual selection_; Table \@ref(tab:termstable)). The second is that after removing the system- and location-specific terms, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:termstableNosystem)) and that the topics studied are broadly consistent with disciplinary trends [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:termstableNosystem)). 
+Briefly, I download the bibliographic record from SCOPUS or the Web of Science 'Core Collection' for every article published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in one of N = `r n_jrnls` journals (_`r titles_string`_). I then used the `refsplitr` package [@fournierRefsplitrAuthorName2020] and code written in the `R` programming language [@rcoreteamLanguageEnvironmentStatistical2023] to process the records, extract, process, combine the terms extracted from each article's title and keywords, and assign the article to its respective geographic category. Collectively this resulted in N = `r scales::comma(as.numeric(n_terms))` terms, of which I identified and ranked the 50 terms most frequently used in articles from each geographic category.  
+
+  Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used terms from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazon_, _Panama_, _tropical_). In contrast, all of the top-50 terms from non-tropical articles <!---(`r scales::comma(as.numeric(100-nontrop_system))`%)--> were conceptual (e.g., _phenotypic plasticity_, _food web_, _sexual selection_; Table \@ref(tab:termstable)). The second is that after removing the system- and location-specific terms, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:termstableNosystem)) and that the topics studied are broadly consistent with disciplinary trends [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:termstableNosystem)). 
+  
    One interpretation of these results is that Tropical Biology is in fact a subdiscipline focused on problems and topics of particular relevance in tropical locations. While there are subjects for which this is undoubtedly true, the observed differences could also indicate that some topics are extensively studied in over-represented research sites [@stocksGeographicalInstitutionalDistribution2008] or the historical relegation of certain subjects to the tropics [@zukTemperateAssumptionsHow2016]. While preliminary, these results are consistent with those of @castrotorresNorthSouthNaming2022, who analyzed of over half a million articles from the social sciences. They found a far greater prevalence of geographic markers in the titles of articles by authors in the Global South, which they argue both indicates and perpetuates "an unwarranted claim on universality" by scholars from North America and Europe. This parallel evidence from a different field is compelling, and biases in the types of research conducted in the tropics -- regardless of the underlying mechanism -- could shape the development of theory and determine what data are used to test it [@raby2017american]. Without more (and more sophisticated) tests of alternative hypotheses for the patterns presented here, it seems premature to conclude that Tropical Biology is a conceptually distinct field.
 
 ## 3. Why the answer is *'Yes'.*
@@ -663,6 +662,7 @@ df_table2 %>%
 fig1 <- ggdraw() + draw_image("./figures/slide1.png")
 fig1
 ggsave(fig1,file="./figures/fig1.eps",dpi=1000)
+ggsave(fig1,file="./submissions/final/fig1.tiff",dpi= 300)
 ```
 
 
@@ -672,6 +672,7 @@ ggsave(fig1,file="./figures/fig1.eps",dpi=1000)
 fig2 <- ggdraw() + draw_image("./figures/slide2.png")
 fig2
 ggsave(fig2, file="./figures/fig2.eps",dpi=1000)
+ggsave(fig2,file="./submissions/final/fig2.tiff",dpi= 300)
 ```
 
 \newpage
@@ -680,6 +681,7 @@ ggsave(fig2, file="./figures/fig2.eps",dpi=1000)
 fig3 <- ggdraw() + draw_image("./figures/slide3.png")
 fig3
 ggsave(fig3,file="./figures/fig3.eps",dpi=1000)
+ggsave(fig3,file="./submissions/final/fig3.tiff",dpi= 300)
 ```
 \newpage
 
@@ -701,7 +703,7 @@ I am grateful to the organizers of the 2022 Meeting of the ATBC for encouraging 
 <!-- NEED TO ADD NSF ACKNOWELDGEMENT -->
 
 ## DATA AVAILABILITY STATEMENT  
-The data used in this publication are available at Dryad <_DOI added upon acceptance_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added upon acceptance_>.  
+The data used in this publication are available at Dryad <_DOI added at proof stage_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added at proof stage_> and Github <https://github.com/BrunaLab/bruna_biotropica_plenary_ms>.   
   The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics. That data set, and the code used to harvest, clean, and organize it, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna. That respository also includes a NEWS.md file summarizing any post-publication updates.  
 
 ## DISCLOSURE STATEMENT  

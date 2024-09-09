@@ -1,0 +1,18 @@
+---
+output: word_document
+keep_tex: true
+mainfont: Times New Roman
+fontsize: 12pt
+fig_caption: yes
+always_allow_html: yes
+header-includes:
+  - \raggedbottom
+  - \usepackage{parskip}
+  - \setlength{\parskip}{0pt}
+  - \setlength\parindent{22pt}
+---
+
+Second Abstract for EM Bruna: 'Is there really such a thing as _Tropical_ Biology?'
+
+Los ecosistemas tropicales contienen la mayor parte de la biodiversidad del planeta, aproximadamente el 40% de su superficie terrestre y la mitad de la población humana. Aún así, la biología tropical ha sido históricamente conceptualizada como una subdisciplina especializada de las ciencias biológicas. Evalué este supuesto y concluí que su validez depende del marco analítico y de la evidencia utilizada para evaluarlo. Sugiero que el camino a seguir para la disciplina no es que los biólogos tropicales abandonen el adjetivo geográfico que los une, sino más bien volver a centrar los trópicos como base fundamental de la ecología y la biología evolutiva.
+
