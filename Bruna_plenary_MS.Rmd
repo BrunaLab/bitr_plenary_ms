@@ -120,7 +120,8 @@ end_yr <- 2022
 # Read in the journal titles, abbreviations, and categories
 titles_ms <- read_csv(here(
   "data",
-  "data_ms", "journal_titles.csv"
+  "data_ms", 
+  "journal_titles.csv"
 ), col_names = TRUE)
 
 # Read in the title words
@@ -201,7 +202,7 @@ titles_string <- titles_ms %>%
   select(-jrnl_cat) %>%
   pivot_wider(names_from = SO, values_from = title) %>%
   unite(titles_string, 1:nrow(titles_ms), sep = ", ")
-
+# titles_string
 trop_titles_string <- titles_ms %>%
   filter(jrnl_cat == "tropical") %>%
   select(-jrnl_cat) %>%
