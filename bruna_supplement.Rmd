@@ -22,12 +22,13 @@ library(stopwords)
 library(tidytext)
 library(janitor)
 
+# No. of journals
 n_jrnls <- kw %>%
   select(SO) %>%
   summarize(n = n_distinct(SO))
 
 
-# N of publications
+# No. of publications by category
 n_pubs <- kw %>% summarize(n = n_distinct(refID))
 n_pubs_trop <- kw %>%
   filter(pub_cat_2 == "tropical") %>%
@@ -35,8 +36,6 @@ n_pubs_trop <- kw %>%
 n_pubs_gen <- kw %>%
   filter(pub_cat_2 == "general") %>%
   summarize(n = n_distinct(refID))
-
-
 ```
 
 \renewcommand{\appendixname}{Supporting Information}
@@ -84,7 +83,9 @@ n_pubs_gen <- kw %>%
 
 # N of publications
 
-n_pubs_terms <- terms %>% select(refID) %>% n_distinct()
+n_pubs_terms <- terms %>%
+  select(refID) %>%
+  n_distinct()
 n_pubs_terms <- as.numeric(n_pubs_terms)
 
 n_pubs_trop <- kw %>%
@@ -93,10 +94,10 @@ n_pubs_trop <- kw %>%
 n_pubs_gen <- kw %>%
   filter(pub_cat_2 == "general") %>%
   summarize(n = n_distinct(refID))
-# # N of keywords
+# # N of terms
 n_kw <- kw %>% summarize(n = n_distinct(final))
 
-# How many articles in each journal used in KW analysis
+# How many articles in each journal used in analysis
 kw_articles <- kw %>%
   select(refID, title, jrnl_cat, pub_cat_2) %>%
   distinct(refID, .keep_all = TRUE) %>%
@@ -156,8 +157,8 @@ bigrams <- read_csv(here("data", "data_ms", "clean_bigrams.csv"))
 
 bigrams_count <- bigrams %>%
   # unite("bigram", word1:word2, sep = " ") %>%
-  select(singular) %>% 
-  distinct() %>% 
+  select(term) %>%
+  distinct() %>%
   tally()
 
 # How many articles in each journal used in TW analysis
@@ -210,9 +211,6 @@ tw_articles_plot <- ggplot(
     axis.text.y = element_text(color = "black", size = 6, hjust = 0),
     axis.title.x = element_blank()
   )
-
-
-
 ```
 
 ## 1. Collection, processing, and visualization of bibliometric data 
@@ -246,19 +244,18 @@ tw_articles_plot <- ggplot(
 ```
 
 ```{r allterms, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common terms (keywords + title bigrams) from articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of articles in each category that included them. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.')} 
+source(here("code", "plot_kw_bar.R"))
+breaks_vec <- seq(0, 10, by = .5)
+min_x <- -1.7
+max_x <- 10
+kw_fig <- barplot_words(terms, cutoff, min_x, max_x, breaks_vec)
 
-source(here("code","plot_kw_bar.R"))
-breaks_vec<-seq(0, 10, by = .5)
-min_x<- -1.7
-max_x<-10
-kw_fig<-barplot_words(terms,cutoff,min_x,max_x,breaks_vec)
-
-ggsave("allterms_fig.jpeg", 
-       path = "./figures", 
-       dpi=700,
-       width = 10,
-       height = 7,
-       units = c("in")
+ggsave("allterms_fig.jpeg",
+  path = "./figures",
+  dpi = 700,
+  width = 10,
+  height = 7,
+  units = c("in")
 )
 
 ggdraw() + draw_image("./figures/allterms_fig.jpeg", scale = 1)
@@ -266,19 +263,18 @@ ggdraw() + draw_image("./figures/allterms_fig.jpeg", scale = 1)
 \newpage
 
 ```{r keywords, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common keywords from articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of articles in each category that included them. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.')} 
+source(here("code", "plot_kw_bar.R"))
+breaks_vec <- seq(0, 6, by = .5)
+min_x <- -1.7
+max_x <- 6
+kw_fig <- barplot_words(kw, cutoff, min_x, max_x, breaks_vec)
 
-source(here("code","plot_kw_bar.R"))
-breaks_vec<-seq(0, 6, by = .5)
-min_x<- -1.7
-max_x<-6
-kw_fig<-barplot_words(kw,cutoff,min_x,max_x,breaks_vec)
-
-ggsave("kw_fig.jpeg", 
-       path = "./figures", 
-       dpi=700,
-       width = 10,
-       height = 7,
-       units = c("in")
+ggsave("kw_fig.jpeg",
+  path = "./figures",
+  dpi = 700,
+  width = 10,
+  height = 7,
+  units = c("in")
 )
 
 ggdraw() + draw_image("./figures/kw_fig.jpeg", scale = 1)
@@ -288,9 +284,8 @@ ggdraw() + draw_image("./figures/kw_fig.jpeg", scale = 1)
 
 
 ```{r bigrams, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common bigrams in titles of articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of article titles in each category that included those words. Bigrams reflecting geography (e.g., \\textit{tropics, Peru, Atlantic Forest}) are indicated in bold and with filled bars.'), echo = FALSE,message=FALSE,warning=FALSE}
-
-source(here("code","plot_bigrams_bar.R"))
-bigram_plot<-barplot_words()
+source(here("code", "plot_bigrams_bar.R"))
+bigram_plot <- barplot_words()
 ggdraw() + draw_image("./figures/bigram_fig.jpeg", scale = 1)
 ```
 
@@ -307,4 +302,3 @@ kw_articles_plot
 ```{r twtime, fig.align="center", out.height = "90%",out.width = "90%",fig.cap='The number of articles from each journal and geographic category that were used in the analysis of title words and title bigrams.',echo = FALSE,message=FALSE,warning=FALSE}
 tw_articles_plot
 ```
-

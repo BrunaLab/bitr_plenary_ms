@@ -29,7 +29,7 @@ note: |
   \flushleft Received:______; Revised:______; Accepted:______.  
   
 
-abstract: "The ecosystems of The Tropics comprise the majority of the planet’s biodiversity, approximately 40% of its terrestrial surface area, and half the human population. Depsite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption, and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology."
+abstract: "The ecosystems of The Tropics comprise a majority of the planet’s biodiversity, approximately 40% of its terrestrial surface area, and half the human population. Depsite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption, and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology."
 
 
 keywords: "bibliometrics, collaboration, colonialism, Global South, scholarly societies, scientometrics, temperate, text-mining"
@@ -117,23 +117,39 @@ cutoff <- 50
 start_yr <- 1990
 end_yr <- 2022
 
-## EXCLUDE JOURNALS FROM ANALYSIS HERE
+# Read in the journal titles, abbreviations, and categories
+titles_ms <- read_csv(here(
+  "data",
+  "data_ms", "journal_titles.csv"
+), col_names = TRUE)
 
-titles_ms <- read_csv(here("data", "data_ms", "journal_titles.csv"), col_names = TRUE)
-
-tw <- read_csv(here("data", "data_ms", "tw_ms.csv"), col_names = TRUE) %>%
+# Read in the title words
+tw <- read_csv(
+  here(
+    "data",
+    "data_ms",
+    "tw_ms.csv"
+  ),
+  col_names = TRUE
+) %>%
   filter(PY >= start_yr) %>%
-  filter(PY <= end_yr) 
+  filter(PY <= end_yr)
 
-kw <- read_csv(here("data", "data_ms", "kw_ms.csv"), col_names = TRUE) %>%
+# read in the keywords
+kw <- read_csv(here("data", 
+                    "data_ms", 
+                    "kw_ms.csv"), 
+               col_names = TRUE) %>%
   filter(PY >= start_yr) %>%
-  filter(PY <= end_yr) 
+  filter(PY <= end_yr)
 
-system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE) %>% 
-  filter(geo==TRUE)
-
-
-
+# load list of 'system-specific' terms and select only those
+# that indicate geographic locations
+system_list <- read_csv(here("data", 
+                             "data_ms", 
+                             "system_list.csv"), 
+                        col_names = TRUE) %>%
+  filter(geo == TRUE)
 ```
 
 \onehalfspacing
@@ -152,7 +168,7 @@ system_list<-read_csv(here("data","data_ms","system_list.csv"), col_names = TRUE
 \noindent This decision regarding my submission to one of our field's well-known journals is likely familiar to many members of the Association for Tropical Biology & Conservation (ATBC). All three reviews were positive, with none of the referees identifying significant shortcomings or requesting major changes. So why had the manuscript been rejected? My only clue was in the Editor's conclusion, from which I gathered that they felt studies done _in_ the tropics were of limited relevance to researchers working _outside_ the tropics. After all, that's for whom a specialized journal is published -- a smaller community of subject-matter experts -- while the journal to which we submitted our study sought to publish "broad conceptual advances".  In short, the Subject Editor was drawing a distinction between Biology and _Tropical_ Biology, with the latter a specialized subdiscipline of the former.  
 This provincial view of research done in the tropics is not new. In 1963, P. W. Richards felt it necessary to use his Presidential Address to the British Ecological Society to explain "what the Tropics can contribute to ecology", advocate for financial investment in tropical research and field stations, and encourage students to visit and dedicate study "the most [biologically] exciting part of the world" [@richardsWhatTropicsCan1963]. His justification for this topic was self-deprecating but pointed --- he was concerned that a talk summarizing recent advances in tropical ecology, including his studies of forest structure and diversity in Borneo and Guyana, "would probably bore the large part of my audience who have never been to the tropics and never intend to do so" [@richardsWhatTropicsCan1963]. That he felt this advocacy was still necessary despite decades of effort  [@richardsNeedDevelopmentTropical1946; @richardsProgrammeTropicalBiology1964] must have been extremely frustrating.   
 
-Sixty years on many of us find ourselves similarly frustrated. Tropical field stations continue to be underfunded [@cornerNeedDevelopmentTropical1946; @chapmanNeedDevelopmentTropical1945; @eppleyTropicalFieldStations2024]. Financial support for research in the tropics is relatively low and declining [@stegmannBrazilianPublicFunding2024; @chapmanNeedDevelopmentTropical1945; @sohmerNSFSupportBasic1980]. And while tropical ecosystems comprise the majority of the planet's biodiversity [@gastonGlobalPatternsBiodiversity2000], approximately 40% of its terrestrial surface area, and are home to half the human population [@hoornwegPopulationPredictionsWorld2017], their study is still considered by many to be a scientific subdsicipline. My objective here is not to review the biological validity [@molesNotionThatSpecies2016; @robinson1978tropical] or scientific implications [@zukTemperateAssumptionsHow2016] of this generalization, nor to summarize the history, status, and direction of tropical research [_e.g.,_  @buechnerContributionWorldProgram1967; @janzenWhitherTropicalEcology1972; @janzenFutureTropicalEcology1986; @chazdonFoundationsTropicalForest2001; @bawaParadiseMeetingChallenges2004]. Instead, I will attempt to assess the fundamental assumption behind the Editor's summary that motivated this essay: Is there really such a thing as _Tropical_ Biology?^[Biology _sensu lato_, i.e., the study of living organisms, including their morphology and physiology, behavior, ecology, evolution, and conservation.]
+Sixty years on many of us find ourselves similarly frustrated. Tropical field stations continue to be underfunded [@cornerNeedDevelopmentTropical1946; @chapmanNeedDevelopmentTropical1945; @eppleyTropicalFieldStations2024]. Financial support for research in the tropics is relatively low and declining [@stegmannBrazilianPublicFunding2024; @chapmanNeedDevelopmentTropical1945; @sohmerNSFSupportBasic1980]. And while tropical ecosystems comprise the majority of the planet's biodiversity [@gastonGlobalPatternsBiodiversity2000], approximately 40% of its terrestrial surface area, and are home to half the human population [@hoornwegPopulationPredictionsWorld2017], their study is still considered by many to be a scientific subdsicipline. My objective here is not to review the biological validity [@molesNotionThatSpecies2016; @robinson1978tropical] or scientific implications [@zukTemperateAssumptionsHow2016] of this generalization, nor to summarize the history, status, and direction of tropical research [_e.g.,_  @buechnerContributionWorldProgram1967; @janzenWhitherTropicalEcology1972; @janzenFutureTropicalEcology1986; @chazdonFoundationsTropicalForest2001; @bawaParadiseMeetingChallenges2004]. Instead, I will attempt to assess the fundamental assumption behind the Editor's summary that motivated this essay: Is there really such a thing as _Tropical_ Biology?^[Biology _sensu lato_: the study of living organisms, including their morphology and physiology, behavior, ecology, evolution, and conservation.]
 
 ## 1. Why the answer is *'No'.*
 
@@ -165,7 +181,7 @@ Sixty years on many of us find ourselves similarly frustrated. Tropical field st
 \noindent One means of assessing if _Tropical_ Biology is a distinct academic discipline is by considering the communities into which scientists self-organize. Scholarly societies are one such community; their establishment requires both an intellectual pursuit with which individuals identify and a critical mass of like-minded individuals in search of community. Some of these communities coalesce around broad conceptual domains (e.g., _Evolutionary_ Biology, _Conservation_ Biology, _Integrative_ Biology; Figure \@ref(fig:fig-org)A). Still others bring together individuals from different conceptual domains that share an interest in a particular system (e.g., _Avian_ Biology, _Island_ Biology; Figure \@ref(fig:fig-org)B). Finally, some scholarly societies comprise individuals using a common methodological framework to study disparate systems or address questions from distinct conceptual domains (e.g., _Molecular_ Biology, _Mathematical_ Biology, _Experimental_ Biology; Figure \@ref(fig:fig-org)C).   
     _Tropical_ Biology fails to align with any of these constructs. Its practitioners investigate fundamental questions across conceptual domains with a broad range of methodological approaches and study systems. This intellectual diversity was cogently summarized by the historian Megan Raby: "The work that tropical biologists do is nearly as diverse as the ecosystems they study" [@raby2017american p. 5]. Moreover, the "geographic pigeonhole" [_sensu_ @raby2017american] that presumably unites this community of scientists --- the adjective 'tropical' --- is itself challenging to operationalize. Formally, _The Tropics_ are the band of the Earth's surface receiving at least one day of direct overhead sunlight per year; this region is delineated by the Tropics of Capricorn and Cancer (23°26'10.4" S and N, respectively). However, the ranges of many 'tropical' species and ecosystems extend far beyond these boundaries^[Perhaps the most extreme examples are migratory birds such as the northern wheatear (_Oenanthe oenanthe_), which fly over 14,000 km from sub-Saharan Africa to their breeding grounds in the Arctic [@bairleinCrosshemisphereMigration252012]], which is in part why @feeleyWhereEarthAre2018 identified no less than eight distinct criteria by which authors to define 'tropical' systems. How then is it that _Tropical_ Biology - whose practitioners conduct research in habitats ranging from rain forests to savannas - came to be seen as a specialized subdicipline despite the lack the sharp boundaries around which scientific groups typically coalesce?  
     
-This contemporary perception of 'The Tropics' as distant and special is the result of centuries of historical and cultural reinforcement [@driverConstructingTropicsIntroduction2000; @arnold1996problem; @miller2011visions; @stepan2001picturing; @miller2011visions]. The first Europeans to visit the tropics returned with vivid, captivating, and frequently pejorative descriptions of the places and people they encountered [@inbook]. Their stories and images established and inculcated a number of persistent and often contradictory tropes about tropical regions and people that were then repeated and reinterpreted by subsequent visitors [@stepan2001picturing; @smithEuropeanVisionSouth1950]. The historian David @arnold1996problem has argued that these narratives of "Tropicality" [_sensu_ @alma9913280634202441] allowed Europeans to justify colonial expansion by defining the region as environmentally and culturally distinct while simultaneously superimposing on its remarkable diversity a generic and simplified identity: _The Tropics_.
+This contemporary perception of 'The Tropics' as distant and special is the result of centuries of historical and cultural reinforcement [@driverConstructingTropicsIntroduction2000; @arnold1996problem; @miller2011visions; @stepan2001picturing; @miller2011visions]. The first Europeans to visit the tropics returned with vivid, captivating, and frequently pejorative descriptions of the places and people they encountered [@inbook]. Their stories and images established and inculcated several persistent and often contradictory tropes about tropical regions and people that were then repeated and reinterpreted by subsequent visitors [@stepan2001picturing; @smithEuropeanVisionSouth1950]. The historian David @arnold1996problem has argued that these narratives of "Tropicality" [_sensu_ @alma9913280634202441] allowed Europeans to justify colonial expansion by defining the region as environmentally and culturally distinct while simultaneously superimposing on its remarkable diversity a generic and simplified identity: _The Tropics_.
    
 The narratives of naturalists such as von Humboldt, Darwin, and Wallace were both informed by and reinforced these conceptions of the tropics as 'distant' and 'other' [@raby2017american]. Their writing and ideas then inspired many of the scientists central to the coalescing sciences of ecology and evolutionary biology, who were themselves immersed in a cultural milieu that viewed _The Tropics_ as 'distant' and 'exotic'. However, as @raby2017american elegantly demonstrates, the scientific frameworks these disciplinary pioneers put forward, including the unique status of _Tropical_ Biology, were not simply distillations of prevailing cultural and environmental tropes. Instead they emerged from the complex interplay of European colonialism, the expansion of US hegemony in Latin America and the Caribbean at the turn of the twentieth century, and the construction of tropical field stations for use by North American scientists that accompanied this expansion. The role of this scientific colonialism at such a pivotal moment of scientific consolidation cannot be overstated. As @richardsWhatTropicsCan1963 explains, "the science of ecology developed first in central Europe, Scandinavia and Britain and very slightly later in the United States. The ideas and concepts with which it started were therefore inevitably based on the conditions in a temperate climate" [see also @webbBiologyTropics1960; @buechnerContributionWorldProgram1967; @ripleyPerspectivesTropicalBiology1967]. The same would be true of subsequent studies testing and refining these fundamental concepts, further reinforcing the "temperate bias" [_sensu_ @zukTemperateAssumptionsHow2016] in the leading journals of the day. While engagement with the burgeoning community of field biologists in tropical countries could have expanded the prevailing theories to make them more general, these scientists were rarely to work at the new US-run field stations [@raby2017american]. Their exclusion from the scientific discourse and literature, coupled with the temperate-centered focus of the early theory, suggests that the distinction between Biology and _Tropical_ Biology is a historical legacy and largely artificial.    
 
@@ -180,6 +196,7 @@ The narratives of naturalists such as von Humboldt, Darwin, and Wallace were bot
 
 ```{r biblio, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, include=FALSE}
 
+# convert the column of journal titles to a string to insert in text
 titles_string <- titles_ms %>%
   select(-jrnl_cat) %>%
   pivot_wider(names_from = SO, values_from = title) %>%
@@ -191,82 +208,47 @@ trop_titles_string <- titles_ms %>%
   pivot_wider(names_from = SO, values_from = title) %>%
   unite(titles_trop, 1:nrow(titles_ms %>% filter(jrnl_cat == "tropical")), sep = ", ")
 
-# What % of articles in GENERAL Journals are tropical
+terms <- read_csv(here("data", "data_ms", "terms.csv"), col_names = TRUE)
 
-# perc_trop <- kw %>%
-#   group_by(jrnl_cat, pub_cat_2, SO) %>%
-#   summarise(n_pubs = n_distinct(refID)) %>%
-#   ungroup() %>%
-#   arrange(jrnl_cat, SO, pub_cat_2, desc(n_pubs)) %>%
-#   filter(jrnl_cat == "general") %>%
-#   pivot_wider(
-#     names_from = pub_cat_2,
-#     values_from = n_pubs
-#   ) %>%
-#   mutate(perc_trop = tropical / (general + tropical) * 100)
-# 
-# 
-# overall_perc_trop <- ((sum(perc_trop$tropical)) / sum(perc_trop$general)) * 100
-# avg_perc_trop <- mean(perc_trop$perc_trop)
-# var_perc_trop <- sd(perc_trop$perc_trop)
-
-
-
-# n_tw <- tw %>% summarize(n = n_distinct(final))
-
-# Keywords that are "system"
-# NEW 
-
-terms<-read_csv(here("data","data_ms","terms.csv"), col_names = TRUE) 
-
-# N of terms
-n_terms <- terms %>% ungroup() %>% select(final) %>% distinct() %>% tally()
+# N of different terms
+n_terms <- terms %>%
+  ungroup() %>%
+  select(final) %>%
+  distinct() %>%
+  tally()
 n_terms <- as.numeric(n_terms)
-# N of publications
+
+# N of publications total
 n_pubs_terms <- terms %>% summarize(n = n_distinct(refID))
 n_pubs_terms <- as.numeric(n_pubs_terms)
+
+# N in Tropical articles
 n_pubs_terms_trop <- terms %>%
   filter(pub_cat_2 == "tropical") %>%
   summarize(n = n_distinct(refID))
 n_pubs_terms_trop <- as.numeric(n_pubs_terms_trop)
+
+# N in non-tropical articles
 n_pubs_terms_gen <- terms %>%
   filter(pub_cat_2 == "general") %>%
   summarize(n = n_distinct(refID))
 n_pubs_terms_gen <- as.numeric(n_pubs_terms_gen)
-# 
-# # N of journals
 
+# N of journals
 n_jrnls <- terms %>%
   select(SO) %>%
   summarize(n = n_distinct(SO))
-# 
-# n_jrnls_trop <- terms %>%
-#   filter(jrnl_cat == "tropical") %>%
-#   summarize(n = n_distinct(SO)) %>%
-#   mutate(n = numbers_to_words(n))
-# 
-# n_jrnls_gen <- terms %>%
-#   filter(jrnl_cat == "general") %>%
-#   summarize(n = n_distinct(SO)) %>%
-#   mutate(n = numbers_to_words(n))
-
-# time frame:
-# yr_last <- terms %>%
-#   select(PY) %>%
-#   max()
-# yr_first <- terms %>%
-#   select(PY) %>%
-#   min()
 
 
-# NEW END
+# Articles in each category (tropical, non-tropical)
 pubs_per_pub_cat <- terms %>%
   group_by(pub_cat_2) %>%
   summarise(n_pubs_terms = n_distinct(refID)) %>%
   ungroup() %>%
   arrange(pub_cat_2, desc(n_pubs_terms))
 
-
+# take the tropical terms and determine if they indicate 
+# geographic location using "system"
 top_terms <- terms %>%
   group_by(pub_cat_2, final) %>%
   tally() %>%
@@ -287,6 +269,7 @@ top_terms_system <- terms %>%
   unique()
 top_terms <- left_join(top_terms, top_terms_system)
 
+# what percent of tropical terms are "system" terms?
 trop_system <- top_terms %>%
   group_by(pub_cat_2, system) %>%
   tally() %>%
@@ -296,7 +279,8 @@ trop_system <- top_terms %>%
   ungroup() %>%
   select(perc_system)
 
-
+# take the non-tropical terms and determine if they indicate 
+# geographic location using "system"
 nontrop_system <- top_terms %>%
   group_by(pub_cat_2, system) %>%
   tally() %>%
@@ -305,8 +289,7 @@ nontrop_system <- top_terms %>%
   filter(pub_cat_2 == "general") %>%
   ungroup() %>%
   select(perc_system)
-# 
-# 
+
 ```
 
 
@@ -314,7 +297,7 @@ nontrop_system <- top_terms %>%
 
 Briefly, I download the bibliographic record from SCOPUS or the Web of Science 'Core Collection' for every article published from `r (as.numeric(start_yr))`-`r (as.numeric(end_yr))` in one of N = `r n_jrnls` journals (_`r titles_string`_). I then used the `refsplitr` package [@fournierRefsplitrAuthorName2020] and code written in the `R` programming language [@rcoreteamLanguageEnvironmentStatistical2023] to process the records, extract, process, combine the terms extracted from each article's title and keywords, and assign the article to its respective geographic category. Collectively this resulted in N = `r scales::comma(as.numeric(n_terms))` terms, of which I identified and ranked the 50 terms most frequently used in articles from each geographic category.  
 
-  Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used terms from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazon_, _Panama_, _tropical_). In contrast, all of the top-50 terms from non-tropical articles <!---(`r scales::comma(as.numeric(100-nontrop_system))`%)--> were conceptual (e.g., _phenotypic plasticity_, _food web_, _sexual selection_; Table \@ref(tab:termstable)). The second is that after removing the system- and location-specific terms, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:termstableNosystem)) and that the topics studied are broadly consistent with disciplinary trends [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:termstableNosystem)). 
+  Two major patterns emerge from this analysis. The first is that `r scales::comma(as.numeric(trop_system))`% of the most frequently used terms from 'tropical' articles reflected geographic locations (e.g., _Costa Rica_, _Amazon_, _Panama_, _tropical_). In contrast, all of the top-50 terms from non-tropical articles<!---(`r scales::comma(as.numeric(100-nontrop_system))`%)--> were conceptual (e.g., _phenotypic plasticity_, _food web_, _sexual selection_; Table \@ref(tab:termstable)). The second is that after removing the system- and location-specific terms, there is ample conceptual overlap between tropical and non-tropical studies (Table \@ref(tab:termstableNosystem)) and that the topics studied are broadly consistent with disciplinary trends [@carmelTrendsEcologicalResearch2013; @andersonTrendsEcologyConservation2021; @mccallenTrendsEcologyShifts2019]. That said, the most common research topics within each article category often differ dramatically in their relative rankings (Figure \@ref(fig:keywords)), and there are notable areas of topical divergence (Table \@ref(tab:termstableNosystem)). 
   
    One interpretation of these results is that Tropical Biology is in fact a subdiscipline focused on problems and topics of particular relevance in tropical locations. While there are subjects for which this is undoubtedly true, the observed differences could also indicate that some topics are extensively studied in over-represented research sites [@stocksGeographicalInstitutionalDistribution2008] or the historical relegation of certain subjects to the tropics [@zukTemperateAssumptionsHow2016]. While preliminary, these results are consistent with those of @castrotorresNorthSouthNaming2022, who analyzed of over half a million articles from the social sciences. They found a far greater prevalence of geographic markers in the titles of articles by authors in the Global South, which they argue both indicates and perpetuates "an unwarranted claim on universality" by scholars from North America and Europe. This parallel evidence from a different field is compelling, and biases in the types of research conducted in the tropics -- regardless of the underlying mechanism -- could shape the development of theory and determine what data are used to test it [@raby2017american]. Without more (and more sophisticated) tests of alternative hypotheses for the patterns presented here, it seems premature to conclude that Tropical Biology is a conceptually distinct field.
 
@@ -348,20 +331,20 @@ I prefer instead to consider what the ambiguity of my conclusions implies for ho
 
 **_Collaborate with Purpose._**  International collaboration can be challenging, but personally and professionally rewarding [@smithScientificImpactNations2014]. Be mindful of global scientific inequities, laws, and 'parachute science' [@ramirez-castanedaSetPrinciplesPractical2022; @gomez-pompaRoleBiodiversityScientists2004; @asaseReplacingParachuteScience2022]. Partner with communities to identify research priorities and return the results of research to them [@kainerPartneringGreaterSuccess2009; @duchelleGraduateStudentsKnowledge2009]. Push for organizations and universities to strengthen collaborations with --- and especially within --- the Global South [@ocampo-arizaGlobalSouthLeadership2023;@kainerGraduateEducationFramework2006]. Treat the parataxonomists, field technicians, and station staff that make our work possible with the respect they deserve [@bassetConservationBiologicalMonitoring2004]; that includes recognizing their contributions with coauthorship the way one would other essential contributors [e.g., @brunaHeliconiaAcuminataReproductive2004e]. Review submissions for and submit articles to national journals. Make an effort to learn the local language.
    
-**_Engage the Public._** Public fascination with the tropics and their charismatic species [@albertTwentyMostCharismatic2018] provides unparalleled opportunities for outreach and education [@moreiraTamarProjectConservation2017]. Take advantage of global sporting events [@meloFootballBiodiversityConservation2014], teams with tropical species as mascots [@sartore-baldwinExaminingSportFans2019], movies set in the tropics [@yongReelConservationCan2011], tropical images in fashion [@kuteskoAdidasShowsChanging2014], or other connections between people's interests and tropical biodiversity. Leverage this universal appeal into support for tropical research and conservation, but beware of philanthropic paternalism and the risk of perpetuating stereotypes.
+**_Engage the Public._** Public fascination with the tropics and their charismatic species [@albertTwentyMostCharismatic2018] provides unparalleled opportunities for outreach and education [@moreiraTamarProjectConservation2017]. Take advantage of global sporting events [@meloFootballBiodiversityConservation2014], teams with tropical species as mascots [@sartore-baldwinExaminingSportFans2019], movies set in the tropics [@yongReelConservationCan2011], tropical images in fashion [@kuteskoAdidasShowsChanging2014], or other connections between people's interests and tropical biodiversity. Leverage this universal appeal into support for tropical research and conservation (but beware of philanthropic paternalism and the risk of perpetuating stereotypes).
 
-**_Get in the Game._** Help make the process of publishing more fair by serving as a review or subject editor for _Biotropica_ [@powersBiotropicaFirstOpen2024]. Contribute to capacity building efforts by reviewing student seed grants proposals or serving as a judge for student presentations at the ATBC's Annual Meeting. Join a committee or chapter and organize a webinar, workshop, hackathon, or reading group. What should the ATBC be doing differently? Communicate your ideas to the leadership or stand for election and push for change as a Councilor or Chapter Officer. 
+**_Get in the Game._** Help make the process of publishing fairer by serving as a reviewer or subject editor for _Biotropica_ [@powersBiotropicaFirstOpen2024]. Contribute to capacity building efforts by reviewing student seed grants proposals or serving as a judge for student presentations at the ATBC's Annual Meeting. Join a committee or chapter and organize a webinar, workshop, hackathon, or reading group. What should the ATBC be doing differently? Communicate your ideas to the leadership or stand for election and push for change as a Councilor or Chapter Officer. 
 
 **_Support and celebrate one another._** Finally, remember that the work done by tropical biologists addresses the "neglected problems that afflict most of the world's people" [@annanChallengeWorldScientists2003]. Conducting research --- regardless of the subject --- advances the socioeconomic condition of the country in which it's conducted. It is difficult, frustrating, and not without risk. Take a moment to thank, congratulate, and support each other [@nordsethFieldworkWellnessFramework2023; @rudzkiGuideDevelopingField2022] for your contributions and the effort and resilience that they required. There is no more important a time to be a _Tropical_ Biologist.
 
 \newpage
 
 ```{r termstable, echo = FALSE,message=FALSE,warning=FALSE}
-pubs_per_pub_cat <- terms %>%
-  group_by(pub_cat_2) %>%
-  summarise(n_pubs_terms = n_distinct(refID)) %>%
-  ungroup() %>%
-  arrange(pub_cat_2, desc(n_pubs_terms))
+# pubs_per_pub_cat <- terms %>%
+#   group_by(pub_cat_2) %>%
+#   summarise(n_pubs_terms = n_distinct(refID)) %>%
+#   ungroup() %>%
+#   arrange(pub_cat_2, desc(n_pubs_terms))
 
 
 # Top Keywords by pub cat
@@ -386,8 +369,7 @@ top_terms_system <- terms %>%
   unique()
 rankings_pub <- left_join(rankings_pub, top_terms_system)
 
-# rankings_pub<-rankings_pub %>% rename(final=term)
-
+# any "top terms" that are in both tropical and non-tropical
 in_both <- rankings_pub %>%
   filter(rank_perc <= cutoff) %>%
   group_by(final) %>%
@@ -396,14 +378,12 @@ in_both <- rankings_pub %>%
   mutate(both = TRUE) %>%
   mutate(original = final)
 
-
-
 plot_terms <- full_join(rankings_pub, in_both, by = "final") %>%
   select(-n2) %>%
   replace_na(list(
     "both" = FALSE
   )) %>%
-rename(cat = pub_cat_2)
+  rename(cat = pub_cat_2)
 
 
 trop_terms <- plot_terms %>%
@@ -500,16 +480,6 @@ df_table1 %>%
 
 
 ```{r termstableNosystem, echo = FALSE,message=FALSE,warning=FALSE}
-
-pubs_per_pub_cat <- terms %>%
-  group_by(pub_cat_2) %>%
-  summarise(n_pubs_terms = n_distinct(refID)) %>%
-  ungroup() %>%
-  arrange(pub_cat_2, desc(n_pubs_terms))
-
-
-
-
 
 # Top Keywords by pub cat
 rankings_pub <- terms %>%
@@ -661,8 +631,8 @@ df_table2 %>%
 ```{r fig-org, fig.align="center", out.height = "90%",out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
 fig1 <- ggdraw() + draw_image("./figures/slide1.png")
 fig1
-ggsave(fig1,file="./figures/fig1.eps",dpi=1000)
-ggsave(fig1,file="./submissions/final/fig1.tiff",dpi= 300)
+ggsave(fig1, file = "./submissions/final/fig1.eps", dpi = 1000)
+ggsave(fig1, file = "./submissions/final/fig1.tiff", dpi = 300)
 ```
 
 
@@ -671,8 +641,8 @@ ggsave(fig1,file="./submissions/final/fig1.tiff",dpi= 300)
 ```{r fig-temp, fig.align="center", out.height = "80%",out.width = "100%", fig.cap='The logo for a proposed new scholarly society for researchers specializing on temperate ecosystems and species.'}
 fig2 <- ggdraw() + draw_image("./figures/slide2.png")
 fig2
-ggsave(fig2, file="./figures/fig2.eps",dpi=1000)
-ggsave(fig2,file="./submissions/final/fig2.tiff",dpi= 300)
+ggsave(fig2, file = "./submissions/final/fig2.eps", dpi = 1000)
+ggsave(fig2, file = "./submissions/final/fig2.tiff", dpi = 300)
 ```
 
 \newpage
@@ -680,8 +650,8 @@ ggsave(fig2,file="./submissions/final/fig2.tiff",dpi= 300)
 ```{r fig-pubs, fig.align="center", out.height = "100%",out.width = "100%", fig.cap='The (a) original and (b) reimagined titles of four high-profile research articles. Comparing these emphasizes how the original titles reflect and reinforce the idea that \'reference\' or \'default\ ecosystems are found in the Temperate Zone.'}
 fig3 <- ggdraw() + draw_image("./figures/slide3.png")
 fig3
-ggsave(fig3,file="./figures/fig3.eps",dpi=1000)
-ggsave(fig3,file="./submissions/final/fig3.tiff",dpi= 300)
+ggsave(fig3, file = "./submissions/final/fig3.eps", dpi = 1000)
+ggsave(fig3, file = "./submissions/final/fig3.tiff", dpi = 300)
 ```
 \newpage
 
@@ -704,7 +674,7 @@ I am grateful to the organizers of the 2022 Meeting of the ATBC for encouraging 
 
 ## DATA AVAILABILITY STATEMENT  
 The data used in this publication are available at Dryad <_DOI added at proof stage_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added at proof stage_> and Github <https://github.com/BrunaLab/bruna_biotropica_plenary_ms>.   
-  The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics. That data set, and the code used to harvest, clean, and organize it, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna. That respository also includes a NEWS.md file summarizing any post-publication updates.  
+  The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics; those data, and the code used to harvest, clean, and organize them, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna.  
 
 ## DISCLOSURE STATEMENT  
 The author confirms that there have been no involvements that might raise the question of bias in the work reported or in the conclusions, implications, or opinions stated.

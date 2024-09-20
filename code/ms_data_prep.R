@@ -93,8 +93,8 @@ write_lines(keyword_depluralizer, here("code", "keyword_depluralizer.R"))
 
 # reduce the complete data set to what is analyzed in this MS -------------
 
+# 'revista de biologia tropical' is excluded from this analysis 
 
-# excluding 'revista de biologia tropical' in this analysis
 
 # system terms for MS: using GEOGRAPHIC only (not species or study system)
 system_list <- read_csv(here("data", "data_original", "system.csv")) %>%
@@ -103,7 +103,9 @@ system_list <- read_csv(here("data", "data_original", "system.csv")) %>%
 
 # journal titles
 journal_titles <- read_csv(here("data", "data_original", "jrnls.csv")) %>%
+  filter(SO != "rbt") %>% 
   write_csv(here("data", "data_ms", "journal_titles.csv"))
+  
 
 # title words for MS
 tw_ms <- read_csv(here("data", "data_original", "tw_clean.csv")) %>%
@@ -220,16 +222,18 @@ bigrams <- bigrams_filtered %>%
   mutate(term_cat = "bigram") %>%
   select(-pub_cat_2)
 
-# systematize the bigrams and cosnolidate plurals/singulars of same term
+# systematize the bigrams and consolidate plurals/singulars of same term
 
 source(here("code", "keyword_editor.R"))
 clean_bigrams <- keyword_editor(bigrams)
 summary(clean_bigrams$original == clean_bigrams$edited)
 source(here("code", "keyword_depluralizer.R"))
 clean_bigrams <- keyword_depluralizer(clean_bigrams)
-summary(clean_bigrams$edited == clean_bigrams$singular) %>%
-  clean_bigrams() <- clean_bigrams %>%
-  mutate(term = singular) %>%
+summary(clean_bigrams$edited == clean_bigrams$original) 
+
+
+clean_bigrams <- clean_bigrams %>%
+  mutate(term = edited) %>%
   mutate(PY = as.numeric(PY))
 
 
@@ -275,8 +279,6 @@ rankings_pub <- bind_rows(Trop_bigrams, NonTrop_bigrams) %>%
   write_csv(here("data", "data_ms", "ranked_bigrams.csv"))
 
 # put kw & bigrams together as "terms" ------------------------------------
-
-
 terms <- kw_ms %>%
   select(refID,
     term = final,
@@ -301,9 +303,6 @@ terms <- terms %>%
   mutate(system = if_else((term %in% system_list$system == TRUE), "Y", "N")) %>%
   mutate(system = as.factor(system))
 
-# write_csv(terms, here("data", "data_ms", "terms.csv"))
-
-
 pubs_bigrams_terms <- terms %>%
   filter(term_cat == "bigram") %>%
   select(refID, term_cat, PY, SO, pub_cat) %>%
@@ -313,7 +312,7 @@ pubs_kw_terms <- terms %>%
   select(refID, term_cat, PY, SO, pub_cat) %>%
   distinct()
 
-# . use only the articles that had both titles and KW to avoid biases
+# use only the articles that had both titles and KW to avoid biases
 
 all_pubs_terms <- full_join(pubs_kw_terms, pubs_bigrams_terms, by = "refID")
 complete_allpubs <- drop_na(all_pubs_terms)
