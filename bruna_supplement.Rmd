@@ -240,7 +240,6 @@ tw_articles_plot <- ggplot(
 
 ```{=tex}
 \blandscape
-\newpage
 ```
 
 ```{r allterms, fig.align="center", out.height = "90%",out.width = "90%",fig.cap = paste('The N = ', cutoff, 'most common terms (keywords + title bigrams) from articles based on research conducted in (a) the tropics and (b) non-tropical regions. The rank of these words is based on the percentage of articles in each category that included them. Terms reflecting geography (e.g., \\textit{tropics, Peru, Southern}) are indicated in bold and with filled bars.')} 

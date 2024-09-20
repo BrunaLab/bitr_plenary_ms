@@ -93,13 +93,7 @@ write_lines(keyword_depluralizer, here("code", "keyword_depluralizer.R"))
 
 # reduce the complete data set to what is analyzed in this MS -------------
 
-# 'revista de biologia tropical' is excluded from this analysis 
-
-
-# system terms for MS: using GEOGRAPHIC only (not species or study system)
-system_list <- read_csv(here("data", "data_original", "system.csv")) %>%
-  filter(geo == TRUE) %>%
-  write_csv(here("data", "data_ms", "system_list.csv"))
+# Note that 'revista de biologia tropical' is excluded from this analysis 
 
 # journal titles
 journal_titles <- read_csv(here("data", "data_original", "jrnls.csv")) %>%
@@ -122,6 +116,14 @@ tw_ms <- read_csv(here("data", "data_original", "tw_clean.csv")) %>%
   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
   mutate(system = as.factor(system)) %>%
   filter(SO != "rbt") %>%
+  select(refID,
+         PY,
+         final,
+         SO,
+         jrnl_cat,
+         title,
+         pub_cat_2,
+         system) %>% 
   write_csv(here("data", "data_ms", "tw_ms.csv"))
 
 # keywords for MS
@@ -134,6 +136,13 @@ kw_ms <- read_csv(here("data", "data_original", "keywords.csv")) %>%
   mutate(system = if_else((final %in% system_list$system == TRUE), "Y", "N")) %>%
   mutate(system = as.factor(system)) %>%
   filter(SO != "rbt") %>%
+  select(refID,
+         PY,
+         final,
+         pub_cat2,
+         jrnl_cat,
+         SO,
+         system) %>%
   write_csv(here("data", "data_ms", "kw_ms.csv"))
 
 
@@ -211,7 +220,7 @@ tw_info <- tw_ms %>%
     title,
     pub_cat_2,
     jrnl_cat,
-    pub_cat
+    pub_cat_2
   ) %>%
   distinct()
 
@@ -219,8 +228,9 @@ tw_info <- tw_ms %>%
 bigrams <- bigrams_filtered %>%
   rename(original = bigram) %>%
   left_join(tw_info, by = "refID") %>%
-  mutate(term_cat = "bigram") %>%
-  select(-pub_cat_2)
+  mutate(term_cat = "bigram") 
+# %>%
+#   select(-pub_cat_2)
 
 # systematize the bigrams and consolidate plurals/singulars of same term
 
@@ -234,7 +244,9 @@ summary(clean_bigrams$edited == clean_bigrams$original)
 
 clean_bigrams <- clean_bigrams %>%
   mutate(term = edited) %>%
-  mutate(PY = as.numeric(PY))
+  mutate(PY = as.numeric(PY)) %>% 
+  rename(pub_cat=pub_cat_2) %>% 
+  select(-title)
 
 
 # save the bigrams
@@ -285,7 +297,6 @@ terms <- kw_ms %>%
     pub_cat = pub_cat_2,
     jrnl_cat,
     SO,
-    title,
     PY
   ) %>%
   mutate(term_cat = "kw")

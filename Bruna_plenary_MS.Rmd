@@ -144,13 +144,6 @@ kw <- read_csv(here("data",
   filter(PY >= start_yr) %>%
   filter(PY <= end_yr)
 
-# load list of 'system-specific' terms and select only those
-# that indicate geographic locations
-system_list <- read_csv(here("data", 
-                             "data_ms", 
-                             "system_list.csv"), 
-                        col_names = TRUE) %>%
-  filter(geo == TRUE)
 ```
 
 \onehalfspacing
