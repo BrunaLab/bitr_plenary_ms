@@ -222,7 +222,7 @@ tw_articles_plot <- ggplot(
 
 ## 2. Data and Code
 
-\noindent The data used in this publication, the code used to import, organize, and analyze these data, and the code used to prepare the manuscript are available at Zenodo <_DOI added at proof stage_> and Github <https://github.com/BrunaLab/bruna_biotropica_plenary_ms>.   
+\noindent The data used in this publication, the code used to import, organize, and analyze these data, and the code used to prepare the manuscript are available at Zenodo <https://doi.org/10.5281/zenodo.13821266> and Github <https://github.com/BrunaLab/bruna_biotropica_plenary_ms>.   
   The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics; those data, and the code used to harvest, clean, and organize them, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna. 
 
 ## REFERENCES

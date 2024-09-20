@@ -14,6 +14,15 @@ This script pulls the complete data set of keywords and title bigrams from the [
 
 Knitting the file will import the 'clean' data, carry out all calculations presented in the paper (e.g., number of articles in each article category, number of terms in each category) using the embedded R code chunks, and generate the figures and tables. Figures are generated using two functions found in the `code` folder (`plot_bigrams_bar.R`, `plot_kw_bar.R`). There is no need to open and render the `bruna_supplement.Rmd` file -- it is automatically knit and included in the .pdf file of the paper when rendering `Bruna_plenary_MS.Rm`.
 
+## Citation
+
+If you use these data in your own manuscript, please be sure to cite both the _Biotropica_ and the dataset: 
+
+Emilio M. Bruna. (2024). Code and Data for Bruna (Biotropica, 2024). (v0.9). Zenodo. https://doi.org/10.5281/zenodo.13821266
+
+
+
+[![DOI](https://zenodo.org/badge/800521350.svg)](https://zenodo.org/doi/10.5281/zenodo.13821265)
 
 
 
