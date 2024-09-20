@@ -622,7 +622,7 @@ df_table2 %>%
   )
 ```
 
-```{r fig-org, fig.align="center", out.height = "90%",out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
+```{r fig-org, fig.align="center", out.width = "100%", fig.cap='Alternative ways in which researchers self-organize in scholarly societies: (a) Conceptual Domain, (b) Systemic Domain, or (c) Methodological Domain. The Association for Tropical Biology \\& Conservation (i.e., ATBC) is unique in that transcends the three domains: its members use a broad diversity of species, ecosystems, and methods to address questions grounded in -- or even transcending -- multiple distinct conceptual domains.'}
 fig1 <- ggdraw() + draw_image("./figures/slide1.png")
 fig1
 ggsave(fig1, file = "./submissions/final/fig1.eps", dpi = 1000)
@@ -632,22 +632,31 @@ ggsave(fig1, file = "./submissions/final/fig1.tiff", dpi = 300)
 
 \newpage
 
-```{r fig-temp, fig.align="center", out.height = "80%",out.width = "100%", fig.cap='The logo for a proposed new scholarly society for researchers specializing on temperate ecosystems and species.'}
+```{r fig-temp, fig.align="center",out.width = "100%", fig.cap='The logo for a proposed new scholarly society for researchers specializing on temperate ecosystems and species.'}
 fig2 <- ggdraw() + draw_image("./figures/slide2.png")
 fig2
 ggsave(fig2, file = "./submissions/final/fig2.eps", dpi = 1000)
 ggsave(fig2, file = "./submissions/final/fig2.tiff", dpi = 300)
 ```
 
-\newpage
 
-```{r fig-pubs, fig.align="center", out.height = "100%",out.width = "100%", fig.cap='The (a) original and (b) reimagined titles of four high-profile research articles. Comparing these emphasizes how the original titles reflect and reinforce the idea that \'reference\' or \'default\ ecosystems are found in the Temperate Zone.'}
+```{=tex}
+\blandscape
+```
+
+
+```{r fig-pubs, fig.align="center", out.height = "90%", fig.cap='The (a) original and (b) reimagined titles of four high-profile research articles. Comparing these emphasizes how the original titles reflect and reinforce the idea that \'reference\' or \'default\ ecosystems are found in the Temperate Zone.'}
 fig3 <- ggdraw() + draw_image("./figures/slide3.png")
 fig3
 ggsave(fig3, file = "./submissions/final/fig3.eps", dpi = 1000)
 ggsave(fig3, file = "./submissions/final/fig3.tiff", dpi = 300)
 ```
+
+```{=tex}
+\elandscape
 \newpage
+```
+
 
 <!-- ```{=tex} -->
 <!-- \newpage -->
@@ -667,7 +676,7 @@ I am grateful to the organizers of the 2022 Meeting of the ATBC for encouraging 
 <!-- NEED TO ADD NSF ACKNOWELDGEMENT -->
 
 ## DATA AVAILABILITY STATEMENT  
-The data used in this publication are available at Dryad <_DOI added at proof stage_>. The code used to import, organize, and analyze these data, along with the code for preparing the figures, tables,and manuscript, are available at Zenodo <_DOI added at proof stage_> and Github <https://github.com/BrunaLab/bruna_biotropica_plenary_ms>.   
+The data used in this publication, the code used to import, organize, and analyze these data, and the code used to prepare the manuscript are available at Zenodo <_DOI added at proof stage_> and Github <https://github.com/BrunaLab/bruna_biotropica_plenary_ms>.   
   The data used in this paper are part of a larger dataset collected for a longitudinal study of research in the tropics; those data, and the code used to harvest, clean, and organize them, are available at Github <https://github.com/BrunaLab/tropical_bibliometrics>. Questions regarding the data or code, or suggestions for improvement should be posted as Issues on that repository or referred to E. M. Bruna.  
 
 ## DISCLOSURE STATEMENT  
