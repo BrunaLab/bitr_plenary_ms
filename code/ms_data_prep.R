@@ -101,6 +101,13 @@ journal_titles <- read_csv(here("data", "data_original", "jrnls.csv")) %>%
   write_csv(here("data", "data_ms", "journal_titles.csv"))
   
 
+# system terms for MS: using GEOGRAPHIC only (not species or study system)
+system_list <- read_csv(here("data", "data_original", "system.csv")) %>%
+  filter(geo == TRUE) %>%
+  select(system,geo) %>% 
+  write_csv(here("data", "data_ms", "system_list.csv"))
+
+
 # title words for MS
 tw_ms <- read_csv(here("data", "data_original", "tw_clean.csv")) %>%
   filter(SO != "rbt") %>%
@@ -139,7 +146,7 @@ kw_ms <- read_csv(here("data", "data_original", "keywords.csv")) %>%
   select(refID,
          PY,
          final,
-         pub_cat2,
+         pub_cat_2,
          jrnl_cat,
          SO,
          system) %>%
@@ -333,9 +340,9 @@ terms <- terms %>%
 
 
 terms <- terms %>%
-  rename(
-    pub_cat_2 = pub_cat,
-    final = term
-  )
+  rename(final = term) %>% 
+  relocate(c(SO,PY),.after=refID) %>% 
+  relocate(system,.after=jrnl_cat) %>% 
+  relocate(term_cat,.before=1)
 
 write_csv(terms, here("data", "data_ms", "terms.csv"))
