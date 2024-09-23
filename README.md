@@ -18,7 +18,7 @@ Knitting the file will import the 'clean' data, carry out all calculations prese
 
 If you use these data in your own manuscript, please be sure to cite both the _Biotropica_ and the dataset: 
 
-Emilio M. Bruna. (2024). Code and Data for Bruna (Biotropica, 2024). (v0.9). Zenodo. https://doi.org/10.5281/zenodo.13821266
+Emilio M. Bruna. (2024). Code and Data for Bruna 2024 Biotropica (v1.0). Zenodo. https://doi.org/10.5281/zenodo.13821266
 
 
 
