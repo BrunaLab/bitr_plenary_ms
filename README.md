@@ -1,6 +1,8 @@
 ## EM Bruna Biotropica article: "Is there really such a thing as _Tropical_ Biology?
 
-This repository contains the code and data used in the manuscript published in Biotropica based on EB's 2022 Presidential Plenary talk. 
+This repository contains the code and data used in the following article based on EB's 2022 ATBC Presidential Plenary talk:
+
+>Bruna, E. M. (2025). Is there really such a thing as Tropical Biology? _Biotropica_, 57, e13387. <https://doi.org/10.1111/btp.13387>
 
 ### Reproducing the analyses and article
 
@@ -20,7 +22,7 @@ If you use these data in your own manuscript, please be sure to cite both the _B
 
 ### Article citation
 
-Bruna, E. M. (2025). Is there really such a thing as Tropical Biology? Biotropica, 57, e13387. <https://doi.org/10.1111/btp.13387>
+Bruna, E. M. (2025). Is there really such a thing as Tropical Biology? _Biotropica_, 57, e13387. <https://doi.org/10.1111/btp.13387>
 
 ```
 @article{https://doi.org/10.1111/btp.13387,
@@ -42,7 +44,7 @@ year = {2025}
 
 ### Data set citation 
 
-Emilio M. Bruna. (2024). Code and Data for Bruna 2024 Biotropica (v1.0). Zenodo. <https://doi.org/10.5281/zenodo.13821266>
+Emilio M. Bruna. (2024). Code and Data for Bruna 2024 _Biotropica_ (v1.0). Zenodo. <https://doi.org/10.5281/zenodo.13821266>
 
 ```
 @software{emilio_m_bruna_2024_13821266,
