@@ -16,11 +16,46 @@ Knitting the file will import the 'clean' data, carry out all calculations prese
 
 ## Citation
 
-If you use these data in your own manuscript, please be sure to cite both the _Biotropica_ and the dataset: 
+If you use these data in your own manuscript, please be sure to cite both the _Biotropica_ article and the archived dataset: 
 
-Emilio M. Bruna. (2024). Code and Data for Bruna 2024 Biotropica (v1.0). Zenodo. https://doi.org/10.5281/zenodo.13821266
+### Article citation
 
+Bruna, E. M. (2025). Is there really such a thing as Tropical Biology? Biotropica, 57, e13387. <https://doi.org/10.1111/btp.13387>
 
+```
+@article{https://doi.org/10.1111/btp.13387,
+author = {Bruna, Emilio M.},
+title = {Is there really such a thing as Tropical Biology?},
+journal = {Biotropica},
+volume = {57},
+number = {1},
+pages = {e13387},
+keywords = {bibliometrics, collaboration, colonialism, global south, scholarly societies, scientometrics, temperate, text-mining},
+doi = {https://doi.org/10.1111/btp.13387},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/btp.13387},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/btp.13387},
+note = {e13387 BITR-24-143.R1},
+abstract = {Abstract The ecosystems of The Tropics comprise a majority of the planet's biodiversity, approximately 40\% of its terrestrial surface area, and half the human population. Despite this, Tropical Biology has historically been conceptualized as a specialized subdiscipline of the Biological Sciences. I assessed the validity of this assumption and conclude that it depends on the framework and evidence used to evaluate it. I suggest that the way forward as a discipline is not for Tropical Biologists to drop the geographic adjective that unites them, but to recenter The Tropics as the foundation of ecology and evolutionary biology. Abstract in Spanish is available with online material.},
+year = {2025}
+}
+```
+
+### Data set citation 
+
+Emilio M. Bruna. (2024). Code and Data for Bruna 2024 Biotropica (v1.0). Zenodo. <https://doi.org/10.5281/zenodo.13821266>
+
+```
+@software{emilio_m_bruna_2024_13821266,
+  author       = {Emilio M. Bruna},
+  title        = {Code and Data for Bruna (Biotropica, 2024).},
+  month        = sep,
+  year         = 2024,
+  publisher    = {Zenodo},
+  version      = {v0.9},
+  doi          = {10.5281/zenodo.13821266},
+  url          = {https://doi.org/10.5281/zenodo.13821266},
+}
+```
 
 [![DOI](https://zenodo.org/badge/800521350.svg)](https://zenodo.org/doi/10.5281/zenodo.13821265)
 
